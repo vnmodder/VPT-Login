@@ -31,17 +31,18 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Tên" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         <TextBox x:Name="txtTen" Text="{Binding Ten.Value, Mode=TwoWay}" Grid.Column="1" Margin="0,0,10,0"
-                                 metro:TextBoxHelper.Watermark="Nhập tên tài khoản" Grid.ColumnSpan="3" />
-                        <TextBlock Text="Ver" Grid.Column="4" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <TextBox x:Name="txtVersion" Text="{Binding Version.Value, Mode=TwoWay}" Grid.Column="5" MinWidth="50"
+                                 metro:TextBoxHelper.Watermark="Nhập tên tài khoản" Grid.ColumnSpan="2" />
+                        <TextBlock Text="Ver" Grid.Column="3" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                        <TextBox x:Name="txtVersion" Text="{Binding Version.Value, Mode=TwoWay}" Grid.Column="4" MinWidth="50"
                                  metro:TextBoxHelper.Watermark="Ver" />
+                        <Button Content="Cập nhật" Margin="5,0,0,0" Grid.Column="5"  Command="{Binding CapNhatCommand}"></Button>
                     </Grid>
 
                     <!-- Dòng 2: Link -->
@@ -60,7 +61,7 @@
                         <TextBlock Text="China" Grid.Column="4" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         <StackPanel Orientation="Horizontal" Grid.Column="5">
                             <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
-                            <Button Content="Cập nhật" Margin="5,0,0,0"  Command="{Binding CapNhatCommand}"></Button>
+                            <Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
                         </StackPanel>
                         
                     </Grid>
