@@ -13,6 +13,7 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
+using ControlzEx.Standard;
 
 namespace VPT_Login.ViewModels
 {
@@ -398,17 +399,25 @@ namespace VPT_Login.ViewModels
             {
                 if (SelectedItem.Value?.Status == 1)
                 {
+                    if (string.IsNullOrEmpty(ipInterface))
+                    {
+                        var result = RunCmd("ipconfig");
+                        var (iface, gateway) = GetIPv4AndGatewayByAdapterKeyword(result, "VPN Client");
+                        ipInterface = iface;
+                    }
+
                     Process.Start(forceBindIP, $"{ipInterface} \"{exePath}\" {link}");
                 }
                 else
                 {
                     Process.Start(exePath, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
-                }
+                }         
+
                 IntPtr defaultHWnd = IntPtr.Zero;
-                string defaultWindowName = "Adobe Flash Player 32";
+                string defaultWindowName = "Adobe Flash Player 10";
 
                 // Thử tối đa 2 giây để tìm cửa sổ
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 40; i++)
                 {
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
@@ -417,7 +426,7 @@ namespace VPT_Login.ViewModels
                         break;
                     }
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(100);
                 }
 
                 if (defaultHWnd == IntPtr.Zero)
