@@ -4,101 +4,114 @@
                    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
                    xmlns:local="clr-namespace:VPT_Login"
                    Title="QUẢN LÝ TÀI KHOẢN GAME VUA PHÁP THUẬT"
-                   Height="400" Width="600"
+                   Height="600" Width="800"
                    Icon="/Assets/ico.png"
                    WindowStartupLocation="CenterScreen"
                    ResizeMode="CanMinimize">
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
         <!-- THÔNG TIN & NÚT ĐIỀU KHIỂN (Chiếm 2 dòng trên cùng) -->
         <Grid Grid.Row="0" Margin="0,0,0,0" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-
+            <!-- Danh sách tài khoản (phần còn lại bên dưới) -->
+            <GroupBox Header="Danh sách tài khoản đã lưu" Grid.Column="1" Margin="5,0,0,0"
+            Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                <DataGrid x:Name="dgAccounts"
+                HeadersVisibility="Column"
+                IsReadOnly="True"
+                SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}"
+                CanUserAddRows="False"
+                Margin="5"
+                MouseDoubleClick="dgAccounts_MouseDoubleClick"
+                ItemsSource="{Binding Characters, Mode=TwoWay}"
+                AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="STT" Binding="{Binding No}" Width="0.5*" />
+                        <DataGridTextColumn Header="TÊN" Binding="{Binding Name}"  Width="2*" />
+                        <DataGridTextColumn Header="SERVER" Binding="{Binding Server}"  Width="1*"/>
+                        <DataGridTextColumn Header="VERSION" Binding="{Binding Version}"  Width="1*"/>
+                        <DataGridTextColumn Header="ScreenID" Binding="{Binding HWnd}"  Width="1*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
             <!-- GroupBox Thông tin người dùng -->
             <GroupBox Header="Thông tin" Grid.Column="0" Margin="0,0,0,0"
                       Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
                 <StackPanel Margin="0,0,0,0">
                     <!-- Dòng 1: Tên và Version -->
-                    <Grid Margin="0,0,0,0">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Tên" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <TextBox x:Name="txtTen" Text="{Binding Ten.Value, Mode=TwoWay}" Grid.Column="1" Margin="0,0,10,0"
-                                 metro:TextBoxHelper.Watermark="Nhập tên tài khoản" Grid.ColumnSpan="2" />
-                        <TextBlock Text="Ver" Grid.Column="3" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <TextBox x:Name="txtVersion" Text="{Binding Version.Value, Mode=TwoWay}" Grid.Column="4" MinWidth="50"
-                                 metro:TextBoxHelper.Watermark="Ver" />
-                        <Button Content="Cập nhật" Margin="5,0,0,0" Grid.Column="5"  Command="{Binding CapNhatCommand}"></Button>
-                    </Grid>
-
-                    <!-- Dòng 2: Link -->
-                    <Grid Margin="0,5,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Link" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <TextBox x:Name="txtLink" Text="{Binding Link.Value, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3"
-                                 metro:TextBoxHelper.Watermark="URL Link" Margin="0,0,10,0"/>
-                        <TextBlock Text="China" Grid.Column="4" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="5">
-                            <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
-                            <Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                        <StackPanel>
+                            <TextBlock Text="Tên"  Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtTen" Text="{Binding Ten.Value, Mode=TwoWay}"  Margin="0,0,10,0"
+         metro:TextBoxHelper.Watermark="Nhập tên tài khoản" Grid.ColumnSpan="2" />
                         </StackPanel>
-                        
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Ver"  Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtVersion" Text="{Binding Version.Value, Mode=TwoWay}"  MinWidth="50"
+          metro:TextBoxHelper.Watermark="Ver" />
+                        </StackPanel>
                     </Grid>
+                    <TextBlock Text="Link" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <TextBox x:Name="txtLink" Text="{Binding Link.Value, Mode=TwoWay}" Grid.ColumnSpan="3"
+                                 metro:TextBoxHelper.Watermark="URL Link" Margin="0,0,0,0"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,10,0" >
+                        <TextBlock Text="China" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                        <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="5,15,0,0">
+                        <Button Content="THÊM" Background="Green"  Command="{Binding ThemCommand}" />
+                        <Button Content="Cập nhật" Background="Orange" Margin="5,0,0,0" Command="{Binding CapNhatCommand}"></Button>
+                        <Button Content="XÓA" Background="Red" Margin="5,0,0,0" Command="{Binding XoaCommand}" />
+                        <Button Content="VER" Margin="25,0,0,0" Command="{Binding CapNhatVerCommand}" />
+                        <Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                    </StackPanel>
                 </StackPanel>
             </GroupBox>
 
+
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Nhật ký" Grid.Column="0" Margin="0,0,0,0"
+           Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                <RichTextBox/>
+            </GroupBox>
             <!-- Nút thao tác (nằm bên phải của cụm thông tin) -->
-            <StackPanel Grid.Column="1" Margin="5,5,0,0" VerticalAlignment="Center">
-                <Button Content="VÀO GAME" Height="40"  FontWeight="Bold" Margin="0,0,0,5" Command="{Binding VaoGameCommand}"
-                       FontSize="14"/>
-                <UniformGrid Rows="1" Columns="3" >
-                    <Button Content="THÊM" Margin="1" Command="{Binding ThemCommand}" Height="30"                           />
-                    <Button Content="XÓA" Margin="1" Command="{Binding XoaCommand}" Height="30"                            />
-                    <Button Content="VER" Margin="1" Command="{Binding CapNhatVerCommand}" Height="30"                          />
-                </UniformGrid>
-            </StackPanel>
+            <GroupBox Header="Thao tác" Grid.Column="1" Margin="5,0,0,0"
+ Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                <StackPanel Grid.Row="1"  Margin="5,5,0,0" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                    <Button Content="VÀO GAME" Height="40"  FontWeight="Bold" Margin="0,0,5,5" Command="{Binding VaoGameCommand}"
+                    FontSize="14"/>
+                        <Button Grid.Column="1" Content="Ngừng Auto" Height="40"  FontWeight="Bold" Margin="5,0,5,5" FontSize="14"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
+                        <TextBlock Text="Tự bắt pet" Margin="0,5,0,0"/>
+                        <ComboBox Grid.Column="1" Margin="5,0,0,0" Width="200"/>
+                        <Button Grid.Column="2" Margin="5,0,0,0" Content="Chạy"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
         </Grid>
 
-        <!-- Danh sách tài khoản (phần còn lại bên dưới) -->
-        <GroupBox Header="Danh sách tài khoản đã lưu" Grid.Row="1" Margin="0,5,0,0"
-                  Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
-            <DataGrid x:Name="dgAccounts"
-                      HeadersVisibility="Column"
-                      IsReadOnly="True"
-                      SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}"
-                      CanUserAddRows="False"
-                      Margin="5"
-                      MouseDoubleClick="dgAccounts_MouseDoubleClick"
-                      ItemsSource="{Binding Characters}"
-                      AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="STT" Binding="{Binding No}" Width="0.5*" />
-                    <DataGridTextColumn Header="TÊN" Binding="{Binding Name}"  Width="2*" />
-                    <DataGridTextColumn Header="SERVER" Binding="{Binding Server}"  Width="1*"/>
-                    <DataGridTextColumn Header="VERSION" Binding="{Binding Version}"  Width="1*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>
     </Grid>
 </metro:MetroWindow>

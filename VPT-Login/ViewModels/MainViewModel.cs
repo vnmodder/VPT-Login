@@ -13,15 +13,13 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
-using ControlzEx.Standard;
+using VPT_Login.Libs;
+
 
 namespace VPT_Login.ViewModels
 {
     public class MainViewModel
     {
-        private string xmlPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "data.vpt");
-        private string forceBindIP = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "forceBindIP.exe");
-        private string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "flash.exe");
         private string ipInterface;
 
         public ReactiveCommand ThemCommand { get; } = new ReactiveCommand();
@@ -241,7 +239,7 @@ namespace VPT_Login.ViewModels
             Version.Value = i.Version;
             Link.Value = i.Link;
             Status.Value = i.Status == 1;
-
+                    
         }
 
         private void CapNhatVersion()
@@ -323,7 +321,7 @@ namespace VPT_Login.ViewModels
             {
                 var list = Characters.ToList();
                 var serializer = new XmlSerializer(typeof(List<DataModel>), new XmlRootAttribute("ArrayOfDataModel"));
-                using (var writer = new StreamWriter(xmlPath, false, Encoding.UTF8))
+                using (var writer = new StreamWriter(Constant.FilePath.XML_PATH, false, Encoding.UTF8))
                 {
                     serializer.Serialize(writer, list);
                 }
@@ -337,10 +335,10 @@ namespace VPT_Login.ViewModels
         {
             try
             {
-                if (File.Exists(xmlPath))
+                if (File.Exists(Constant.FilePath.XML_PATH))
                 {
                     var serializer = new XmlSerializer(typeof(List<DataModel>), new XmlRootAttribute("ArrayOfDataModel"));
-                    using (var reader = new StreamReader(xmlPath))
+                    using (var reader = new StreamReader(Constant.FilePath.XML_PATH))
                     {
                         var data = serializer.Deserialize(reader) as List<DataModel>;
                         if (data != null)
@@ -406,15 +404,15 @@ namespace VPT_Login.ViewModels
                         ipInterface = iface;
                     }
 
-                    Process.Start(forceBindIP, $"{ipInterface} \"{exePath}\" {link}");
+                    Process.Start(Constant.FilePath.FORCE_BIND_IP, $"{ipInterface} \"{Constant.FilePath.FLASH_PLAYER}\" {link}");
                 }
                 else
                 {
-                    Process.Start(exePath, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
+                    Process.Start(Constant.FilePath.FLASH_PLAYER, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
                 }         
 
                 IntPtr defaultHWnd = IntPtr.Zero;
-                string defaultWindowName = "Adobe Flash Player 10";
+                string defaultWindowName = Constant.FLASH_NAME;
 
                 // Thử tối đa 2 giây để tìm cửa sổ
                 for (int i = 0; i < 40; i++)
@@ -422,6 +420,7 @@ namespace VPT_Login.ViewModels
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
                     {
+                        SelectedItem.Value.HWnd = defaultHWnd;
                         SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name);
                         break;
                     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace VPT_Login.Models
 {
@@ -14,5 +15,8 @@ namespace VPT_Login.Models
         public string Version { get; set; }
         public string Link { get; set; }
         public int Status { get; set; }
+
+        [XmlIgnore]
+        public IntPtr HWnd { get; set; } = IntPtr.Zero;
     }
 }
