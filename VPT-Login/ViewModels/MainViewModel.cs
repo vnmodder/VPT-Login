@@ -14,6 +14,10 @@ using System.Xml.Serialization;
 using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using VPT_Login.Libs;
+using System.Threading;
+using System.Windows.Forms.VisualStyles;
+using System.Windows;
+using static Emgu.CV.OCR.Tesseract;
 
 
 namespace VPT_Login.ViewModels
@@ -28,16 +32,21 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand CapNhatVerCommand { get; } = new ReactiveCommand();
         public ReactiveCommand CapNhatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand VPNCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand BatPetCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand StopAutoCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Link { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<bool> Status { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
+
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
+        public ReactiveProperty<string> SelectedPetKey { get; } = new ReactiveProperty<string>();
 
 
         public ObservableCollection<DataModel> Characters { get; set; } = new ObservableCollection<DataModel>();
-
+        public Dictionary<string, string> PetList => Constant.PetList;
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Unicode)]
         public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
@@ -51,7 +60,19 @@ namespace VPT_Login.ViewModels
             CapNhatVerCommand.Subscribe(() => CapNhatVersion());
             CapNhatCommand.Subscribe(() => CapNhatThongTin());
             VPNCommand.Subscribe(() => ChayVPN());
+
             SelectedItem.Subscribe((i) => Itemchaged(i));
+            SelectedPetKey.Subscribe((i) => PetKeyChange(i));
+            SelectedPetKey.Value = PetList.Keys.First();
+
+            BatPetCommand.Subscribe(() => buttonBatPet());
+            StopAutoCommand.Subscribe(() => buttonStopAuto());
+        }
+
+        private void PetKeyChange(string key)
+        {
+            if(SelectedItem.Value == null) return;
+            SelectedItem.Value.PetKey = key;
         }
 
         private void ChayVPN()
@@ -430,12 +451,49 @@ namespace VPT_Login.ViewModels
 
                 if (defaultHWnd == IntPtr.Zero)
                 {
-                    System.Windows.MessageBox.Show("Không tìm thấy cửa sổ Flash.");
+                    MessageBox.Show("Không tìm thấy cửa sổ Flash.");
                 }
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Lỗi: " + ex.Message);
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
+        private void buttonBatPet()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            SelectedItem.Value.HWnd = (IntPtr)0x000f0bea;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, LogText);
+            runTaskInThread( mainAuto.batPet, "batPet");
+        }
+
+        private void runTaskInThread(ThreadStart action, String actionName)
+        {
+            Helper.ThreadList.Add(new Thread(action));
+            int index = Helper.ThreadList.Count() - 1;
+            Helper.ThreadList[index].Name = $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}:" + actionName;
+            Helper.ThreadList[index].Start();
+        }
+
+        private void buttonStopAuto()
+        {
+
+            foreach (var thread in Helper.ThreadList)
+            {
+                if (thread.Name.Contains($"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}"))
+                {
+                    Helper.WriteStatus(LogText, $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}", "Đã ngừng auto");
+                    thread.Abort();
+                }
             }
         }
     }

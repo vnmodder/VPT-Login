@@ -1,9 +1,9 @@
 ﻿using MahApps.Metro.Controls;
+using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace VPT_Login.Libs
 {
@@ -11,11 +11,14 @@ namespace VPT_Login.Libs
     {
         public static List<Thread> ThreadList = new List<Thread>();
 
-        public static void WriteStatus(RichTextBox textBox, string id, string statusText)
+        public static void WriteStatus(ReactiveProperty<string> textBox, string id, string statusText)
         {
             try
             {
-                textBox.BeginInvoke(new Action(() => textBox.AppendText(id + ": " + statusText + Environment.NewLine)));
+                System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
+                {
+                    textBox.Value += (id + ": " + statusText + Environment.NewLine);
+                });
             }
             catch
             {
@@ -26,9 +29,15 @@ namespace VPT_Login.Libs
 
         public static void ShowAlert(string id, string message)
         {
-            MessageBox.Show(id + ": " + message);
+            System.Windows.MessageBox.Show(id + ": " + message);
         }
 
-
+        public static float GetCurrentScale()
+        {
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                return g.DpiX / 96.0f; // mặc định 96dpi = 100%
+            }
+        }
     }
 }

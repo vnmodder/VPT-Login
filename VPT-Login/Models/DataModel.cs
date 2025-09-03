@@ -18,5 +18,7 @@ namespace VPT_Login.Models
 
         [XmlIgnore]
         public IntPtr HWnd { get; set; } = IntPtr.Zero;
+        [XmlIgnore]
+        public string PetKey { get; set; } = "cao";
     }
 }

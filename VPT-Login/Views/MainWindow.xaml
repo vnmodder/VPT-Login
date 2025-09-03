@@ -89,7 +89,12 @@
             </Grid.ColumnDefinitions>
             <GroupBox Header="Nhật ký" Grid.Column="0" Margin="0,0,0,0"
            Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
-                <RichTextBox/>
+                <TextBox Text="{Binding LogText.Value}" 
+         IsReadOnly="True"
+         TextWrapping="Wrap"
+         VerticalScrollBarVisibility="Auto"
+         FontFamily="Consolas"
+         AcceptsReturn="True" />
             </GroupBox>
             <!-- Nút thao tác (nằm bên phải của cụm thông tin) -->
             <GroupBox Header="Thao tác" Grid.Column="1" Margin="5,0,0,0"
@@ -100,14 +105,17 @@
                             <ColumnDefinition/>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                    <Button Content="VÀO GAME" Height="40"  FontWeight="Bold" Margin="0,0,5,5" Command="{Binding VaoGameCommand}"
+                        <Button Content="VÀO GAME" Height="40"  FontWeight="Bold" Margin="0,0,5,5" Command="{Binding VaoGameCommand}"
                     FontSize="14"/>
-                        <Button Grid.Column="1" Content="Ngừng Auto" Height="40"  FontWeight="Bold" Margin="5,0,5,5" FontSize="14"/>
+                        <Button Grid.Column="1" Content="Ngừng Auto" Height="40"  FontWeight="Bold" Margin="5,0,5,5" FontSize="14" Command="{Binding StopAutoCommand}"/>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
                         <TextBlock Text="Tự bắt pet" Margin="0,5,0,0"/>
-                        <ComboBox Grid.Column="1" Margin="5,0,0,0" Width="200"/>
-                        <Button Grid.Column="2" Margin="5,0,0,0" Content="Chạy"/>
+                        <ComboBox Grid.Column="1" Margin="5,0,0,0" Width="200"  ItemsSource="{Binding PetList}"
+    DisplayMemberPath="Value"
+                                  SelectedValue="{Binding SelectedPetKey.Value, Mode=TwoWay}"
+    SelectedValuePath="Key"/>
+                        <Button Grid.Column="2" Margin="5,0,0,0" Content="Chạy" Command="{Binding BatPetCommand}"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
