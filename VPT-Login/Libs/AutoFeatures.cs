@@ -307,5 +307,20 @@ namespace VPT_Login.Libs
                 ClickToImage(groupPath + name + "_hover.png", x, y, numClick);
             }
         }
+        public bool DangTrongTranDau()
+        {
+            if (mCharacter.HWnd == IntPtr.Zero)
+            {
+                     return false;
+            }
+
+            if (!FindImage(Constant.ImagePathKhongTrongTranDau) && FindImageByGroup("global", "inbattlethongtin"))
+            {
+                //writeStatus("Nhân vật đang trong trận đấu ...");
+                return true;
+            }
+            //writeStatus("Nhân vật đang không trong trận đấu ...");
+            return false;
+        }
     }
 }

@@ -464,7 +464,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            SelectedItem.Value.HWnd = (IntPtr)0x000f0bea;
+           // SelectedItem.Value.HWnd = (IntPtr)0x000e0a6e;
 
             IntPtr hWnd = SelectedItem.Value.HWnd;
             if (hWnd == IntPtr.Zero)

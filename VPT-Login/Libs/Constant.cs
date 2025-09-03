@@ -31,8 +31,9 @@ namespace VPT_Login.Libs
         public const int TimeMedium = 3000; // Medium time
         public const int TimeLong = 5000; // Long time
 
-        public const string ImagePathGlobalXuong = img_cn + "\\global\\xuong.png";
-        public const string ImagePathGlobalBay = "\\global\\bay.png";
+        public const string ImagePathGlobalXuong = img_cn + "/global/xuong.png";
+        public const string ImagePathGlobalBay = "/global/bay.png";
+        public const string ImagePathKhongTrongTranDau = "/global/khongtrongtrandau.png";
 
         public const string ImagePathGlobalFolder = "/global/";
 
