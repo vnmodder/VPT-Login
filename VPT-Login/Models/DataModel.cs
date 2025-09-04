@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,12 @@ namespace VPT_Login.Models
         public int Status { get; set; }
 
         [XmlIgnore]
-        public IntPtr HWnd { get; set; } = IntPtr.Zero;
+        public ReactiveProperty<IntPtr> HWnd { get; set; } = new ReactiveProperty<IntPtr>(IntPtr.Zero);
         [XmlIgnore]
-        public string PetKey { get; set; } = "cao";
+        public ReactiveProperty<string> PetKey { get; set; } = new ReactiveProperty<string>("cao") ;
+        [XmlIgnore]
+        public  ReactiveProperty<bool> ChiEp { get; set; } = new ReactiveProperty<bool>();
+        [XmlIgnore]
+        public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
     }
 }

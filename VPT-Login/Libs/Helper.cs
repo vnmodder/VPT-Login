@@ -3,6 +3,7 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace VPT_Login.Libs
@@ -39,5 +40,12 @@ namespace VPT_Login.Libs
                 return g.DpiX / 96.0f; // mặc định 96dpi = 100%
             }
         }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Unicode)]
+        public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
     }
 }

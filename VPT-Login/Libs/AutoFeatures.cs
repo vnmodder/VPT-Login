@@ -33,7 +33,7 @@ namespace VPT_Login.Libs
 
         public void WriteStatus(string statusText)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
@@ -44,7 +44,7 @@ namespace VPT_Login.Libs
         }
         public void CloseAllDialog()
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
@@ -63,7 +63,7 @@ namespace VPT_Login.Libs
 
         public void SendKey(string key, int wait = 1000)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
@@ -74,7 +74,7 @@ namespace VPT_Login.Libs
 
         public bool ClickRightToImage(string imagePath, int xRange = 0, int yRange = -20)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return false;
             }
@@ -82,7 +82,7 @@ namespace VPT_Login.Libs
             //imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
             imagePath = Path.Combine(Constant.rootPath, imagePath);
 
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
@@ -97,7 +97,7 @@ namespace VPT_Login.Libs
 
         public void ClickToWindow(int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
@@ -108,18 +108,24 @@ namespace VPT_Login.Libs
 
         public void ClickPoint(int x = 0, int y = 0, int numClick = 1, int wait = Constant.TimeShort, bool isRightClick = false)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
 
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
+            }
+            float scale = Helper.GetCurrentScale();
+
             if (isRightClick)
             {
-                au3.clickRight(mWindowName, numClick, x, y);
+                au3.clickRight(mWindowName, numClick,(int) (x* scale), (int)(y * scale));
             }
             else
             {
-                au3.click(mWindowName, numClick, x, y);
+                au3.click(mWindowName, numClick, (int)(x * scale), (int)(y * scale));
             }
 
             Thread.Sleep(wait);
@@ -127,12 +133,12 @@ namespace VPT_Login.Libs
 
         public bool clickImage(Bitmap image, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return false;
             }
 
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, image,.8);
             if (pBtn != null)
             {
@@ -145,18 +151,24 @@ namespace VPT_Login.Libs
 
         public bool ClickToImage(string imagePath, int xRange = 0, int yRange = -20, int numClick = 1, int wait = Constant.TimeShort, double percent = 0.8)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return false;
+            }
+
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             //imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
             //imagePath = Path.Combine(Constant.rootPath, imagePath);
             imagePath = Constant.img_cn + imagePath;
-
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+           
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
+           
             if (pBtn != null)
             {
                 float scale = Helper.GetCurrentScale();
@@ -174,23 +186,28 @@ namespace VPT_Login.Libs
 
         public bool FindImage(string imagePath, double percent = 0.8)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return false;
+            }
+
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             //imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
             imagePath = Constant.img_cn + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
 
             if (!Directory.Exists(Constant.tracking))
             {
                 Directory.CreateDirectory(Constant.tracking);
             }
+           
             screen.Save(Constant.tracking + "/" + mCharacter.No + ".png");
-
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
             if (pBtn != null)
@@ -203,16 +220,21 @@ namespace VPT_Login.Libs
 
         public List<Point> FindImages(string imagePath, double percent = 0.8)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return null;
+            }
+
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             //imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
             imagePath = Constant.img_cn + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
-
+           
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
             Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
             return ImageScanOpenCV.FindOutPoints((Bitmap)screen, iBtn, percent);
@@ -220,15 +242,20 @@ namespace VPT_Login.Libs
 
         public void CaptureImage()
         {
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
             screen.Save(Constant.tracking + "/" + mCharacter.No + "_captured.png");
         }
 
         public void Bay()
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
+            }
+
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             ClickToImage(Constant.ImagePathGlobalBay);
@@ -236,9 +263,14 @@ namespace VPT_Login.Libs
 
         public void BayXuong()
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
+            }
+
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             ClickToImage(Constant.ImagePathGlobalXuong);
@@ -246,7 +278,7 @@ namespace VPT_Login.Libs
 
         public bool FindImageByGroup(string group, string name, bool active = false, bool hover = false)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 WriteStatus("FindImageByGroup chưa có nhân vật nào dang chạy");
                 return false;
@@ -258,6 +290,12 @@ namespace VPT_Login.Libs
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
                     break;
+                case "maps":
+                    groupPath = Constant.ImagePathMapsFolder;
+                    break;
+                case "ep_pet":
+                    groupPath = Constant.ImagePathEpPetFolder;
+                    break;
                 case "global":
                 default:
                     groupPath = Constant.ImagePathGlobalFolder;
@@ -267,7 +305,7 @@ namespace VPT_Login.Libs
             bool found = FindImage(groupPath + name + ".png") || (active && FindImage(groupPath + name + "_active.png")) || (hover && FindImage(groupPath + name + "_hover.png"));
             if (!found)
             {
-                WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
+               // WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
             }
 
             return found;
@@ -275,7 +313,7 @@ namespace VPT_Login.Libs
 
         public void ClickImageByGroup(string group, string name, bool active = false, bool hover = false, int numClick = 1, int x = 0, int y = -20)
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
@@ -285,7 +323,13 @@ namespace VPT_Login.Libs
             {
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
-                    break;               
+                    break;
+                case "maps":
+                    groupPath = Constant.ImagePathMapsFolder;
+                    break;
+                case "ep_pet":
+                    groupPath = Constant.ImagePathEpPetFolder;
+                    break;
                 case "global":
                 default:
                     groupPath = Constant.ImagePathGlobalFolder;
@@ -293,10 +337,9 @@ namespace VPT_Login.Libs
             }
             if (!FindImageByGroup(group, name, active, hover))
             {
-                WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
+               // WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
-
             ClickToImage(groupPath + name + ".png", x, y, numClick);
             if (active)
             {
@@ -309,9 +352,13 @@ namespace VPT_Login.Libs
         }
         public bool DangTrongTranDau()
         {
-            if (mCharacter.HWnd == IntPtr.Zero)
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                      return false;
+            }
+            if (!Helper.IsWindow(mCharacter.HWnd.Value))
+            {
+                stopAuto();
             }
 
             if (!FindImage(Constant.ImagePathKhongTrongTranDau) && FindImageByGroup("global", "inbattlethongtin"))
@@ -321,6 +368,21 @@ namespace VPT_Login.Libs
             }
             //writeStatus("Nhân vật đang không trong trận đấu ...");
             return false;
+        }
+
+        private void stopAuto()
+        {
+            return;
+            mCharacter.HWnd.Value = IntPtr.Zero;
+            foreach (var thread in Helper.ThreadList)
+            {
+                if (thread.Name.Contains($"{mCharacter.Name}"))
+                {
+                    Helper.WriteStatus(mCharacter.LogText, $"{mCharacter.Name}", "Đã ngừng auto do game đã đóng");
+                    thread.Abort();
+                }
+            }
+
         }
     }
 }

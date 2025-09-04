@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using System.Collections.ObjectModel;
 using VPT_Login.Models;
 using System.IO;
 using System.Xml.Serialization;
@@ -15,9 +13,8 @@ using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using VPT_Login.Libs;
 using System.Threading;
-using System.Windows.Forms.VisualStyles;
 using System.Windows;
-using static Emgu.CV.OCR.Tesseract;
+using AutoItX3Lib;
 
 
 namespace VPT_Login.ViewModels
@@ -34,22 +31,17 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand VPNCommand { get; } = new ReactiveCommand();
         public ReactiveCommand BatPetCommand { get; } = new ReactiveCommand();
         public ReactiveCommand StopAutoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand TatGameCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Link { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<bool> Status { get; } = new ReactiveProperty<bool>(true);
-        public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
+        //public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
 
-        public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
-        public ReactiveProperty<string> SelectedPetKey { get; } = new ReactiveProperty<string>();
-
-
-        public ObservableCollection<DataModel> Characters { get; set; } = new ObservableCollection<DataModel>();
         public Dictionary<string, string> PetList => Constant.PetList;
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Unicode)]
-        public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
+        public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
+        public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
 
         public MainViewModel()
         {
@@ -62,17 +54,28 @@ namespace VPT_Login.ViewModels
             VPNCommand.Subscribe(() => ChayVPN());
 
             SelectedItem.Subscribe((i) => Itemchaged(i));
-            SelectedPetKey.Subscribe((i) => PetKeyChange(i));
-            SelectedPetKey.Value = PetList.Keys.First();
 
             BatPetCommand.Subscribe(() => buttonBatPet());
             StopAutoCommand.Subscribe(() => buttonStopAuto());
+            TatGameCommand.Subscribe(() => buttonTatGame());
         }
 
-        private void PetKeyChange(string key)
+        private void buttonTatGame()
         {
-            if(SelectedItem.Value == null) return;
-            SelectedItem.Value.PetKey = key;
+            if (SelectedItem.Value == null)
+            {
+                MessageBox.Show("Chưa chọn nhân vật để tắt.");
+                return;
+            }
+            if (SelectedItem.Value.HWnd.Value == IntPtr.Zero || !Helper.IsWindow(SelectedItem.Value.HWnd.Value))
+            {
+                MessageBox.Show("Nhân vật đang chọn chưa vào game");
+                return;
+            }
+
+            AutoItX3 au3 = new AutoItX3();
+            au3.WinClose($"{SelectedItem.Value.Server}-{SelectedItem.Value.Name}");
+            SelectedItem.Value.HWnd.Value = IntPtr.Zero;
         }
 
         private void ChayVPN()
@@ -86,11 +89,11 @@ namespace VPT_Login.ViewModels
                 ipInterface = iface;
                 RunCmdAsAdmin($"route delete 0.0.0.0 mask 0.0.0.0 {gateway}");
                 RunCmdAsAdmin($"route add 0.0.0.0 mask 0.0.0.0 {gateway} metric 60 if {vpnInterface}");
-                System.Windows.MessageBox.Show("Đã thiết lập VPN");
+                MessageBox.Show("Đã thiết lập VPN");
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Lỗi khi VPN" + ex.Message);
+                MessageBox.Show("Lỗi khi VPN" + ex.Message);
             }
         }
 
@@ -242,7 +245,7 @@ namespace VPT_Login.ViewModels
 
                 if (inInterfaceList && line.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    var match = System.Text.RegularExpressions.Regex.Match(line.Trim(), @"^(\d+)");
+                    var match = Regex.Match(line.Trim(), @"^(\d+)");
                     if (match.Success)
                     {
                         return int.Parse(match.Groups[1].Value);
@@ -260,14 +263,14 @@ namespace VPT_Login.ViewModels
             Version.Value = i.Version;
             Link.Value = i.Link;
             Status.Value = i.Status == 1;
-                    
+
         }
 
         private void CapNhatVersion()
         {
             if (string.IsNullOrWhiteSpace(Version.Value))
             {
-                System.Windows.MessageBox.Show("Vui lòng nhập Version cần cập nhật.");
+                MessageBox.Show("Vui lòng nhập Version cần cập nhật.");
                 return;
             }
 
@@ -284,7 +287,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null)
             {
-                System.Windows.MessageBox.Show("Chưa chọn nhân vật để xóa.");
+                MessageBox.Show("Chưa chọn nhân vật để xóa.");
                 return;
             }
 
@@ -312,7 +315,7 @@ namespace VPT_Login.ViewModels
             string link = Link.Value?.Trim() ?? string.Empty;
             string server = "Unknown";
 
-            var match = System.Text.RegularExpressions.Regex.Match(link, @"\/(s\d{2,3})\/", RegexOptions.IgnoreCase);
+            var match = Regex.Match(link, @"\/(s\d{2,3})\/", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 server = match.Groups[1].Value.ToUpper();
@@ -349,7 +352,7 @@ namespace VPT_Login.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Lỗi khi lưu: " + ex.Message);
+                MessageBox.Show("Lỗi khi lưu: " + ex.Message);
             }
         }
         private void LoadFromXml()
@@ -377,7 +380,7 @@ namespace VPT_Login.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Lỗi khi đọc: " + ex.Message);
+                MessageBox.Show("Lỗi khi đọc: " + ex.Message);
             }
         }
 
@@ -386,7 +389,7 @@ namespace VPT_Login.ViewModels
             var item = SelectedItem.Value;
             if (item == null)
             {
-                System.Windows.MessageBox.Show("Chưa chọn dữ liệu để cập nhật.");
+                MessageBox.Show("Chưa chọn dữ liệu để cập nhật.");
                 return;
             }
 
@@ -406,9 +409,16 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null || string.IsNullOrEmpty(SelectedItem.Value?.Link))
             {
-                System.Windows.MessageBox.Show("Chưa chọn nhân vật.");
+                MessageBox.Show("Chưa chọn nhân vật.");
                 return;
             }
+            if (SelectedItem.Value.HWnd.Value != IntPtr.Zero &&
+                Helper.IsWindow(SelectedItem.Value.HWnd.Value))
+            {
+                MessageBox.Show("Nhân vật hiện đang được mở!");
+                return;
+            }
+
             string link = SelectedItem.Value?.Link;
             if (!string.IsNullOrEmpty(SelectedItem.Value?.Version))
             {
@@ -430,7 +440,7 @@ namespace VPT_Login.ViewModels
                 else
                 {
                     Process.Start(Constant.FilePath.FLASH_PLAYER, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
-                }         
+                }
 
                 IntPtr defaultHWnd = IntPtr.Zero;
                 string defaultWindowName = Constant.FLASH_NAME;
@@ -441,12 +451,12 @@ namespace VPT_Login.ViewModels
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
                     {
-                        SelectedItem.Value.HWnd = defaultHWnd;
-                        SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name);
+                        SelectedItem.Value.HWnd.Value = defaultHWnd;
+                        Helper.SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name);
                         break;
                     }
 
-                    System.Threading.Thread.Sleep(100);
+                    Thread.Sleep(100);
                 }
 
                 if (defaultHWnd == IntPtr.Zero)
@@ -464,16 +474,16 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-           // SelectedItem.Value.HWnd = (IntPtr)0x000e0a6e;
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x002309a6;
 
-            IntPtr hWnd = SelectedItem.Value.HWnd;
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, LogText);
-            runTaskInThread( mainAuto.batPet, "batPet");
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.batPet, "batPet");
         }
 
         private void runTaskInThread(ThreadStart action, String actionName)
@@ -489,9 +499,9 @@ namespace VPT_Login.ViewModels
 
             foreach (var thread in Helper.ThreadList)
             {
-                if (thread.Name.Contains($"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}"))
+                if (thread.Name.Contains($"{SelectedItem.Value?.Name}"))
                 {
-                    Helper.WriteStatus(LogText, $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}", "Đã ngừng auto");
+                    Helper.WriteStatus(SelectedItem.Value.LogText, $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}", "Đã ngừng auto");
                     thread.Abort();
                 }
             }

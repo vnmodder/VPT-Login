@@ -1,0 +1,14 @@
+﻿<Window x:Class="VPT_Login.Views.Test"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VPT_Login.Views"
+        mc:Ignorable="d"
+        Title="Test" Height="310" Width="428"
+         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <StackPanel>
+        <Button Content="Click" Command="{Binding TestCommand}"/>
+        <TextBlock Text="{Binding LogText.Value, Mode = TwoWay}"/>
+    </StackPanel>
+</Window>

@@ -1,123 +1,497 @@
-﻿<metro:MetroWindow x:Class="VPT_Login.MainWindow"
-                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-                   xmlns:local="clr-namespace:VPT_Login"
-                   Title="QUẢN LÝ TÀI KHOẢN GAME VUA PHÁP THUẬT"
-                   Height="600" Width="800"
-                   Icon="/Assets/ico.png"
-                   WindowStartupLocation="CenterScreen"
-                   ResizeMode="CanMinimize">
-
+﻿<metro:MetroWindow
+    x:Class="VPT_Login.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:VPT_Login"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    Title="QUẢN LÝ TÀI KHOẢN GAME VUA PHÁP THUẬT"
+    Width="800"
+    Height="600"
+    Icon="/Assets/ico.png"
+    ResizeMode="CanMinimize"
+    WindowStartupLocation="CenterScreen">
+    <metro:MetroWindow.Resources>
+        <Style TargetType="metro:MetroTabItem">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+    </metro:MetroWindow.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
-        <!-- THÔNG TIN & NÚT ĐIỀU KHIỂN (Chiếm 2 dòng trên cùng) -->
-        <Grid Grid.Row="0" Margin="0,0,0,0" >
+        <!--  THÔNG TIN & NÚT ĐIỀU KHIỂN (Chiếm 2 dòng trên cùng)  -->
+        <Grid Grid.Row="0" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <!-- Danh sách tài khoản (phần còn lại bên dưới) -->
-            <GroupBox Header="Danh sách tài khoản đã lưu" Grid.Column="1" Margin="5,0,0,0"
-            Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
-                <DataGrid x:Name="dgAccounts"
-                HeadersVisibility="Column"
-                IsReadOnly="True"
-                SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}"
-                CanUserAddRows="False"
-                Margin="5"
-                MouseDoubleClick="dgAccounts_MouseDoubleClick"
-                ItemsSource="{Binding Characters, Mode=TwoWay}"
-                AutoGenerateColumns="False">
+            <!--  Danh sách tài khoản (phần còn lại bên dưới)  -->
+            <GroupBox
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                Header="Danh sách tài khoản đã lưu"
+                Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                <DataGrid
+                    x:Name="dgAccounts"
+                    Margin="5"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    HeadersVisibility="Column"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding Characters, Mode=TwoWay}"
+                    MouseDoubleClick="dgAccounts_MouseDoubleClick"
+                    SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="STT" Binding="{Binding No}" Width="0.5*" />
-                        <DataGridTextColumn Header="TÊN" Binding="{Binding Name}"  Width="2*" />
-                        <DataGridTextColumn Header="SERVER" Binding="{Binding Server}"  Width="1*"/>
-                        <DataGridTextColumn Header="VERSION" Binding="{Binding Version}"  Width="1*"/>
-                        <DataGridTextColumn Header="ScreenID" Binding="{Binding HWnd}"  Width="1*"/>
+                        <DataGridCheckBoxColumn Width="0.4*" Binding="{Binding Status}" />
+                        <DataGridTextColumn
+                            Width="0.6*"
+                            Binding="{Binding No}"
+                            Header="STT" />
+                        <DataGridTextColumn
+                            Width="2*"
+                            Binding="{Binding Name}"
+                            Header="TÊN" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding Server}"
+                            Header="SERVER" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding Version}"
+                            Header="VERSION" />
+                        <DataGridTextColumn
+                            Width="1*"
+                            Binding="{Binding HWnd.Value}"
+                            Header="Screen_ID" />
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <!-- GroupBox Thông tin người dùng -->
-            <GroupBox Header="Thông tin" Grid.Column="0" Margin="0,0,0,0"
-                      Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+            <!--  GroupBox Thông tin người dùng  -->
+            <GroupBox
+                Grid.Column="0"
+                Margin="0,0,0,0"
+                Header="Thông tin"
+                Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
                 <StackPanel Margin="0,0,0,0">
-                    <!-- Dòng 1: Tên và Version -->
+                    <!--  Dòng 1: Tên và Version  -->
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="Tên"  Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                            <TextBox x:Name="txtTen" Text="{Binding Ten.Value, Mode=TwoWay}"  Margin="0,0,10,0"
-         metro:TextBoxHelper.Watermark="Nhập tên tài khoản" Grid.ColumnSpan="2" />
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Tên" />
+                            <TextBox
+                                x:Name="txtTen"
+                                Grid.ColumnSpan="2"
+                                Margin="0,0,10,0"
+                                metro:TextBoxHelper.Watermark="Nhập tên tài khoản"
+                                Text="{Binding Ten.Value, Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="Ver"  Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                            <TextBox x:Name="txtVersion" Text="{Binding Version.Value, Mode=TwoWay}"  MinWidth="50"
-          metro:TextBoxHelper.Watermark="Ver" />
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                VerticalAlignment="Center"
+                                FontWeight="SemiBold"
+                                Text="Ver" />
+                            <TextBox
+                                x:Name="txtVersion"
+                                MinWidth="50"
+                                metro:TextBoxHelper.Watermark="Ver"
+                                Text="{Binding Version.Value, Mode=TwoWay}" />
                         </StackPanel>
                     </Grid>
-                    <TextBlock Text="Link" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                    <TextBox x:Name="txtLink" Text="{Binding Link.Value, Mode=TwoWay}" Grid.ColumnSpan="3"
-                                 metro:TextBoxHelper.Watermark="URL Link" Margin="0,0,0,0"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,10,0" >
-                        <TextBlock Text="China" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        Text="Link" />
+                    <TextBox
+                        x:Name="txtLink"
+                        Grid.ColumnSpan="3"
+                        Margin="0,0,0,0"
+                        metro:TextBoxHelper.Watermark="URL Link"
+                        Text="{Binding Link.Value, Mode=TwoWay}" />
+                    <StackPanel Margin="0,10,10,0" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Text="China" />
+                        <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="5,15,0,0">
-                        <Button Content="THÊM" Background="Green"  Command="{Binding ThemCommand}" />
-                        <Button Content="Cập nhật" Background="Orange" Margin="5,0,0,0" Command="{Binding CapNhatCommand}"></Button>
-                        <Button Content="XÓA" Background="Red" Margin="5,0,0,0" Command="{Binding XoaCommand}" />
-                        <Button Content="VER" Margin="25,0,0,0" Command="{Binding CapNhatVerCommand}" />
-                        <Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                    <StackPanel Margin="5,15,0,0" Orientation="Horizontal">
+                        <Button
+                            Background="Green"
+                            Command="{Binding ThemCommand}"
+                            Content="THÊM" />
+                        <Button
+                            Margin="5,0,0,0"
+                            Background="Orange"
+                            Command="{Binding CapNhatCommand}"
+                            Content="Cập nhật" />
+                        <Button
+                            Margin="5,0,0,0"
+                            Background="Red"
+                            Command="{Binding XoaCommand}"
+                            Content="XÓA" />
+                        <Button
+                            Margin="25,0,0,0"
+                            Background="Blue"
+                            Command="{Binding CapNhatVerCommand}"
+                            Content="VER" />
+                        <Button
+                            Margin="5,0,0,0"
+                            Background="Blue"
+                            Command="{Binding VPNCommand}"
+                            Content="VPN" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-
-
         </Grid>
-        <Grid Grid.Row="1" Margin="0,0,0,0" >
+        <Grid Grid.Row="1" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Nhật ký" Grid.Column="0" Margin="0,0,0,0"
-           Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
-                <TextBox Text="{Binding LogText.Value}" 
-         IsReadOnly="True"
-         TextWrapping="Wrap"
-         VerticalScrollBarVisibility="Auto"
-         FontFamily="Consolas"
-         AcceptsReturn="True" />
-            </GroupBox>
-            <!-- Nút thao tác (nằm bên phải của cụm thông tin) -->
-            <GroupBox Header="Thao tác" Grid.Column="1" Margin="5,0,0,0"
- Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
-                <StackPanel Grid.Row="1"  Margin="5,5,0,0" >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Button Content="VÀO GAME" Height="40"  FontWeight="Bold" Margin="0,0,5,5" Command="{Binding VaoGameCommand}"
-                    FontSize="14"/>
-                        <Button Grid.Column="1" Content="Ngừng Auto" Height="40"  FontWeight="Bold" Margin="5,0,5,5" FontSize="14" Command="{Binding StopAutoCommand}"/>
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0" >
-                        <TextBlock Text="Tự bắt pet" Margin="0,5,0,0"/>
-                        <ComboBox Grid.Column="1" Margin="5,0,0,0" Width="200"  ItemsSource="{Binding PetList}"
-    DisplayMemberPath="Value"
-                                  SelectedValue="{Binding SelectedPetKey.Value, Mode=TwoWay}"
-    SelectedValuePath="Key"/>
-                        <Button Grid.Column="2" Margin="5,0,0,0" Content="Chạy" Command="{Binding BatPetCommand}"/>
+            <Grid Grid.Column="0" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="70" />
+                </Grid.RowDefinitions>
+                <GroupBox Header="Nhật ký" Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                    <TextBox
+                        AcceptsReturn="True"
+                        FontFamily="Consolas"
+                        IsReadOnly="True"
+                        Text="{Binding SelectedItem.Value.LogText.Value}"
+                        TextChanged="TextBox_TextChanged"
+                        TextWrapping="Wrap"
+                        VerticalScrollBarVisibility="Auto" />
+                </GroupBox>
+                <GroupBox
+                    Grid.Row="1"
+                    Margin="0,5,0,0"
+                    Header="Bản quyền thuộc về"
+                    Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                    <StackPanel>
+                        <TextBlock Margin="0,5,0,0" Text="RisuGaming: https://www.fb.com/luongan1194" />
+                        <TextBlock Text="Tử La Lan: https://www.fb.com/Tu.La.Lan.NT" />
                     </StackPanel>
-                </StackPanel>
+                </GroupBox>
+            </Grid>
+
+            <!--  Nút thao tác (nằm bên phải của cụm thông tin)  -->
+            <GroupBox
+                Grid.Column="1"
+                Margin="5,0,0,0"
+                Header="Thao tác"
+                Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                <Grid Margin="5,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Height="35"
+                            Margin="0,0,5,5"
+                            Background="Green"
+                            Command="{Binding VaoGameCommand}"
+                            Content="MỞ GAME"
+                            FontSize="14"
+                            FontWeight="Bold" />
+                        <Button
+                            Grid.Column="1"
+                            Height="35"
+                            Margin="5,0,5,5"
+                            Background="Green"
+                            Content="AUTO ALL"
+                            FontSize="14"
+                            FontWeight="Bold" />
+                        <Button
+                            Grid.Column="2"
+                            Height="35"
+                            Margin="5,0,5,5"
+                            Background="Orange"
+                            Command="{Binding StopAutoCommand}"
+                            Content="Ngừng Auto"
+                            FontSize="14"
+                            FontWeight="Bold" />
+                        <Button
+                            Grid.Column="3"
+                            Height="35"
+                            Margin="5,0,5,5"
+                            Background="Red"
+                            Command="{Binding TatGameCommand}"
+                            Content="Tắt game"
+                            FontSize="14"
+                            FontWeight="Bold" />
+                    </Grid>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="0,5,0,0"
+                        Orientation="Horizontal">
+                        <TextBlock Margin="0,5,0,0" Text="Tự bắt pet" />
+                        <ComboBox
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="5,0,0,0"
+                            DisplayMemberPath="Value"
+                            ItemsSource="{Binding PetList}"
+                            SelectedValue="{Binding SelectedItem.Value.PetKey.Value, Mode=TwoWay}"
+                            SelectedValuePath="Key" />
+                        <TextBlock Margin="5,5,0,0" Text="Chỉ ép pet" />
+                        <CheckBox
+                            x:Name="cbChiEp"
+                            Margin="5,0,0,0"
+                            IsChecked="{Binding SelectedItem.Value.ChiEp.Value, Mode=TwoWay}" />
+                        <Button
+                            Margin="5,0,0,0"
+                            Command="{Binding BatPetCommand}"
+                            Content="Chạy tự bắt" />
+                        <Button Margin="5,0,0,0" Content="Tự train" />
+                    </StackPanel>
+                    <GroupBox
+                        Grid.Row="2"
+                        Margin="5,0,0,0"
+                        Header="Công việc hằng ngày"
+                        Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
+                        <metro:MetroTabControl>
+                            <metro:MetroTabItem>
+                                <metro:MetroTabItem.Header>
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="Normal"
+                                        Text="Lựa chọn auto" />
+                                </metro:MetroTabItem.Header>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="2*" />
+                                            <ColumnDefinition Width="1*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <CheckBox Margin="5,5,0,0" Content="Rút oufit" />
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="1"
+                                            Margin="5,5,0,0"
+                                            Content="Chế mật bảo" />
+                                        <CheckBox
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="2"
+                                            Margin="5,5,0,0"
+                                            Content="Nhận điêu khắc" />
+                                        <CheckBox
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="3"
+                                            Margin="5,5,0,0"
+                                            Content="Nhận khôi phục" />
+                                        <CheckBox
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="4"
+                                            Margin="5,5,0,0"
+                                            Content="Lật bài" />
+                                        <CheckBox
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Nhận hành lang" />
+                                        <CheckBox
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Tu hành" />
+                                        <CheckBox
+                                            Grid.Row="1"
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Xong" />
+                                        <CheckBox
+                                            Grid.Row="2"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Trồng nguyên liệu" />
+                                        <CheckBox
+                                            Grid.Row="3"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Đấu pet" />
+                                        <CheckBox
+                                            Grid.Row="4"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Đổi năng nỗ" />
+                                        <ComboBox
+                                            Grid.Row="2"
+                                            Grid.Column="3"
+                                            Margin="5,2,0,0" />
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Button
+                                            Grid.Row="0"
+                                            Margin="5,5,0,0"
+                                            Content="Rút outfit" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Margin="5,5,0,0"
+                                            Content="Mật bảo" />
+                                        <Button
+                                            Grid.Row="2"
+                                            Margin="5,5,0,0"
+                                            Content="Điêu khắc" />
+                                        <Button
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Khôi phục" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Lật bài" />
+                                        <Button
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            Margin="5,5,0,0"
+                                            Content="Tu hành" />
+                                        <Button
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Nguyên liệu" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Đấu pet" />
+                                        <Button
+                                            Grid.Row="2"
+                                            Grid.Column="2"
+                                            Margin="5,5,0,0"
+                                            Content="Tu hành" />
+                                        <Button
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Đổi năng nỗ" />
+                                        <Button
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Auto PB" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Nhận Auto PB" />
+                                        <Button
+                                            Grid.Column="4"
+                                            Margin="5,5,0,0"
+                                            Content="Xú quẻ" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Grid.Column="4"
+                                            Margin="5,5,0,0"
+                                            Content="Ngừng xú quẻ" />
+                                        <Button
+                                            Grid.Row="2"
+                                            Grid.Column="3"
+                                            Grid.ColumnSpan="2"
+                                            Margin="5,5,0,0"
+                                            Content="Chạy các auto đang chọn" />
+                                    </Grid>
+                                </Grid>
+
+                            </metro:MetroTabItem>
+
+                            <metro:MetroTabItem>
+                                <metro:MetroTabItem.Header>
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="Normal"
+                                        Text="Cài đặt chung" />
+                                </metro:MetroTabItem.Header>
+                                <StackPanel Margin="10">
+                                    <TextBlock FontSize="12" Text="Thiết lập một số thông số tài khoản" />
+                                </StackPanel>
+                            </metro:MetroTabItem>
+
+                            <metro:MetroTabItem>
+                                <metro:MetroTabItem.Header>
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="Normal"
+                                        Text="Cài đặt sổ tay" />
+                                </metro:MetroTabItem.Header>
+                                <StackPanel Margin="10">
+                                    <TextBlock FontSize="12" Text="Thiết lập các boss sỗ tay sẽ đánh" />
+                                </StackPanel>
+                            </metro:MetroTabItem>
+                        </metro:MetroTabControl>
+                    </GroupBox>
+                </Grid>
             </GroupBox>
         </Grid>
 

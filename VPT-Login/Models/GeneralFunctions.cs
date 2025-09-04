@@ -1,16 +1,8 @@
-﻿using Emgu.CV;
-using KAutoHelper;
+﻿using KAutoHelper;
 using Reactive.Bindings;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xaml.Permissions;
 using VPT_Login.Libs;
 
 namespace VPT_Login.Models
@@ -32,12 +24,19 @@ namespace VPT_Login.Models
 
         public void batPet()
         {
-            mAuto.WriteStatus("Bắt đầu tìm pet để bắt");
+            if (mCharacter.ChiEp.Value)
+            {
+                epPet();
+                return;
+            }
+
             List<Point> mapPoints = collectMiniMapPointsForTrain();
             while (true)
             {
                 epPet();
 
+                mAuto.WriteStatus("Đang tìm và bắt pet...");
+                mAuto.CloseAllDialog();
                 int batPetLoop = 0;
                 while (batPetLoop < 10)
                 {
@@ -65,7 +64,7 @@ namespace VPT_Login.Models
                             {
                                 mAuto.ClickImageByGroup("global", "inbattlebatpet");
                                 Thread.Sleep(Constant.TimeShort);
-                                if (!mAuto.FindImageByGroup("bat_pet", "pet"))
+                                if (!mAuto.FindImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value))
                                 {
                                     mAuto.ClickPoint(50, 50);
                                     mAuto.ClickImageByGroup("global", "inbattleauto");
@@ -74,7 +73,7 @@ namespace VPT_Login.Models
                                 }
                                 else
                                 {
-                                    mAuto.ClickImageByGroup("bat_pet", "pet");
+                                    mAuto.ClickImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value);
                                     mAuto.SendKey("d");
                                 }
                             }
@@ -90,39 +89,40 @@ namespace VPT_Login.Models
         {
             mAuto.WriteStatus("Bắt đầu ép pet");
             epPetByColor("trang");
-            mAuto.WriteStatus($"Ép {Constant.PetList[mCharacter.PetKey]} trắng xong");
             epPetByColor("luc");
-            mAuto.WriteStatus($"Ép {Constant.PetList[mCharacter.PetKey]}  xanh lá xong");
+            mAuto.WriteStatus("Hoàn thành ép pet");
         }
 
-        private void epPetByColor( string color)
+        private void epPetByColor(string color)
         {
             int petNumber = 0;
             do
             {
                 mAuto.CloseAllDialog();
-                while (!mAuto.FindImageByGroup("global", "eppet_bang_check"))
+                while (!mAuto.FindImageByGroup("bat_pet", "eppet_bang_check"))
                 {
-                    mAuto.ClickImageByGroup("global", "eppet_bang");
+                    mAuto.ClickImageByGroup("bat_pet", "eppet_bang");
                     Thread.Sleep(Constant.TimeShort);
                 }
 
-                mAuto.ClickImageByGroup("global", "eppet_dunghop", true);
+                mAuto.ClickImageByGroup("bat_pet", "eppet_dunghop", true);
 
-                if (mAuto.FindImageByGroup("global", "eppet_morongtuipet"))
-                    mAuto.ClickImageByGroup("global", "eppet_morongtuipet");
+                if (mAuto.FindImageByGroup("bat_pet", "eppet_morongtuipet"))
+                    mAuto.ClickImageByGroup("bat_pet", "eppet_morongtuipet");
 
-                mAuto.ClickImageByGroup("global", "eppet_" + color, true);
+                mAuto.ClickImageByGroup("bat_pet", "eppet_" + color, true);
                 Thread.Sleep(Constant.TimeMedium);
 
 
                 for (int i = 1; i < 5; i++)
                 {
-                    List<Point> pets = mAuto.FindImages("/bat_pet/pet_ep_"+ mCharacter.PetKey + ".png");
+                    List<Point> pets = mAuto.FindImages("/bat_pet/pet_ep_" + mCharacter.PetKey.Value + ".png");
                     petNumber = pets.Count;
-                    mAuto.WriteStatus($"Đang có {petNumber} pet {Constant.PetList[mCharacter.PetKey]} màu {color}");
-                    if (petNumber >= 5)
+                    string cl = color == "trang" ? "trắng" : "xanh lá";
+                    mAuto.WriteStatus($"Đang có {petNumber} pet {Constant.PetList[mCharacter.PetKey.Value]} màu {cl}");
+                     if (petNumber >= 5)
                     {
+                        Thread.Sleep(Constant.VeryTimeShort);
                         int petInUse = 0;
                         while (petInUse < 5)
                         {
@@ -133,18 +133,28 @@ namespace VPT_Login.Models
                             petInUse++;
                         }
 
-                        mAuto.ClickImageByGroup("global", "eppet_hop");
-                        Thread.Sleep(Constant.TimeMediumShort);
+                        mAuto.ClickImageByGroup("bat_pet", "eppet_hop");
+                        Thread.Sleep(Constant.VeryTimeShort);
                         //mAuto.clickImageByGroup("global", "co");
 
-                        mAuto.ClickImageByGroup("global", "eppet_" +(color == "trang"?"luc":"trang"), true);
-                        Thread.Sleep(Constant.TimeMediumShort);
-                        mAuto.ClickImageByGroup("global", "eppet_" + color, true);
+                        mAuto.ClickImageByGroup("bat_pet", "eppet_" + (color == "trang" ? "luc" : "trang"), true);
+                        Thread.Sleep(Constant.VeryTimeShort);
+                        mAuto.ClickImageByGroup("bat_pet", "eppet_" + color, true);
+
+                        if (mAuto.FindImageByGroup("bat_pet", "tile_" + (color == "trang" ? 80 : 50)))
+                        {
+                            Thread.Sleep(Constant.VeryTimeShort);
+                            mAuto.ClickImageByGroup("bat_pet", "pet_chinh", y: 20);
+                        }
+
+                        continue;
                     }
 
-                    mAuto.ClickImageByGroup("global", "eppet_nextpage");
-
-
+                    if (!mAuto.FindImageByGroup("bat_pet", "eppet_nextpage"))
+                    {
+                        break;
+                    }
+                    mAuto.ClickImageByGroup("bat_pet", "eppet_nextpage");
                 }
             } while (petNumber >= 5);
         }
@@ -167,7 +177,7 @@ namespace VPT_Login.Models
                 }
             }
 
-            var full_screen = CaptureHelper.CaptureWindow(mCharacter.HWnd);
+            var full_screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
             // Tắt các bảng nổi
             mAuto.CloseAllDialog();
@@ -187,7 +197,7 @@ namespace VPT_Login.Models
                 mapPoints.Add(new Point(pBtnMapBottom.Value.X + 300, pBtnMapBottom.Value.Y - 100));
             }
 
-            mAuto.WriteStatus("Thu thập điểm trên bản đồ xong, có " + mapPoints.Count);
+            mAuto.WriteStatus("có " + mapPoints.Count + " điểm di chuyển");
             return mapPoints;
         }
     }

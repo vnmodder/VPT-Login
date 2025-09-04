@@ -46,7 +46,7 @@ namespace VPT_Login.Libs
             }
             catch (Exception ex)
             {
-                Helper.WriteStatus(mTextBoxStatus, $"{ mCharacter.Server}-{mCharacter.Name}", $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
+                Helper.WriteStatus(mTextBoxStatus, $"{mCharacter.Name}", $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
             }
 
             //mCharacter.Running = 0;

@@ -35,16 +35,23 @@ namespace VPT_Login.Libs
         public const string ImagePathGlobalBay = "/global/bay.png";
         public const string ImagePathKhongTrongTranDau = "/global/khongtrongtrandau.png";
 
-        public const string ImagePathGlobalFolder = "/global/";
 
+        public const string ImagePathGlobalFolder = "/global/";
         public const string ImagePathBatPetFolder = "/bat_pet/";
+        public const string ImagePathEpPetFolder = "/ep_pet/";
+        public const string ImagePathMapsFolder = "/maps/";
 
         public static Dictionary<string, string> PetList = new Dictionary<string, string>()
         {
-             { "cao", "Cáo Trắng Tuyết Nguyên" },
-             { "ts", "Thợ Săn Eskimos" },
-             { "cg", "Cơ Giáp Phá Băng Loại 300" },
-             { "mn", "Tuyết Thú Mã Não" },            
+             { "cao", "Cáo tuyết - Thần 4800" },
+             { "ts", "TS Eskimos - Trí 4600" },
+             { "cg", "Cơ Giáp 300 - Xảo 4500" },
+             { "mn", "TT Mã Não - Nhẫn 4800" },            
+             { "cl", "Bàn thạch Long - Thần 5000" },            
+             { "cm", "TS Cá mập - Lực 4930" },            
+             { "ttl", "TK Long - Lực 5200" },            
+             { "mt", "Ma thạch - Xảo  4600" },            
+             { "hcg", "Hỏa cơ giáp - Nhẫn  5000" },            
         };
 
     }

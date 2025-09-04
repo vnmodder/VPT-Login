@@ -35,5 +35,14 @@ namespace VPT_Login
                 vm.VaoGameCommand.Execute();
             }
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                textBox.ScrollToEnd(); // Cuộn xuống cuối mỗi khi Text thay đổi
+            }
+        }
     }
 }
