@@ -293,7 +293,7 @@ namespace VPT_Login.Libs
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
-                case "ep_pet":
+                case "rutbo":
                     groupPath = Constant.ImagePathRutBoFolder;
                     break;
                 case "global":
@@ -327,7 +327,7 @@ namespace VPT_Login.Libs
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
-                case "ep_pet":
+                case "rutbo":
                     groupPath = Constant.ImagePathRutBoFolder;
                     break;
                 case "global":
@@ -372,8 +372,7 @@ namespace VPT_Login.Libs
 
         private void stopAuto()
         {
-            return;
-            mCharacter.HWnd.Value = IntPtr.Zero;
+           mCharacter.HWnd.Value = IntPtr.Zero;
             foreach (var thread in Helper.ThreadList)
             {
                 if (thread.Name.Contains($"{mCharacter.Name}"))
