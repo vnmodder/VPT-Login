@@ -396,6 +396,7 @@
                                         <Button
                                             Grid.Row="0"
                                             Margin="5,5,0,0"
+                                            Command="{Binding RutboCommand}"
                                             Content="Rút outfit" />
                                         <Button
                                             Grid.Row="1"

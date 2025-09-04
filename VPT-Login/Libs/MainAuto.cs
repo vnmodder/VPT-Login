@@ -31,6 +31,11 @@ namespace VPT_Login.Libs
             runAction("batPet", () => mGeneralFunctions.batPet());
         }
 
+        public void rutBo()
+        {
+            runAction("rutBo", () => mGeneralFunctions.rutBo());
+        }
+
         private void runAction(String actionName, Action action)
         {
             //if (mCharacter.HWnd != IntPtr.Zero)

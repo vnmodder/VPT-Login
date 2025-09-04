@@ -1,5 +1,6 @@
 ﻿using KAutoHelper;
 using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
@@ -201,6 +202,91 @@ namespace VPT_Login.Models
 
             mAuto.WriteStatus("có " + mapPoints.Count + " điểm di chuyển");
             return mapPoints;
+        }
+
+        public void rutBo()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu Rút oufit");
+            mAuto.CloseAllDialog();
+
+            // Mở bảng nhân vật
+            mAuto.ClickImageByGroup("global", "nhanvat", false, false);
+
+            // Mở tủ đồ
+            mAuto.ClickImageByGroup("rutbo", "tudo", false, true);
+
+            Thread.Sleep(2000);
+
+            // Mở bảng rút bộ
+            mAuto.ClickImageByGroup("rutbo", "rutbo", true, true);
+
+            // Bấm rút thưởng
+            mAuto.ClickImageByGroup("rutbo", "rutthuongbo", false, true);
+
+            // Bấm xác nhận
+            mAuto.ClickImageByGroup("rutbo", "rutboxacnhan", false, true);
+
+            mAuto.WriteStatus("Rút oufit hoàn thành");
+        }
+
+        public void khongGianDieuKhac()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu \"Đổi không gian điêu khắc\"");
+            mAuto.CloseAllDialog();
+
+            // Mở bảng KGDK
+            findTheFeatureFromQuickFeatures("khonggiandieukhac");
+            Thread.Sleep(2000);
+
+            // Chọn đổi
+            mAuto.ClickImageByGroup("global", "khonggiandieukhacdoi", false, false);
+
+            // Chọn có
+            mAuto.ClickImageByGroup("global", "luachonco", false, true);
+        }
+
+        private void findTheFeatureFromQuickFeatures(String featureName)
+        {
+            int loop = 0;
+            while (!mAuto.FindImageByGroup("global", featureName + "_check") && loop < Constant.MaxLoopShort)
+            {
+                while (mAuto.FindImageByGroup("global", "quickFeatureListUpArrow") &&
+                    !mAuto.FindImageByGroup("global", featureName))
+                {
+                    mAuto.WriteStatus("Kéo lên đầu quick feature list");
+                    mAuto.ClickImageByGroup("global", "quickFeatureListUpArrow");
+                    Thread.Sleep(Constant.TimeShort);
+                }
+                while (!mAuto.FindImageByGroup("global", featureName) &&
+                    mAuto.FindImageByGroup("global", "quickFeatureListDownArrow"))
+                {
+                    mAuto.WriteStatus("Không tìm thấy tính năng, di chuyển sang trang tiếp");
+                    mAuto.ClickImageByGroup("global", "quickFeatureListDownArrow");
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+
+                if (mAuto.FindImageByGroup("global", featureName))
+                {
+                    mAuto.WriteStatus("Tìm thấy tính năng, mở tính năng...");
+                    mAuto.ClickImageByGroup("global", featureName);
+                    Thread.Sleep(Constant.TimeMedium);
+                }
+                else
+                {
+                    mAuto.WriteStatus("Không tìm thấy tính năng " + featureName);
+                }
+                loop++;
+            }
         }
     }
 }

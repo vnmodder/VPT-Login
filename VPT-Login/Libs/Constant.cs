@@ -38,7 +38,7 @@ namespace VPT_Login.Libs
 
         public const string ImagePathGlobalFolder = "/global/";
         public const string ImagePathBatPetFolder = "/bat_pet/";
-        public const string ImagePathEpPetFolder = "/ep_pet/";
+        public const string ImagePathRutBoFolder = "/rutbo/";
         public const string ImagePathMapsFolder = "/maps/";
 
         public static Dictionary<string, string> PetList = new Dictionary<string, string>()
@@ -53,6 +53,10 @@ namespace VPT_Login.Libs
              { "mt", "Ma thạch - Xảo  4600" },            
              { "hcg", "Hỏa cơ giáp - Nhẫn  5000" },            
         };
+
+        public const int MaxLoopShort = 3;
+        public const int MaxLoopQ = 10;
+        public const int MaxLoop = 20;
 
     }
 }

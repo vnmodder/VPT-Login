@@ -33,6 +33,8 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand StopAutoCommand { get; } = new ReactiveCommand();
         public ReactiveCommand TatGameCommand { get; } = new ReactiveCommand();
 
+        public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
+
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Link { get; } = new ReactiveProperty<string>();
@@ -58,6 +60,24 @@ namespace VPT_Login.ViewModels
             BatPetCommand.Subscribe(() => buttonBatPet());
             StopAutoCommand.Subscribe(() => buttonStopAuto());
             TatGameCommand.Subscribe(() => buttonTatGame());
+
+            RutboCommand.Subscribe(() => rutBo());
+        }
+
+        private void rutBo()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00130bb4;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.rutBo, "rutBo");
         }
 
         private void buttonTatGame()
