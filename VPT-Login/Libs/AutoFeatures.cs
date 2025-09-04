@@ -294,7 +294,7 @@ namespace VPT_Login.Libs
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
                 case "ep_pet":
-                    groupPath = Constant.ImagePathEpPetFolder;
+                    groupPath = Constant.ImagePathRutBoFolder;
                     break;
                 case "global":
                 default:
@@ -328,7 +328,7 @@ namespace VPT_Login.Libs
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
                 case "ep_pet":
-                    groupPath = Constant.ImagePathEpPetFolder;
+                    groupPath = Constant.ImagePathRutBoFolder;
                     break;
                 case "global":
                 default:
