@@ -49,7 +49,7 @@ namespace VPT_Login.Libs
              { "mn", "TT Mã Não - Nhẫn 4800" },            
              { "cl", "Bàn thạch Long - Thần 5000" },            
              { "cm", "TS Cá mập - Lực 4930" },            
-             { "ttl", "TK Long - Lực 5200" },            
+             { "tkl", "TK Long - Lực 5200" },            
              { "mt", "Ma thạch - Xảo  4600" },            
              { "hcg", "Hỏa cơ giáp - Nhẫn  5000" },            
         };

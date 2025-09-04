@@ -122,7 +122,7 @@ namespace VPT_Login.Models
                     mAuto.WriteStatus($"Đang có {petNumber} pet {Constant.PetList[mCharacter.PetKey.Value]} màu {cl}");
                      if (petNumber >= 5)
                     {
-                        Thread.Sleep(Constant.VeryTimeShort);
+                        Thread.Sleep(Constant.VeryTimeShort);                       
                         int petInUse = 0;
                         while (petInUse < 5)
                         {
@@ -147,6 +147,8 @@ namespace VPT_Login.Models
                             mAuto.ClickImageByGroup("bat_pet", "pet_chinh", y: 20);
                         }
 
+                        Thread.Sleep(Constant.VeryTimeShort);
+                        pets = mAuto.FindImages("/bat_pet/pet_ep_" + mCharacter.PetKey.Value + ".png");
                         continue;
                     }
 
