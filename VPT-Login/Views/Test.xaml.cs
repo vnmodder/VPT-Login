@@ -37,7 +37,7 @@ namespace VPT_Login.Views
             var aaa = new DataModel();
             aaa.Name = "Test";
             aaa.Server = "120";
-            aaa.HWnd.Value = (IntPtr)0x000408e4;
+            aaa.HWnd.Value = (IntPtr)0x00020922;
             mAuto = new AutoFeatures(aaa, "S120-Danh Y 120", LogText);
 
             TestCommand.Subscribe(() => TestAAA());
@@ -45,9 +45,10 @@ namespace VPT_Login.Views
 
         private void TestAAA()
         {
-            var img = Constant.ImagePathBatPetFolder + "batpet_dan.png";
+            var img = Constant.ImagePathBatPetFolder + "char_dy.png";
             var a = mAuto.FindImages(img);
             //{X = 537 Y = 461}
+            //{ X = 537 Y = 493}
             LogText.Value += a.FirstOrDefault().ToString();
 
             int i = 0;

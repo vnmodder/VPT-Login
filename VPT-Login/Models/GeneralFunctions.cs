@@ -3,7 +3,10 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Security.Policy;
 using System.Threading;
+using System.Windows.Media.Media3D;
 using VPT_Login.Libs;
 
 namespace VPT_Login.Models
@@ -33,12 +36,7 @@ namespace VPT_Login.Models
 
             // Mở bảng nhân vật
             mAuto.CloseAllDialog();
-            mAuto.ClickImageByGroup("global", "nhanvat", false, false);
-            if (mAuto.FindImageByGroup("FindImageByGroup", "nhanvat_dungsau", false, true) &&
-                mCharacter.PetOption.Value != "khong")
-            {
-                mAuto.ClickImageByGroup("global", "nhanvat_dungsau");
-            }
+            bool mainDungSau = true;
 
             List<Point> mapPoints = collectMiniMapPointsForTrain();
             while (true)
@@ -46,13 +44,19 @@ namespace VPT_Login.Models
                 epPet();
 
                 mAuto.WriteStatus("Đang tìm và bắt pet...");
-                mAuto.CloseAllDialog();              
+                mAuto.CloseAllDialog();
 
                 int batPetLoop = 0;
                 while (batPetLoop < 10)
                 {
+                    int round_count = 0;
                     foreach (Point p in mapPoints)
                     {
+                        if(mAuto.FindImageByGroup("global", "khongtrongtrandau", hover: true))
+                        {
+                            round_count = 0;
+                        }
+
                         if (!mAuto.DangTrongTranDau())
                         {
                             mAuto.ClickImageByGroup("global", "outbattletatauto");
@@ -68,7 +72,6 @@ namespace VPT_Login.Models
                             mAuto.ClickPoint(p.X, p.Y);
                             Thread.Sleep(Constant.TimeMedium);
                         }
-                        int round_count = 1;
                         while (mAuto.DangTrongTranDau())
                         {
                             if (!mAuto.FindImageByGroup("global", "auto_check") &&
@@ -76,7 +79,10 @@ namespace VPT_Login.Models
                             {
                                 mAuto.ClickImageByGroup("global", "inbattlebatpet");
                                 Thread.Sleep(Constant.TimeShort);
-                                if (!mAuto.FindImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value) ||
+
+                                var list = mAuto.FindImages("/bat_pet/pet_" + mCharacter.PetKey.Value + ".png");
+
+                                if (list == null || list.Count < 1 ||
                                     mCharacter.PetOption.Value == "dan" && round_count > 5)
                                 {
                                     mAuto.ClickPoint(50, 50);
@@ -86,33 +92,59 @@ namespace VPT_Login.Models
                                 }
                                 else
                                 {
-                                    mAuto.ClickImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value);
+
+                                    //mAuto.ClickImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value);
+                                    mAuto.ClickPoint(list[0].X, list[0].Y - 20);
+                                    round_count++;
+
                                     Thread.Sleep(Constant.VeryTimeShort);
                                     if (mAuto.FindImageByGroup("global", "inbattleauto"))
                                     {
-                                        mAuto.ClickPoint(50, 50);
-                                        mAuto.ClickImageByGroup("global", "inbattleauto");
-                                        Thread.Sleep(Constant.TimeShort);
-                                        mAuto.ClickImageByGroup("global", "inbattletatauto");
+                                        bool daBat = false;
+                                        for (int i = 1; i < list.Count; i++)
+                                        {
+                                            mAuto.ClickImageByGroup("global", "inbattlebatpet");
+                                            Thread.Sleep(Constant.TimeShort);
+                                            mAuto.ClickPoint(list[i].X, list[i].Y - 20);
+                                            Thread.Sleep(Constant.VeryTimeShort);
+                                            if (!mAuto.FindImageByGroup("global", "inbattleauto"))
+                                            {
+                                                daBat = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!daBat)
+                                        {
+                                            mAuto.ClickPoint(50, 50);
+                                            mAuto.ClickImageByGroup("global", "inbattleauto");
+                                            Thread.Sleep(Constant.TimeShort);
+                                            mAuto.ClickImageByGroup("global", "inbattletatauto");
+                                        }
                                     }
-
-
                                     if (mCharacter.PetOption.Value != "khong" &&
                                         (round_count == 1 || round_count == 8))
                                     {
+                                        
                                         if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value))
                                         {
                                             mAuto.ClickImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value);
-                                            Thread.Sleep(Constant.TimeMediumShort);
+                                            Thread.Sleep(Constant.TimeShort);
                                             //{X = 537 Y = 461}
-                                            mAuto.ClickPoint(540, 440);
+                                            mAuto.ClickPoint(540, mainDungSau ? 440 : 470);
+                                            Thread.Sleep(Constant.TimeShort);
+                                            if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value) && mainDungSau)
+                                            {
+                                                mainDungSau = false;
+                                                mAuto.ClickImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value);
+                                                Thread.Sleep(Constant.TimeShort);
+                                                mAuto.ClickPoint(540, 470);
+                                            }
                                         }
                                     }
                                     else
                                     {
                                         mAuto.SendKey("d");
                                     }
-                                    round_count++;
                                 }
                             }
                             Thread.Sleep(Constant.TimeMedium);
@@ -133,6 +165,15 @@ namespace VPT_Login.Models
 
         private void epPetByColor(string color)
         {
+
+            if (mAuto.DangTrongTranDau())
+            {
+                mAuto.ClickPoint(50, 50);
+                mAuto.ClickImageByGroup("global", "inbattleauto");
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.ClickImageByGroup("global", "inbattletatauto");
+            }
+
             int petNumber = 0;
             do
             {
@@ -319,7 +360,7 @@ namespace VPT_Login.Models
 
                 if (mAuto.FindImageByGroup("global", featureName))
                 {
-                    mAuto.WriteStatus("Đã tìm thấy tính năng, mở tính năng "+ featureName);
+                    mAuto.WriteStatus("Đã tìm thấy tính năng, mở tính năng " + featureName);
                     mAuto.ClickImageByGroup("global", featureName);
                     Thread.Sleep(Constant.TimeMedium);
 

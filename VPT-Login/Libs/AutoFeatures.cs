@@ -1,4 +1,5 @@
 ﻿
+using Emgu.CV;
 using KAutoHelper;
 using Reactive.Bindings;
 using System;
@@ -283,7 +284,7 @@ namespace VPT_Login.Libs
                 WriteStatus("FindImageByGroup chưa có nhân vật nào dang chạy");
                 return false;
             }
-
+            //WriteStatus("tìm" + name);
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
@@ -317,7 +318,7 @@ namespace VPT_Login.Libs
             {
                 return;
             }
-
+           // WriteStatus("tìm" + name);
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
@@ -337,7 +338,7 @@ namespace VPT_Login.Libs
             }
             if (!FindImageByGroup(group, name, active, hover))
             {
-               // WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
+                //WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
             ClickToImage(groupPath + name + ".png", x, y, numClick);

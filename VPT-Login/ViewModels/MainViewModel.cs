@@ -45,6 +45,10 @@ namespace VPT_Login.ViewModels
         public Dictionary<string, string> PetList => Constant.PetList;
         public Dictionary<string, string> PetOptions => Constant.PetOptions;
         public Dictionary<string, string> NLOptions => Constant.NLOptions;
+        public Dictionary<string, string> DoiNNOptions => Constant.DoiNNOptions;
+        public Dictionary<string, string> DSCapMB => Constant.DicCapMB;
+        public Dictionary<string, string> DSLoaiMB => Constant.DicLoaiMB;
+
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
 
@@ -514,7 +518,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00020922;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)

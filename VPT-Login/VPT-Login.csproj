@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Libs\CheMatBao.cs" />
     <Compile Include="Views\Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
@@ -173,6 +174,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\bat_pet\batpet_kep.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\bat_pet\char_dy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\bat_pet\pet_cao.png">
@@ -417,6 +421,7 @@
     <Resource Include="ico.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="IMG\CN\matbao\" />
     <Folder Include="tracking\" />
   </ItemGroup>
   <ItemGroup>

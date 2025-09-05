@@ -343,12 +343,12 @@
                                             Content="Xong" />
                                         <CheckBox
                                             Grid.Row="4"
-                                            Margin="5,5,0,0"
+                                            Margin="5,2,0,0"
                                             Content="Lật bài" />
                                         <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="1"
-                                            Margin="5,5,0,0"
+                                            Margin="5,2,0,0"
                                             Content="Xong" />
                                         <CheckBox
                                             Grid.Column="2"
@@ -374,15 +374,23 @@
                                             Margin="5,5,0,0"
                                             Content="Trồng nguyên liệu" />
                                         <CheckBox
+                                            Grid.Row="4"
+                                            Grid.Column="2"
+                                            Margin="5,2,0,0"
+                                            Content="Đấu pet" />
+                                        <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Đấu pet" />
-                                        <CheckBox
-                                            Grid.Row="4"
-                                            Grid.Column="2"
-                                            Margin="5,5,0,0"
                                             Content="Đổi năng nỗ" />
+                                        <ComboBox
+                                            Grid.Row="3"
+                                            Grid.Column="3"
+                                            Margin="5,2,0,0"
+                                            DisplayMemberPath="Value"
+                                            ItemsSource="{Binding DoiNNOptions}"
+                                            SelectedValue="{Binding SelectedItem.Value.NLDoiNNKey.Value, Mode=TwoWay}"
+                                            SelectedValuePath="Key" />
                                         <ComboBox
                                             Grid.Row="2"
                                             Grid.Column="3"
@@ -488,9 +496,48 @@
                                         FontWeight="Normal"
                                         Text="Cài đặt chung" />
                                 </metro:MetroTabItem.Header>
-                                <StackPanel Margin="10">
-                                    <TextBlock FontSize="12" Text="Thiết lập một số thông số tài khoản" />
-                                </StackPanel>
+                                <Grid Margin="5,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="5,5,0,0"
+                                        Text="Loại mật bảo" />
+                                    <ComboBox
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="5,2,0,0"
+                                        DisplayMemberPath="Value"
+                                        ItemsSource="{Binding DSLoaiMB}"
+                                        SelectedValue="{Binding SelectedItem.Value.LoaiMB.Value, Mode=TwoWay}"
+                                        SelectedValuePath="Key" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="5,5,0,0"
+                                        Text="Cấp mật bảo" />
+                                    <ComboBox
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="5,2,0,0"
+                                        DisplayMemberPath="Value"
+                                        ItemsSource="{Binding DSCapMB}"
+                                        SelectedValue="{Binding SelectedItem.Value.CapMB.Value, Mode=TwoWay}"
+                                        SelectedValuePath="Key" />
+                                </Grid>
                             </metro:MetroTabItem>
 
                             <metro:MetroTabItem>
