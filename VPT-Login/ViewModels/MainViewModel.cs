@@ -34,6 +34,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand TatGameCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand DieuKhacCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
@@ -42,6 +43,8 @@ namespace VPT_Login.ViewModels
         //public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
 
         public Dictionary<string, string> PetList => Constant.PetList;
+        public Dictionary<string, string> PetOptions => Constant.PetOptions;
+        public Dictionary<string, string> NLOptions => Constant.NLOptions;
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
 
@@ -62,6 +65,23 @@ namespace VPT_Login.ViewModels
             TatGameCommand.Subscribe(() => buttonTatGame());
 
             RutboCommand.Subscribe(() => rutBo());
+            DieuKhacCommand.Subscribe(() => dieuKhac());
+        }
+
+        private void dieuKhac()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+           // SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.khongGianDieuKhac, "khongGianDieuKhac");
         }
 
         private void rutBo()
@@ -494,7 +514,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00130bb4;
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)

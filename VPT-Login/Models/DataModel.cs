@@ -22,6 +22,10 @@ namespace VPT_Login.Models
         [XmlIgnore]
         public ReactiveProperty<string> PetKey { get; set; } = new ReactiveProperty<string>("cao") ;
         [XmlIgnore]
+        public ReactiveProperty<string> PetOption { get; set; } = new ReactiveProperty<string>("khong") ;
+        [XmlIgnore]
+        public ReactiveProperty<string> NLKey { get; set; } = new ReactiveProperty<string>("vai") ;
+        [XmlIgnore]
         public  ReactiveProperty<bool> ChiEp { get; set; } = new ReactiveProperty<bool>();
         [XmlIgnore]
         public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");

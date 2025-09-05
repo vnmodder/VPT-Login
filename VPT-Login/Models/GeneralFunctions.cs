@@ -31,13 +31,23 @@ namespace VPT_Login.Models
                 return;
             }
 
+            // Mở bảng nhân vật
+            mAuto.CloseAllDialog();
+            mAuto.ClickImageByGroup("global", "nhanvat", false, false);
+            if (mAuto.FindImageByGroup("FindImageByGroup", "nhanvat_dungsau", false, true) &&
+                mCharacter.PetOption.Value != "khong")
+            {
+                mAuto.ClickImageByGroup("global", "nhanvat_dungsau");
+            }
+
             List<Point> mapPoints = collectMiniMapPointsForTrain();
             while (true)
             {
                 epPet();
 
                 mAuto.WriteStatus("Đang tìm và bắt pet...");
-                mAuto.CloseAllDialog();
+                mAuto.CloseAllDialog();              
+
                 int batPetLoop = 0;
                 while (batPetLoop < 10)
                 {
@@ -58,14 +68,16 @@ namespace VPT_Login.Models
                             mAuto.ClickPoint(p.X, p.Y);
                             Thread.Sleep(Constant.TimeMedium);
                         }
-
+                        int round_count = 1;
                         while (mAuto.DangTrongTranDau())
                         {
-                            if (!mAuto.FindImageByGroup("global", "auto_check") && mAuto.FindImageByGroup("global", "inbattleauto"))
+                            if (!mAuto.FindImageByGroup("global", "auto_check") &&
+                                mAuto.FindImageByGroup("global", "inbattleauto"))
                             {
                                 mAuto.ClickImageByGroup("global", "inbattlebatpet");
                                 Thread.Sleep(Constant.TimeShort);
-                                if (!mAuto.FindImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value))
+                                if (!mAuto.FindImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value) ||
+                                    mCharacter.PetOption.Value == "dan" && round_count > 5)
                                 {
                                     mAuto.ClickPoint(50, 50);
                                     mAuto.ClickImageByGroup("global", "inbattleauto");
@@ -75,7 +87,32 @@ namespace VPT_Login.Models
                                 else
                                 {
                                     mAuto.ClickImageByGroup("bat_pet", "pet_" + mCharacter.PetKey.Value);
-                                    mAuto.SendKey("d");
+                                    Thread.Sleep(Constant.VeryTimeShort);
+                                    if (mAuto.FindImageByGroup("global", "inbattleauto"))
+                                    {
+                                        mAuto.ClickPoint(50, 50);
+                                        mAuto.ClickImageByGroup("global", "inbattleauto");
+                                        Thread.Sleep(Constant.TimeShort);
+                                        mAuto.ClickImageByGroup("global", "inbattletatauto");
+                                    }
+
+
+                                    if (mCharacter.PetOption.Value != "khong" &&
+                                        (round_count == 1 || round_count == 8))
+                                    {
+                                        if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value))
+                                        {
+                                            mAuto.ClickImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value);
+                                            Thread.Sleep(Constant.TimeMediumShort);
+                                            //{X = 537 Y = 461}
+                                            mAuto.ClickPoint(540, 440);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        mAuto.SendKey("d");
+                                    }
+                                    round_count++;
                                 }
                             }
                             Thread.Sleep(Constant.TimeMedium);
@@ -121,9 +158,9 @@ namespace VPT_Login.Models
                     petNumber = pets.Count;
                     string cl = color == "trang" ? "trắng" : "xanh lá";
                     mAuto.WriteStatus($"Đang có {petNumber} pet {Constant.PetList[mCharacter.PetKey.Value]} màu {cl}");
-                     if (petNumber >= 5)
+                    if (petNumber >= 5)
                     {
-                        Thread.Sleep(Constant.VeryTimeShort);                       
+                        Thread.Sleep(Constant.VeryTimeShort);
                         int petInUse = 0;
                         while (petInUse < 5)
                         {
@@ -245,17 +282,22 @@ namespace VPT_Login.Models
             mAuto.CloseAllDialog();
 
             // Mở bảng KGDK
-            findTheFeatureFromQuickFeatures("khonggiandieukhac");
-            Thread.Sleep(2000);
+            if (!findTheFeatureFromQuickFeatures("khonggiandieukhac"))
+            {
+                return;
+            }
 
+            Thread.Sleep(Constant.TimeLong);
             // Chọn đổi
             mAuto.ClickImageByGroup("global", "khonggiandieukhacdoi", false, false);
 
             // Chọn có
             mAuto.ClickImageByGroup("global", "luachonco", false, true);
+
+            mAuto.WriteStatus("Đã hoàn thành \"Đổi không gian điêu khắc\"");
         }
 
-        private void findTheFeatureFromQuickFeatures(String featureName)
+        private bool findTheFeatureFromQuickFeatures(String featureName)
         {
             int loop = 0;
             while (!mAuto.FindImageByGroup("global", featureName + "_check") && loop < Constant.MaxLoopShort)
@@ -277,9 +319,11 @@ namespace VPT_Login.Models
 
                 if (mAuto.FindImageByGroup("global", featureName))
                 {
-                    mAuto.WriteStatus("Tìm thấy tính năng, mở tính năng...");
+                    mAuto.WriteStatus("Đã tìm thấy tính năng, mở tính năng "+ featureName);
                     mAuto.ClickImageByGroup("global", featureName);
                     Thread.Sleep(Constant.TimeMedium);
+
+                    return true;
                 }
                 else
                 {
@@ -287,6 +331,8 @@ namespace VPT_Login.Models
                 }
                 loop++;
             }
+
+            return false;
         }
     }
 }

@@ -36,6 +36,11 @@ namespace VPT_Login.Libs
             runAction("rutBo", () => mGeneralFunctions.rutBo());
         }
 
+        public void khongGianDieuKhac()
+        {
+            runAction("khongGianDieuKhac", () => mGeneralFunctions.khongGianDieuKhac());
+        }
+
         private void runAction(String actionName, Action action)
         {
             //if (mCharacter.HWnd != IntPtr.Zero)

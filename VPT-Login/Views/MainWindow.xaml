@@ -251,13 +251,22 @@
                         <TextBlock Margin="0,5,0,0" Text="Tự bắt pet" />
                         <ComboBox
                             Grid.Column="1"
-                            Width="200"
+                            Width="180"
                             Margin="5,0,0,0"
                             DisplayMemberPath="Value"
                             ItemsSource="{Binding PetList}"
                             SelectedValue="{Binding SelectedItem.Value.PetKey.Value, Mode=TwoWay}"
                             SelectedValuePath="Key" />
-                        <TextBlock Margin="5,5,0,0" Text="Chỉ ép pet" />
+                        <TextBlock Margin="5,5,0,0" Text="vật phẩm" />
+                        <ComboBox
+                            Grid.Column="1"
+                            Width="60"
+                            Margin="5,0,0,0"
+                            DisplayMemberPath="Value"
+                            ItemsSource="{Binding PetOptions}"
+                            SelectedValue="{Binding SelectedItem.Value.PetOption.Value, Mode=TwoWay}"
+                            SelectedValuePath="Key" />
+                        <TextBlock Margin="5,5,0,0" Text="Chỉ ép" />
                         <CheckBox
                             x:Name="cbChiEp"
                             Margin="5,0,0,0"
@@ -265,8 +274,7 @@
                         <Button
                             Margin="5,0,0,0"
                             Command="{Binding BatPetCommand}"
-                            Content="Chạy tự bắt" />
-                        <Button Margin="5,0,0,0" Content="Tự train" />
+                            Content="Chạy auto" />
                     </StackPanel>
                     <GroupBox
                         Grid.Row="2"
@@ -277,6 +285,7 @@
                             <metro:MetroTabItem>
                                 <metro:MetroTabItem.Header>
                                     <TextBlock
+                                        Height="19"
                                         FontSize="14"
                                         FontWeight="Normal"
                                         Text="Lựa chọn auto" />
@@ -377,7 +386,11 @@
                                         <ComboBox
                                             Grid.Row="2"
                                             Grid.Column="3"
-                                            Margin="5,2,0,0" />
+                                            Margin="5,2,0,0"
+                                            DisplayMemberPath="Value"
+                                            ItemsSource="{Binding NLOptions}"
+                                            SelectedValue="{Binding SelectedItem.Value.NLKey.Value, Mode=TwoWay}"
+                                            SelectedValuePath="Key" />
                                     </Grid>
 
                                     <Grid Grid.Row="1">
@@ -405,6 +418,7 @@
                                         <Button
                                             Grid.Row="2"
                                             Margin="5,5,0,0"
+                                            Command="{Binding DieuKhacCommand}"
                                             Content="Điêu khắc" />
                                         <Button
                                             Grid.Column="1"

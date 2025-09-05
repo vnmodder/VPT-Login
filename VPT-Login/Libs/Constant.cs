@@ -54,6 +54,27 @@ namespace VPT_Login.Libs
              { "hcg", "Hỏa cơ giáp - Nhẫn  5000" },            
         };
 
+        public static Dictionary<string, string> PetOptions = new Dictionary<string, string>()
+        {
+            {"khong", "Không" },
+            {"kep", "Kẹp" },
+            {"dan", "Đan" },
+        };
+
+        public static Dictionary<string, string> NLOptions = new Dictionary<string, string>()
+        {
+            {"vai", "Vải thô" },
+            {"long_thu", "Lông thú" },
+            {"kim_loai", "Kim loại" },
+            {"go", "Gỗ" },
+            {"ngoc", "Ngọc" },
+            {"gam_voc", "Gấm vóc" },
+            {"da_thu", "Da thú" },
+            {"kim_loai_hiem", "Kim loại hiếm" },
+            {"go_tot", "Gỗ tốt" },
+            {"pha_le", "Pha lê" },
+        };
+
         public const int MaxLoopShort = 3;
         public const int MaxLoopQ = 10;
         public const int MaxLoop = 20;

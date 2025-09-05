@@ -37,20 +37,20 @@ namespace VPT_Login.Views
             var aaa = new DataModel();
             aaa.Name = "Test";
             aaa.Server = "120";
-            aaa.HWnd.Value = (IntPtr)0x000b09d8;
-            mAuto = new AutoFeatures(aaa, "S120-Thợ săn 125", LogText);
+            aaa.HWnd.Value = (IntPtr)0x000408e4;
+            mAuto = new AutoFeatures(aaa, "S120-Danh Y 120", LogText);
 
             TestCommand.Subscribe(() => TestAAA());
         }
 
         private void TestAAA()
         {
+            var img = Constant.ImagePathBatPetFolder + "batpet_dan.png";
+            var a = mAuto.FindImages(img);
+            //{X = 537 Y = 461}
+            LogText.Value += a.FirstOrDefault().ToString();
 
-            if (mAuto.FindImageByGroup("bat_pet", "tile_80"))
-            {
-                mAuto.WriteStatus("tìm thấy 80");
-                mAuto.ClickImageByGroup("bat_pet", "pet_chinh", y: 20);
-            }
+            int i = 0;
         }
     }
 }
