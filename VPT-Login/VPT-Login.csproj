@@ -176,9 +176,6 @@
     <Content Include="IMG\CN\bat_pet\batpet_kep.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="IMG\CN\bat_pet\char_dy.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="IMG\CN\bat_pet\pet_cao.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

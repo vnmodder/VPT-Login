@@ -132,12 +132,12 @@ namespace VPT_Login.Models
                                             //{X = 537 Y = 461}
                                             mAuto.ClickPoint(540, mainDungSau ? 440 : 470);
                                             Thread.Sleep(Constant.TimeShort);
-                                            if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value) && mainDungSau)
+                                            if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value))
                                             {
-                                                mainDungSau = false;
+                                                mainDungSau = !mainDungSau;
                                                 mAuto.ClickImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value);
                                                 Thread.Sleep(Constant.TimeShort);
-                                                mAuto.ClickPoint(540, 470);
+                                                mAuto.ClickPoint(540, mainDungSau ? 440 : 470);
                                             }
                                         }
                                     }
