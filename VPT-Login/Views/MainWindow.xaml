@@ -46,7 +46,7 @@
                     MouseDoubleClick="dgAccounts_MouseDoubleClick"
                     SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}">
                     <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Width="0.4*" Binding="{Binding Status}" />
+                        <DataGridCheckBoxColumn Width="0.4*" Binding="{Binding IsChecked.Value}" />
                         <DataGridTextColumn
                             Width="0.6*"
                             Binding="{Binding No}"
@@ -299,9 +299,9 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*" />
+                                            <ColumnDefinition Width="1.1*" />
                                             <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="0.9*" />
+                                            <ColumnDefinition Width=".8*" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
@@ -310,107 +310,131 @@
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="auto" />
                                         </Grid.RowDefinitions>
-                                        <CheckBox Margin="5,5,0,0" Content="Rút oufit" />
+                                        <CheckBox
+                                            Margin="15,5,0,0"
+                                            Content="Rút oufit"
+                                            IsChecked="{Binding SelectedItem.Value.RutOutfit.Value}" />
                                         <CheckBox
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.RutOutfitXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="1"
-                                            Margin="5,5,0,0"
-                                            Content="Chế mật bảo" />
+                                            Margin="15,5,0,0"
+                                            Content="Chế mật bảo"
+                                            IsChecked="{Binding SelectedItem.Value.CheMatBao.Value}" />
                                         <CheckBox
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.CheMatBaoXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="2"
-                                            Margin="5,5,0,0"
-                                            Content="Nhận điêu khắc" />
+                                            Margin="15,5,0,0"
+                                            Content="Nhận điêu khắc"
+                                            IsChecked="{Binding SelectedItem.Value.DieuKhac.Value}" />
                                         <CheckBox
                                             Grid.Row="2"
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.DieuKhacXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="3"
-                                            Margin="5,5,0,0"
+                                            Margin="15,5,0,0"
                                             Content="Nhận khôi phục"
+                                            IsChecked="{Binding SelectedItem.Value.KhoiPhuc.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.KhoiPhucXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="4"
-                                            Margin="5,2,0,0"
+                                            Margin="15,5,0,0"
                                             Content="Lật bài"
+                                            IsChecked="{Binding SelectedItem.Value.LatBai.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="1"
-                                            Margin="5,2,0,0"
+                                            Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.LatBaiXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Nhận hành lang" />
+                                            Content="Nhận hành lang"
+                                            IsChecked="{Binding SelectedItem.Value.HanhLang.Value}" />
                                         <CheckBox
                                             Grid.Column="3"
-                                            Margin="15,5,0,0"
+                                            Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.HanhLangXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="1"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Tu hành" />
+                                            Content="Tu hành"
+                                            IsChecked="{Binding SelectedItem.Value.TuHanh.Value}" />
                                         <CheckBox
                                             Grid.Row="1"
                                             Grid.Column="3"
-                                            Margin="15,5,0,0"
+                                            Margin="5,5,0,0"
                                             Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.TuHanhXong.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="2"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Trồng nguyên liệu" />
+                                            Content="Trồng nguyên liệu"
+                                            IsChecked="{Binding SelectedItem.Value.TrongNL.Value}" />
                                         <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="2"
-                                            Margin="5,2,0,0"
+                                            Margin="5,5,0,0"
                                             Content="Auto phụ bản"
+                                            IsChecked="{Binding SelectedItem.Value.PhuBan.Value}"
                                             IsEnabled="False" />
                                         <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
                                             Content="Đổi năng nỗ"
+                                            IsChecked="{Binding SelectedItem.Value.NangNo.Value}"
                                             IsEnabled="False" />
-                                        <ComboBox
+                                        <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="3"
-                                            Margin="15,2,0,0"
-                                            DisplayMemberPath="Value"
-                                            ItemsSource="{Binding DoiNNOptions}"
-                                            SelectedValue="{Binding SelectedItem.Value.NLDoiNNKey.Value, Mode=TwoWay}"
-                                            SelectedValuePath="Key" />
-                                        <ComboBox
+                                            Margin="5,5,0,0"
+                                            Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.NangNoXong.Value}"
+                                            IsEnabled="False" />
+                                        <CheckBox
                                             Grid.Row="2"
                                             Grid.Column="3"
-                                            Margin="15,2,0,0"
-                                            DisplayMemberPath="Value"
-                                            ItemsSource="{Binding NLOptions}"
-                                            SelectedValue="{Binding SelectedItem.Value.NLKey.Value, Mode=TwoWay}"
-                                            SelectedValuePath="Key" />
+                                            Margin="5,5,0,0"
+                                            Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.TrongNLXong.Value}"
+                                            IsEnabled="False" />
+                                        <CheckBox
+                                            Grid.Row="4"
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Xong"
+                                            IsChecked="{Binding SelectedItem.Value.PhuBanXong.Value}"
+                                            IsEnabled="False" />
                                     </Grid>
 
                                     <Grid Grid.Row="1">
@@ -438,7 +462,7 @@
                                             Content="Mật bảo" />
                                         <Button
                                             Grid.Row="2"
-                                            Margin="5,5,0,0"
+                                            Margin="5,5,0,5"
                                             Command="{Binding DieuKhacCommand}"
                                             Content="Điêu khắc" />
                                         <Button
@@ -455,7 +479,7 @@
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="1"
-                                            Margin="5,5,0,0"
+                                            Margin="5,5,0,5"
                                             Command="{Binding TuHanhCommand}"
                                             Content="Tu hành" />
                                         <Button
@@ -472,7 +496,7 @@
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="2"
-                                            Margin="5,5,0,0"
+                                            Margin="5,5,0,5"
                                             Command="{Binding HanhLangCommand}"
                                             Content="Nhận HL" />
                                         <Button
@@ -487,23 +511,23 @@
                                             Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
-                                            Content="Nhận quà PB" />
+                                            Content="Đổi năng nỗ" />
                                         <Button
                                             Grid.Column="4"
-                                            Margin="5,5,0,0"
+                                            Margin="5,5,5,0"
                                             Content="Xú quẻ"
                                             IsEnabled="False" />
                                         <Button
                                             Grid.Row="1"
                                             Grid.Column="4"
-                                            Margin="5,5,0,0"
+                                            Margin="5,5,5,0"
                                             Content="Ngừng xú quẻ"
                                             IsEnabled="False" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="3"
                                             Grid.ColumnSpan="2"
-                                            Margin="5,5,0,0"
+                                            Margin="5"
                                             Content="Chạy các auto đang chọn"
                                             IsEnabled="False" />
                                     </Grid>
@@ -541,14 +565,38 @@
                                         Header="Cài đặt phụ bản"
                                         Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
                                         <StackPanel>
-                                            <CheckBox Margin="5,5,0,0" Content="Mê Huyễn Động" />
-                                            <CheckBox Margin="5,5,0,0" Content="Kho Báu Đại Mạc" />
-                                            <CheckBox Margin="5,5,0,0" Content="Lục Tiên Cảnh" />
-                                            <CheckBox Margin="5,5,0,0" Content="Liệt Diễm Thâm Uyên" />
-                                            <CheckBox Margin="5,5,0,0" Content="Trở Lại Lang Huyệt" />
-                                            <CheckBox Margin="5,5,0,0" Content="Quỷ Hút Máu" />
-                                            <CheckBox Margin="5,5,0,0" Content="Thế Giới Số" />
-                                            <CheckBox Margin="5,5,0,0" Content="Thám Hiểm" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Mê Huyễn Động"
+                                                IsEnabled="False" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Kho Báu Đại Mạc"
+                                                IsEnabled="False" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Lục Tiên Cảnh"
+                                                IsEnabled="False" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Liệt Diễm Thâm Uyên"
+                                                IsChecked="{Binding SelectedItem.Value.LD.Value, Mode=TwoWay}" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Trở Lại Lang Huyệt"
+                                                IsChecked="{Binding SelectedItem.Value.VLD.Value, Mode=TwoWay}" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Quỷ Hút Máu"
+                                                IsEnabled="False" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Thế Giới Số"
+                                                IsEnabled="False" />
+                                            <CheckBox
+                                                Margin="5,5,0,0"
+                                                Content="Thám Hiểm"
+                                                IsEnabled="False" />
                                         </StackPanel>
                                     </GroupBox>
 
@@ -582,25 +630,27 @@
                                         Grid.Row="2"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
-                                        Text="Chức năng chưa mở" />
+                                        Text="Trồng trang viên với" />
                                     <ComboBox
                                         Grid.Row="2"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"
-                                        IsEnabled="False"
+                                        ItemsSource="{Binding NLOptions}"
+                                        SelectedValue="{Binding SelectedItem.Value.NLKey.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
                                     <TextBlock
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
-                                        Text="Chức năng chưa mở" />
+                                        Text="Đổi năng nỗ với" />
                                     <ComboBox
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"
-                                        IsEnabled="False"
+                                        ItemsSource="{Binding DoiNNOptions}"
+                                        SelectedValue="{Binding SelectedItem.Value.NLDoiNNKey.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
                                     <TextBlock
                                         Grid.Row="4"
