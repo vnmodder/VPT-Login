@@ -72,7 +72,7 @@ namespace VPT_Login.Models
         [XmlIgnore]
         public ReactiveProperty<bool> LatBaiXong { get; } = new ReactiveProperty<bool>();
         [XmlIgnore]
-        public ReactiveProperty<bool> PhuBan { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> PhuBan { get; } = new ReactiveProperty<bool>(true);
         [XmlIgnore]
         public ReactiveProperty<bool> PhuBanXong { get; } = new ReactiveProperty<bool>();
         [XmlIgnore]
@@ -88,8 +88,20 @@ namespace VPT_Login.Models
 
         // Auto phụ bản
         [XmlIgnore]
+        public ReactiveProperty<bool> MHD { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
+        public ReactiveProperty<bool> MC { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
+        public ReactiveProperty<bool> LTC { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
         public ReactiveProperty<bool> LD { get; } = new ReactiveProperty<bool>(true);
         [XmlIgnore]
         public ReactiveProperty<bool> VLD { get; } = new ReactiveProperty<bool>(true);
+        [XmlIgnore]
+        public ReactiveProperty<bool> Muoi { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
+        public ReactiveProperty<bool> TGS { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
+        public ReactiveProperty<bool> Tham { get; } = new ReactiveProperty<bool>(false);
     }
 }

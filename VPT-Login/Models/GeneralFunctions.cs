@@ -21,6 +21,7 @@ namespace VPT_Login.Models
         private AutoFeatures mAuto;
         private CheMatBao mCheMatBao;
         private TrongNL mTrongNL;
+        private AutoPhuBan mAutoPhuBan;
 
         public GeneralFunctions(DataModel character, string mWindowName, ReactiveProperty<string> textBoxStatus)
         {
@@ -30,6 +31,27 @@ namespace VPT_Login.Models
             mAuto = new AutoFeatures(mCharacter, mWindowName, textBoxStatus);
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
+            mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
+        }
+
+        public void runNhanAutoPB()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu \"Nhận và Auto Phụ Bản\"");
+            // Set phụ bản sẽ nhận và auto
+            mAutoPhuBan.SetPhuBan();
+
+            // Nhận phụ bản ở Lạp Tuyết Địa
+            mAutoPhuBan.NhanPhuBanTLTByNVHN();
+            mAuto.WriteStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
+
+            mAuto.WriteStatus("Bắt đầu \"Auto Phụ Bản\"");
+            mAutoPhuBan.auto();
+            mAuto.WriteStatus("Kết thúc \"Auto Phụ Bản\"");
         }
 
         public void runAutoTuHanh()
@@ -188,7 +210,7 @@ namespace VPT_Login.Models
                     int round_count = 0;
                     foreach (Point p in mapPoints)
                     {
-                        if(mAuto.FindImageByGroup("global", "khongtrongtrandau", hover: true))
+                        if (mAuto.FindImageByGroup("global", "khongtrongtrandau", hover: true))
                         {
                             round_count = 0;
                         }
@@ -260,7 +282,7 @@ namespace VPT_Login.Models
                                     if (mCharacter.PetOption.Value != "khong" &&
                                         (round_count == 1 || round_count == 8))
                                     {
-                                        
+
                                         if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value))
                                         {
                                             mAuto.ClickImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value);

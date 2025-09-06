@@ -39,6 +39,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand TrongNLCommand { get; } = new ReactiveCommand();
         public ReactiveCommand HanhLangCommand { get; } = new ReactiveCommand();
         public ReactiveCommand TuHanhCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand PhuBanCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
@@ -78,6 +79,7 @@ namespace VPT_Login.ViewModels
             TrongNLCommand.Subscribe(() => nguyenLieu());
             HanhLangCommand.Subscribe(() => nhanThuongHanhLang());
             TuHanhCommand.Subscribe(() => runAutoTuHanh());
+            PhuBanCommand.Subscribe(() => runNhanAutoPB());
         }
 
         private void nguyenLieu()
@@ -94,6 +96,22 @@ namespace VPT_Login.ViewModels
             }
             MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
             runTaskInThread(mainAuto.trongNL, "trongNL");
+        }
+
+        private void runNhanAutoPB()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.runNhanAutoPB, "runNhanAutoPB");
         }
 
         private void matBao()

@@ -81,6 +81,39 @@ namespace VPT_Login.Libs
 
         }
 
+        public void OpenQuestByNVHN(string questName)
+        {
+            Bay();
+            // Mở nhiệm vụ hàng ngày    
+            while (!FindImageByGroup("nvhn", "bang_check"))
+            {
+                WriteStatus("Mở bảng nhiệm vụ hàng ngày");
+                ClickImageByGroup("nvhn", "bang");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            string direction = "xuong";
+            while (!FindImageByGroup("nvhn", questName, true, true))
+            {
+                if (FindImageByGroup("nvhn", "xuonghet", true))
+                {
+                    direction = "len";
+                }
+
+                if (FindImageByGroup("nvhn", "lenhet", true))
+                {
+                    direction = "xuong";
+                }
+
+                WriteStatus("Tìm nhiệm vụ " + questName);
+                ClickImageByGroup("nvhn", direction, true, false, 7);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            ClickImageByGroup("nvhn", questName, true, true, 1, 370);
+            Thread.Sleep(Constant.TimeMedium);
+        }
+
         public bool MoveToNPC(string npc, string locationName)
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
@@ -136,7 +169,7 @@ namespace VPT_Login.Libs
             ClickToImage(npcViTriImagePath1, x, y);
             ClickToImage(npcViTriImagePath2, x, y);
 
-            if (!isTalkWithNPC(npc) && loopTime < Constant.MaxLoop )
+            if (!IsTalkWithNPC(npc) && loopTime < Constant.MaxLoop )
             {
                 // Click vào vị trí khác bên cạnh NPC
                 WriteStatus("Click vào vị trí khác bên cạnh NPC ...");
@@ -161,7 +194,7 @@ namespace VPT_Login.Libs
             return true;
         }
 
-        public bool isTalkWithNPC(string npc)
+        public bool IsTalkWithNPC(string npc)
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {

@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
     <Compile Include="Libs\TrongNL.cs" />
     <Compile Include="Views\Test.xaml.cs">
@@ -926,6 +927,7 @@
     <Resource Include="ico.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="IMG\CN\phu_ban\" />
     <Folder Include="tracking\" />
   </ItemGroup>
   <ItemGroup>

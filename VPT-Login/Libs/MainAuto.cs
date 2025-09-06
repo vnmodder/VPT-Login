@@ -49,6 +49,10 @@ namespace VPT_Login.Libs
         {
             runAction("runAutoTuHanh", () => mGeneralFunctions.runAutoTuHanh());
         }
+          public void runNhanAutoPB()
+        {
+            runAction("runNhanAutoPB", () => mGeneralFunctions.runNhanAutoPB());
+        }
 
         public void rutBo()
         {
