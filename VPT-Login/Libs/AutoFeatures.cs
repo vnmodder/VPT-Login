@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,233 @@ namespace VPT_Login.Libs
             this.mCharacter = mCharacter;
             this.mWindowName = mWindowName;
             this.mTextBoxStatus = textBoxStatus;
+        }
+
+        public bool MoveToMap(string mapName, int x = 0, int y = -20)
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            int loop = 0;
+            while (!FindImageByGroup("maps", mapName + "_check") && loop < Constant.MaxLoopShort)
+            {
+                CloseAllDialog();
+
+                Thread.Sleep(Constant.TimeShort);
+                // Mở bản đồ nhỏ
+                SendKey("~");
+
+                // Mở bản đồ thể giới
+                ClickImageByGroup("maps", "world_map");
+
+                int loopInMap = 0;
+                while (!FindImageByGroup("maps", mapName, true) && loopInMap < Constant.MaxLoopShort)
+                {
+                    ClickImageByGroup("maps", "second_world_map", false, false, 1, x, y);
+                    loopInMap++;
+                }
+
+                ClickImageByGroup("maps", mapName, true, false, 1, x, y);
+                Thread.Sleep(Constant.VeryTimeShort);
+                if(FindImageByGroup("global","xacnhanco", false, true))
+                {
+                    ClickImageByGroup("global", "xacnhanco", false, true);
+                }
+
+
+                loop++;
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (loop >= Constant.MaxLoopShort)
+            {
+                WriteStatus("Không thể di chuyển đến " + mapName);
+                return false;
+            }
+
+            return true;
+
+        }
+
+        public bool MoveToNPC(string npc, string locationName)
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            int loop = 1;
+            do
+            {
+                CloseAllDialog();
+
+                // Mở bản đồ nhỏ
+                ClickImageByGroup("maps", "map");
+
+                // Click vào vị trí cần đến
+                ClickImageByGroup("in_map", locationName);
+
+                // Check còn đang di chuyển không ?
+                while (isMoving())
+                {
+                    Thread.Sleep(2000);
+                }
+                loop++;
+            } while (!findNPC(npc) && loop <= Constant.MaxLoop);
+
+            if (loop >= Constant.MaxLoop)
+            {
+                WriteStatus("Không thể di chuyển đến NPC " + npc);
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool TalkToNPC(string npc, int loopTime = 0, int x = 0, int y = -20, string mapName ="")
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            loopTime++;
+            CloseAllDialog();
+
+            string npcViTriTenImagePath1 = Constant.ImagePathViTriNPC + "ten" + npc + "1.png";
+            string npcViTriTenImagePath2 = Constant.ImagePathViTriNPC + "ten" + npc + "2.png";
+            string npcViTriImagePath1 = Constant.ImagePathViTriNPC + npc + "1.png";
+            string npcViTriImagePath2 = Constant.ImagePathViTriNPC + npc + "2.png";
+
+            // Click vào NPC
+            WriteStatus("Click vào vị trí NPC ...");
+            ClickToImage(npcViTriImagePath1, x, y);
+            ClickToImage(npcViTriImagePath2, x, y);
+
+            if (!isTalkWithNPC(npc) && loopTime < Constant.MaxLoop )
+            {
+                // Click vào vị trí khác bên cạnh NPC
+                WriteStatus("Click vào vị trí khác bên cạnh NPC ...");
+                ClickToImage(npcViTriTenImagePath1, random.Next(-100, 100), random.Next(-100, 100));
+                ClickToImage(npcViTriTenImagePath2, random.Next(-100, 100), random.Next(-100, 100));
+
+                //if(!FindImageByGroup("maps", mapName + "_check"))
+                //{
+                //    MoveToMap()
+                //}
+
+                TalkToNPC(npc, loopTime, x, y, mapName: mapName);
+            }
+
+            if (loopTime >= Constant.MaxLoop)
+            {
+                WriteStatus("Không nói chuyện được với NPC ...");
+                return false;
+            }
+
+            WriteStatus("Đang nói chuyện được với NPC ...");
+            return true;
+        }
+
+        public bool isTalkWithNPC(string npc)
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            string npcDoiThoaiImagePath = Constant.ImagePathDoiThoai + npc + ".png";
+            if (FindImage(npcDoiThoaiImagePath))
+            {
+                WriteStatus("Nhân vật đang đối thoại với " + npc + " ...");
+                ClickToImage(npcDoiThoaiImagePath, 0, -20, 1, Constant.TimeShort);
+                return true;
+            }
+            WriteStatus("Nhân vật đang không đối thoại với " + npc + " ...");
+            return false;
+        }
+
+        public bool findNPC(string npc)
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            string npcViTriTenImagePath1 = Constant.ImagePathViTriNPC + "ten" + npc + "1.png";
+            string npcViTriTenImagePath2 = Constant.ImagePathViTriNPC + "ten" + npc + "2.png";
+            string npcViTriImagePath1 = Constant.ImagePathViTriNPC + npc + "1.png";
+            string npcViTriImagePath2 = Constant.ImagePathViTriNPC + npc + "2.png";
+
+            CloseAllDialog();
+
+            if (FindImage(npcViTriImagePath1)
+                || FindImage(npcViTriImagePath2)
+                || FindImage(npcViTriTenImagePath1)
+                || FindImage(npcViTriTenImagePath2))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void anNhanVat()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            CloseAllDialog();
+            if (FindImageByGroup("global", "caidat"))
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    ClickImageByGroup("global", "caidat");
+                    Thread.Sleep(Constant.TimeMediumShort);
+                    if (FindImageByGroup("global", "caidat_check"))
+                    {
+                        ClickImageByGroup("global", "annhanvat");
+                        Thread.Sleep(Constant.TimeMediumShort);
+                        return;
+                    }
+                }
+            }
+
+        }
+
+        public bool isMoving()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            int i = 0;
+            bool moving = true;
+            while (moving && i < Constant.MaxLoop)
+            {
+                // Chụp màn hình
+                var screen_first = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
+                screen_first = CaptureHelper.CropImage((Bitmap)screen_first, new Rectangle(180, 0, 250, 250));
+
+                // Chờ 3s
+                Thread.Sleep(1500);
+                var screen_second = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
+
+                // Kiểm tra hình trước có trong hình sau hay không
+                var p = ImageScanOpenCV.FindOutPoint((Bitmap)screen_second, (Bitmap)screen_first);
+                if (p != null)
+                {
+                    moving = false;
+                    return moving;
+                }
+            }
+
+            return moving;
         }
 
         public void WriteStatus(string statusText)
@@ -340,7 +568,7 @@ namespace VPT_Login.Libs
             bool found = FindImage(groupPath + name + ".png") || (active && FindImage(groupPath + name + "_active.png")) || (hover && FindImage(groupPath + name + "_hover.png"));
             if (!found)
             {
-               // WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
+                WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
             }
 
             return found;
@@ -396,7 +624,7 @@ namespace VPT_Login.Libs
             }
             if (!FindImageByGroup(group, name, active, hover))
             {
-                //WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
+                WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
             ClickToImage(groupPath + name + ".png", x, y, numClick);

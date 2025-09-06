@@ -34,11 +34,20 @@ namespace VPT_Login.Libs
         public void runCheMatBao()
         {
             runAction("runCheMatBao", () => mGeneralFunctions.runCheMatBao());
-        } 
+        }  
 
+        public void nhanThuongHanhLang()
+        {
+            runAction("nhanThuongHanhLang", () => mGeneralFunctions.nhanThuongHanhLang());
+        } 
         public void trongNL()
         {
             runAction("trongNL", () => mGeneralFunctions.trongNL());
+        }
+        
+        public void runAutoTuHanh()
+        {
+            runAction("runAutoTuHanh", () => mGeneralFunctions.runAutoTuHanh());
         }
 
         public void rutBo()

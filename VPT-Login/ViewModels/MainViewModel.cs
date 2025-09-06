@@ -37,6 +37,8 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand DieuKhacCommand { get; } = new ReactiveCommand();
         public ReactiveCommand MatBaoCommand { get; } = new ReactiveCommand();
         public ReactiveCommand TrongNLCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand HanhLangCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand TuHanhCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
@@ -74,6 +76,8 @@ namespace VPT_Login.ViewModels
             DieuKhacCommand.Subscribe(() => dieuKhac());
             MatBaoCommand.Subscribe(() => matBao());
             TrongNLCommand.Subscribe(() => nguyenLieu());
+            HanhLangCommand.Subscribe(() => nhanThuongHanhLang());
+            TuHanhCommand.Subscribe(() => runAutoTuHanh());
         }
 
         private void nguyenLieu()
@@ -106,6 +110,38 @@ namespace VPT_Login.ViewModels
             }
             MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
             runTaskInThread(mainAuto.runCheMatBao, "runCheMatBao");
+        }
+
+        private void nhanThuongHanhLang()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00030ad4;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.nhanThuongHanhLang, "nhanThuongHanhLang");
+        }
+
+        private void runAutoTuHanh()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00100c32;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.runAutoTuHanh, "runAutoTuHanh");
         }
 
         private void dieuKhac()

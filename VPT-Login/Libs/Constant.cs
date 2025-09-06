@@ -31,7 +31,7 @@ namespace VPT_Login.Libs
         public const int TimeMedium = 3000; // Medium time
         public const int TimeLong = 5000; // Long time
 
-        public const string ImagePathGlobalXuong = img_cn + "/global/xuong.png";
+        public const string ImagePathGlobalXuong = "/global/xuong.png";
         public const string ImagePathGlobalBay = "/global/bay.png";
         public const string ImagePathKhongTrongTranDau = "/global/khongtrongtrandau.png";
 
@@ -121,6 +121,9 @@ namespace VPT_Login.Libs
         public const int MaxLoopShort = 3;
         public const int MaxLoopQ = 10;
         public const int MaxLoop = 20;
+
+        public const string ImagePathDoiThoai = "/doi_thoai/";
+        public const string ImagePathViTriNPC = "/vi_tri_npc/";
 
     }
 }

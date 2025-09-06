@@ -1,9 +1,11 @@
-﻿using KAutoHelper;
+﻿using Emgu.CV;
+using KAutoHelper;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows.Media.Media3D;
@@ -28,6 +30,99 @@ namespace VPT_Login.Models
             mAuto = new AutoFeatures(mCharacter, mWindowName, textBoxStatus);
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
+        }
+
+        public void runAutoTuHanh()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            string npc = "truonglaovouutoc";
+            string location = "autotuhanh";
+            string map = "thientinhdia";
+            mAuto.WriteStatus("Bắt đầu \"Auto Tu Hành\"");
+            mAuto.CloseAllDialog();
+
+            // Chạy đến Thiên Tĩnh Địa
+            if (!mAuto.MoveToMap(map, 7, -18))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến Thiên Tĩnh Địa, thử lại ...");
+                runAutoTuHanh();
+            }
+
+            // Bay lên
+            mAuto.Bay();
+
+            // Chạy đến NPC
+            if (!mAuto.MoveToNPC(npc, location))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến vị trí auto tu hành");
+                runAutoTuHanh();
+            }
+
+            // Bay xuống
+            mAuto.BayXuong();
+
+            // Nói chuyện với NPC
+            if (mAuto.TalkToNPC(npc, mapName: map))
+            {
+                // Chọn Auto Tu Hành
+                mAuto.ClickImageByGroup("global", "autotuhanh", false, true);
+
+                // Bấm bắt đầu
+                mAuto.ClickImageByGroup("global", "batdauautotuhanh", false, false);
+
+                // Bấm có
+                mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+            }
+        }
+
+        public void nhanThuongHanhLang()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            string npc = "conghanhlang";
+            string location = "nhanquahanhlang";
+            mAuto.WriteStatus("Bắt đầu \"Nhận thưởng hành lang\"");
+            mAuto.CloseAllDialog();
+
+            // Di chuyển đến Quyến Cố Thành
+            if (!mAuto.MoveToMap("quyencothanh", 5))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến Quyến Cố Thành, thử lại ...");
+                nhanThuongHanhLang();
+            }
+
+            // Bay lên
+            mAuto.Bay();
+
+            // Di chuyển đến vị trí nhận thưởng hàng ngày
+            if (!mAuto.MoveToNPC(npc, location))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến vị trí nhận quà hành lang");
+                nhanThuongHanhLang();
+            }
+
+            // Bay xuống
+            mAuto.BayXuong();
+
+            // Nói chuyện với NPC
+            if (mAuto.TalkToNPC(npc, 0, 0, -40, mapName: location))
+            {
+                // Kéo xuống dưới
+                //mAuto.ClickImageByGroup("global", "keoxuong", false, true, 3);
+
+                Thread.Sleep(Constant.TimeMediumShort);
+                // Bấm nhận thưởng hành lang
+                mAuto.ClickImageByGroup("global", "nhanthuonghanhlang", false, true);
+
+                mAuto.WriteStatus("Đã nhận xong");
+            }
         }
 
         public void runCheMatBao()
