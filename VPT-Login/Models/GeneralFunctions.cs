@@ -16,7 +16,9 @@ namespace VPT_Login.Models
         private string mWindowName;
         private DataModel mCharacter;
         private ReactiveProperty<string> textBoxStatus;
-        public AutoFeatures mAuto;
+        private AutoFeatures mAuto;
+        private CheMatBao mCheMatBao;
+        private TrongNL mTrongNL;
 
         public GeneralFunctions(DataModel character, string mWindowName, ReactiveProperty<string> textBoxStatus)
         {
@@ -24,6 +26,45 @@ namespace VPT_Login.Models
             this.mWindowName = mWindowName;
             this.textBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(mCharacter, mWindowName, textBoxStatus);
+            mCheMatBao = new CheMatBao(mCharacter, mAuto);
+            mTrongNL = new TrongNL(mCharacter, mAuto);
+        }
+
+        public void runCheMatBao()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu \"Chế mật bảo\"");
+
+            // Mở bảng chế mật bảo
+            if (mCheMatBao.moBangCheMB())
+            {
+                // Mở bảng chế mật bảo cần chế
+                mCheMatBao.che();
+            }
+        }
+        public void trongNL()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu \"Trồng Nguyên Liệu\" ...");
+            mTrongNL.moTrangVien();
+            if (mTrongNL.kiemTraSoDatTrong())
+            {
+                mTrongNL.moNuoiTrong();
+                mAuto.WriteStatus("Chọn nguyên liệu để trồng ...");
+                mAuto.ClickImageByGroup("nguyen_lieu", mCharacter.NLKey.Value);
+                Thread.Sleep(Constant.TimeShort);
+                mTrongNL.trong();
+            }
+            mTrongNL.thuHoach();
+            mTrongNL.dongTrangVien();
         }
 
         public void batPet()
@@ -328,7 +369,7 @@ namespace VPT_Login.Models
                 return;
             }
 
-            Thread.Sleep(Constant.TimeLong);
+            Thread.Sleep(Constant.TimeMedium);
             // Chọn đổi
             mAuto.ClickImageByGroup("global", "khonggiandieukhacdoi", false, false);
 

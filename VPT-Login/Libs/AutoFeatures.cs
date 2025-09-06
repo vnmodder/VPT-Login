@@ -43,6 +43,16 @@ namespace VPT_Login.Libs
                 mTextBoxStatus.Value += (mCharacter.Name + ": " + statusText + Environment.NewLine);
             });
         }
+
+        public void MoMenuPhai()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            ClickImageByGroup("global", "momenuphai");
+        }
         public void CloseAllDialog()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
@@ -288,14 +298,38 @@ namespace VPT_Login.Libs
             string groupPath = Constant.ImagePathGlobalFolder;
             switch (group)
             {
-                case "bat_pet":
+               case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
+                    break;
+                case "nguyen_lieu":
+                    groupPath = Constant.ImagePathNLFolder;
                     break;
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
                 case "rutbo":
                     groupPath = Constant.ImagePathRutBoFolder;
+                    break;
+                case "nvhn":
+                    groupPath = Constant.ImagePathNVHNFolder;
+                    break;
+                case "stmt":
+                    groupPath = Constant.ImagePathSTMTFolder;
+                    break;
+                case "phu_ban":
+                    groupPath = Constant.ImagePathPhuBanFolder;
+                    break;
+                case "mat_bao":
+                    groupPath = Constant.ImagePathMatBaoFolder;
+                    break;
+                case "char_name":
+                    groupPath = Constant.ImagePathCharNameFolder;
+                    break;
+                case "tri_an":
+                    groupPath = Constant.ImagePathTriAnFolder;
+                    break;
+                case "in_map":
+                    groupPath = Constant.ImagePathInMapFolder;
                     break;
                 case "global":
                 default:
@@ -325,11 +359,35 @@ namespace VPT_Login.Libs
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
                     break;
+                case "nguyen_lieu":
+                    groupPath = Constant.ImagePathNLFolder;
+                    break;
                 case "maps":
                     groupPath = Constant.ImagePathMapsFolder;
                     break;
                 case "rutbo":
                     groupPath = Constant.ImagePathRutBoFolder;
+                    break;
+                case "nvhn":
+                    groupPath = Constant.ImagePathNVHNFolder;
+                    break;
+                case "stmt":
+                    groupPath = Constant.ImagePathSTMTFolder;
+                    break;
+                case "phu_ban":
+                    groupPath = Constant.ImagePathPhuBanFolder;
+                    break;
+                case "mat_bao":
+                    groupPath = Constant.ImagePathMatBaoFolder;
+                    break;
+                case "char_name":
+                    groupPath = Constant.ImagePathCharNameFolder;
+                    break;
+                case "tri_an":
+                    groupPath = Constant.ImagePathTriAnFolder;
+                    break;
+                case "in_map":
+                    groupPath = Constant.ImagePathInMapFolder;
                     break;
                 case "global":
                 default:

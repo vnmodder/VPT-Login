@@ -422,6 +422,7 @@
                                         <Button
                                             Grid.Row="1"
                                             Margin="5,5,0,0"
+                                             Command="{Binding MatBaoCommand}"
                                             Content="Mật bảo" />
                                         <Button
                                             Grid.Row="2"
@@ -445,6 +446,7 @@
                                         <Button
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
+                                             Command="{Binding TrongNLCommand}"
                                             Content="Nguyên liệu" />
                                         <Button
                                             Grid.Row="1"

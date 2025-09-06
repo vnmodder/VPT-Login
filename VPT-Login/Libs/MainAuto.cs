@@ -29,6 +29,16 @@ namespace VPT_Login.Libs
         public void batPet()
         {
             runAction("batPet", () => mGeneralFunctions.batPet());
+        } 
+
+        public void runCheMatBao()
+        {
+            runAction("runCheMatBao", () => mGeneralFunctions.runCheMatBao());
+        } 
+
+        public void trongNL()
+        {
+            runAction("trongNL", () => mGeneralFunctions.trongNL());
         }
 
         public void rutBo()

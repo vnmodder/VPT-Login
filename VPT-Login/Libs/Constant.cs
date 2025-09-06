@@ -40,6 +40,15 @@ namespace VPT_Login.Libs
         public const string ImagePathBatPetFolder = "/bat_pet/";
         public const string ImagePathRutBoFolder = "/rutbo/";
         public const string ImagePathMapsFolder = "/maps/";
+        public const string ImagePathPhuBanFolder = "/phu_ban/";
+        public const string ImagePathMatBaoFolder = "/mat_bao/";
+        public const string ImagePathCharNameFolder = "/char_name/";
+        public const string ImagePathInMapFolder = "/in_map/";
+        public const string ImagePathTriAnFolder = "/tri_an/";
+        public const string ImagePathEventFolder = "/event/";
+        public const string ImagePathNVHNFolder = "/nvhn/";
+        public const string ImagePathSTMTFolder = "/stmt/";
+        public const string ImagePathNLFolder = "/nguyen_lieu/";
 
         public static Dictionary<string, string> PetList = new Dictionary<string, string>()
         {

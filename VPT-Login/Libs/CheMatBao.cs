@@ -1,10 +1,5 @@
-﻿using Emgu.CV;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ControlzEx.Theming;
 using System.Threading;
-using System.Threading.Tasks;
 using VPT_Login.Models;
 
 namespace VPT_Login.Libs
@@ -13,8 +8,6 @@ namespace VPT_Login.Libs
     {
         private DataModel mChar;
         private AutoFeatures mAuto;
-        private string mLoaiMB;
-        private int mCapMB;
 
         public CheMatBao(DataModel mChar, AutoFeatures auto)
         {
@@ -27,23 +20,37 @@ namespace VPT_Login.Libs
             int loop = 1;
 
             // Mở bảng theo cấp mật bảo cần chế
-            mAuto.ClickImageByGroup("mat_bao", "tieudecapmatbao", false, false, 1, 20, -20 + (mCapMB * 25));
+            mAuto.ClickImageByGroup("mat_bao", "tieudecapmatbao", false, false, 1, 20, -20 + (int.Parse(mChar.CapMB.Value) * 25));
 
             // Click điểm an toàn
             mAuto.ClickImageByGroup("mat_bao", "clickantoan");
 
             // Mở bảng theo loại mật bảo cần chế
-            mAuto.ClickImageByGroup("mat_bao", mLoaiMB);
+            mAuto.ClickImageByGroup("mat_bao", mChar.LoaiMB.Value);
 
             // Chế mật bảo
-            //!mAuto.findImageByGroup("mat_bao", "hetluotche") &&
+            if(mAuto.FindImageByGroup("mat_bao", "hetluotche"))
+            {
+                mAuto.WriteStatus("Hôm nay đã hết lượt chế");
+                return false;
+            }
+
             while (loop <= Constant.MaxLoopQ)
             {
+
                 // Click tự đặt nguyên liệu
                 mAuto.ClickImageByGroup("mat_bao", "tudongdatnguyenlieu");
 
                 // Click chế tạo
                 mAuto.ClickImageByGroup("mat_bao", "chetaomatbao", false, false);
+
+                if(mAuto.FindImageByGroup("mat_bao", "khongdunguyenlieu"))
+                {
+                    mAuto.WriteStatus("Đã dừng vì không đủ nguyên liệu");
+                    Thread.Sleep(Constant.TimeMediumShort);
+                    mAuto.ClickImageByGroup("mat_bao", "xacnhankhongdu", false, true);
+                    return false;
+                }
 
                 // Click điểm an toàn
                 mAuto.ClickImageByGroup("mat_bao", "clickantoan");
@@ -51,6 +58,7 @@ namespace VPT_Login.Libs
                 loop++;
             }
 
+            mAuto.WriteStatus("Chế mật bảo hoàn thành");
             return true;
         }
 
@@ -80,52 +88,6 @@ namespace VPT_Login.Libs
             }
 
             return true;
-        }
-
-        public void setLoaiMB(string loaiMB)
-        {
-            switch (loaiMB)
-            {
-                case "Pháp Sức":
-                    mLoaiMB = "phapsuc";
-                    break;
-                case "Vô Ưu":
-                    mLoaiMB = "vouu";
-                    break;
-                case "Thánh Điện":
-                    mLoaiMB = "thanhdien";
-                    break;
-                case "Hang Động":
-                    mLoaiMB = "hangdong";
-                    break;
-                case "Đại Mạc":
-                    mLoaiMB = "daimac";
-                    break;
-                case "Di Cảnh":
-                    mLoaiMB = "dicanh";
-                    break;
-                case "Liệt Diễm":
-                    mLoaiMB = "lietdiem";
-                    break;
-                case "Lang Huyệt":
-                    mLoaiMB = "langhuyet";
-                    break;
-                case "Lạc Viên":
-                    mLoaiMB = "lacvien";
-                    break;
-                case "Chiến Trang":
-                    mLoaiMB = "chientrang";
-                    break;
-                case "Thần Binh":
-                default:
-                    mLoaiMB = "thanbinh";
-                    break;
-            }
-        }
-
-        public void setCapMB(int capMB)
-        {
-            mCapMB = capMB;
         }
     }
 }
