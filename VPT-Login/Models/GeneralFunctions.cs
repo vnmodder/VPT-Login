@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Threading;
 using System.Windows.Media.Media3D;
 using VPT_Login.Libs;
+using ZedGraph;
 
 namespace VPT_Login.Models
 {
@@ -45,8 +46,29 @@ namespace VPT_Login.Models
             // Set phụ bản sẽ nhận và auto
             mAutoPhuBan.SetPhuBan();
 
-            // Nhận phụ bản ở Lạp Tuyết Địa
-            mAutoPhuBan.NhanPhuBanTLTByNVHN();
+            if (!mAuto.MoveToMap("tienlapthanh"))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến Tiên lạp thành, thử lại ...");
+            }
+
+            mAuto.Bay();
+
+            // Chạy đến NPC
+            if (!mAuto.MoveToNPC("sugiamophuban", "nhanphubantlt"))
+            {
+                mAuto.WriteStatus("Không thể di chuyển đến vị trí nhận phụ bản");
+            }
+
+            // Bay xuống
+            mAuto.BayXuong();
+            if (mAuto.TalkToNPC("sugiamophuban", mapName: "tienlapthanh"))
+            {
+                // Chọn Auto Tu Hành
+                mAuto.ClickImageByGroup("global", "autotuhanh", false, true);
+                // Nhận phụ bản ở TLT   
+                mAutoPhuBan.NhanPhuBanTLTByNVHN();
+            }
+
             mAuto.WriteStatus("Xong \"Nhận và Auto Phụ Bản\" ở TLT");
 
             mAuto.WriteStatus("Bắt đầu \"Auto Phụ Bản\"");

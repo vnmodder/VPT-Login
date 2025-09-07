@@ -13,7 +13,7 @@ namespace VPT_Login.Libs
     {
         private DataModel mCharacter;
         private AutoFeatures mAuto;
-        private List<string> mPhuBan = new List<string>();
+        private string[] mPhuBan = new string[8];
 
         public AutoPhuBan(DataModel mChar, AutoFeatures mAuto)
         {
@@ -24,20 +24,21 @@ namespace VPT_Login.Libs
         public void NhanPhuBanTLTByNVHN()
         {
             int i = 0;
-            while(mPhuBan[i] != null && i <= Constant.MaxLoopQ)
+            while (mPhuBan[i] != null && i <= Constant.MaxLoopQ)
             {
+                
 
                 while (!mAuto.IsTalkWithNPC("sugiamophuban"))
                 {
-                    mAuto.OpenQuestByNVHN("phuban");
+                    mAuto.TalkToNPC("sugiamophuban", mapName: "tienlapthanh");
                 }
 
                 // Click vào nhiệm vụ được trả hoặc chưa nhận
                 mAuto.ClickImageByGroup("phu_ban", mPhuBan[i], false, true);
 
                 // Click nhận nhiệm vụ và trả nhiệm vụ
-                mAuto.ClickImageByGroup("global", "nhannhiemvu", false, true);
-                mAuto.ClickImageByGroup("global", "xong", false, true);
+                mAuto.ClickImageByGroup("phu_ban", "nhannhiemvu", false, true);
+                mAuto.ClickImageByGroup("phu_ban", "xong", false, true);
 
                 mAuto.WriteStatus("Nhận phụ bản thành công ...");
                 Thread.Sleep(Constant.TimeShort);
@@ -54,6 +55,8 @@ namespace VPT_Login.Libs
             int i = 0;
             while (mPhuBan[i] != null && i <= Constant.MaxLoopQ)
             {
+                
+
                 // Chuyển trang
                 if (mPhuBan[i] == "thamhiem" || mPhuBan[i] == "thegioiso")
                 {
@@ -70,14 +73,16 @@ namespace VPT_Login.Libs
                     || mPhuBan[i] == "trolailanghuyet"
                     || mPhuBan[i] == "quyhutmau" || mPhuBan[i] == "thegioiso")
                 {
-                    mAuto.ClickImageByGroup("phu_ban", "showchondokho" + mPhuBan[i], false, false, 1, 120);
+                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120);
                     Thread.Sleep(Constant.TimeShort);
-                    mAuto.ClickImageByGroup("phu_ban", "chonkho", false, false, 1, 10, -25);
+                    //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 120, 35);
+                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120, 35);
                 }
 
                 // Auto phụ bản
-                mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 60, 40);
-                mAuto.ClickImageByGroup("global", "luachonco", false, true);
+                //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 40, 40);
+                mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 45, 37);
+                mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
                 Thread.Sleep(Constant.TimeShort);
                 i++;
             }
@@ -142,45 +147,53 @@ namespace VPT_Login.Libs
         public void SetPhuBan()
         {
             mAuto.WriteStatus("Lấy thông tin các phụ bản sẽ auto ...");
-
+            int i = 0;
             if (mCharacter.MHD.Value)
             {
-                mPhuBan.Add("mehuyendong");
+                mPhuBan[i]="mehuyendong";
+                i++;
             }
 
             if (mCharacter.MC.Value)
             {
-                mPhuBan.Add("khobaudaimac");
+                mPhuBan[i] = "khobaudaimac";
+                i++;
             }
 
             if (mCharacter.LTC.Value)
             {
-                mPhuBan.Add("luctiencanh");
+                mPhuBan[i] = "luctiencanh";
+                i++;
             }
 
             if (mCharacter.LD.Value)
             {
-                mPhuBan.Add("lietdiemthamuyen");
+                mPhuBan[i] = "lietdiemthamuyen";
+                i++;
             }
 
             if (mCharacter.VLD.Value)
             {
-                mPhuBan.Add("trolailanghuyet");
+                mPhuBan[i] = "trolailanghuyet";
+                i++;
             }
 
             if (mCharacter.Muoi.Value)
             {
-                mPhuBan.Add("quyhutmau");
+                mPhuBan[i] = "quyhutmau";
+                i++;
             }
 
             if (mCharacter.TGS.Value)
             {
-                mPhuBan.Add("thegioiso");
+                mPhuBan[i] = "thegioiso";
+                i++;
             }
 
             if (mCharacter.Tham.Value)
             {
-                mPhuBan.Add("thamhiem");
+                mPhuBan[i] = "thamhiem";
+                i++;
             }
         }
     }

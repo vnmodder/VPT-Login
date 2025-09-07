@@ -352,7 +352,7 @@ namespace VPT_Login.Libs
             }
 
             //imagePath = (mCharacter.IsChinese == 1 ? Constant.ChineseResourcePath : Constant.ResourcePath) + imagePath;
-            imagePath = Path.Combine(Constant.rootPath, imagePath);
+            imagePath = Constant.img_cn + imagePath;
 
             var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
@@ -360,7 +360,8 @@ namespace VPT_Login.Libs
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn);
             if (pBtn != null)
             {
-                au3.clickRight(mWindowName, 1, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                float scale = Helper.GetCurrentScale();
+                au3.clickRight(mWindowName, 1, (int) ((pBtn.Value.X + xRange)* scale), (int) ((pBtn.Value.Y + yRange) * scale));
                 Thread.Sleep(Constant.TimeShort);
                 return true;
             }

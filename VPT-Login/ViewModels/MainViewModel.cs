@@ -102,7 +102,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00200c7e;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
