@@ -131,6 +131,7 @@
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
     <Compile Include="Libs\TrongNL.cs" />
+    <Compile Include="Models\XMLDataModel.cs" />
     <Compile Include="Views\Test.xaml.cs">
       <DependentUpon>Test.xaml</DependentUpon>
     </Compile>
@@ -224,6 +225,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\global\xuong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\global\xuong_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\global\xuong_hover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\maps\bangboithanh.png">
@@ -1070,7 +1077,7 @@
     <Content Include="Assets\BindIP64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Data.vpt">
+    <Content Include="Assets\data.vpt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

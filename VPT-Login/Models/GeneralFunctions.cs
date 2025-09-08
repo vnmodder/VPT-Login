@@ -1,5 +1,4 @@
-﻿using Emgu.CV;
-using KAutoHelper;
+﻿using KAutoHelper;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,8 @@ using VPT_Login.Libs;
 namespace VPT_Login.Models
 {
     public class GeneralFunctions
-    {        private DataModel mCharacter;
+    {
+        private DataModel mCharacter;
         private AutoFeatures mAuto;
         private CheMatBao mCheMatBao;
         private TrongNL mTrongNL;
@@ -126,7 +126,7 @@ namespace VPT_Login.Models
             mAuto.ClickImageByGroup("global", "nhanvat");
             mAuto.CloseAllDialog();
             Thread.Sleep(Constant.VeryTimeShort);
-            
+
         }
 
         public void NhanThuongHanhLang()
@@ -204,7 +204,7 @@ namespace VPT_Login.Models
             {
                 mTrongNL.MoNuoiTrong();
                 mAuto.WriteStatus("Chọn nguyên liệu để trồng ...");
-                mAuto.ClickImageByGroup("nguyen_lieu", mCharacter.NLKey.Value);              
+                mAuto.ClickImageByGroup("nguyen_lieu", mCharacter.NLKey.Value);
                 Thread.Sleep(Constant.TimeShort);
                 mTrongNL.trong();
             }
@@ -311,7 +311,7 @@ namespace VPT_Login.Models
                                     if (mCharacter.PetOption.Value != "khong" &&
                                         (round_count == 1 || round_count == 8))
                                     {
-                                        if(mAuto.FindImageByGroup("bat_pet", "mookynang"))
+                                        if (mAuto.FindImageByGroup("bat_pet", "mookynang"))
                                         {
                                             mAuto.ClickImageByGroup("bat_pet", "mookynang");
                                             Thread.Sleep(Constant.TimeMediumShort);

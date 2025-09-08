@@ -1,5 +1,4 @@
-﻿using ControlzEx.Theming;
-using System.Threading;
+﻿using System.Threading;
 using VPT_Login.Models;
 
 namespace VPT_Login.Libs

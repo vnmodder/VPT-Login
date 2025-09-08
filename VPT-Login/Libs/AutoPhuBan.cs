@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using VPT_Login.Models;
-using static Emgu.CV.OCR.Tesseract;
 
 namespace VPT_Login.Libs
 {
@@ -47,9 +41,12 @@ namespace VPT_Login.Libs
 
                         mAuto.WriteStatus("Nhận phụ bản thành công " + mPhuBan[i]);
                         Thread.Sleep(Constant.TimeShort);
-                        i++;
                     }
                 }
+                else {
+                    mAuto.WriteStatus("Không tìm thấy phụ bản " + mPhuBan[i]);
+                }
+                        i++;
 
 
             }

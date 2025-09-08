@@ -1,10 +1,6 @@
 ﻿using Reactive.Bindings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Threading;
 using VPT_Login.Models;
 
 namespace VPT_Login.Libs
@@ -14,14 +10,13 @@ namespace VPT_Login.Libs
         private string mWindowName;
         public AutoFeatures mAuto;
         private DataModel mCharacter;
-        private string[] mMembers;
         public GeneralFunctions mGeneralFunctions;
         ReactiveProperty<string> mTextBoxStatus;
 
         public MainAuto(DataModel character, ReactiveProperty<string> textBoxStatus)
         {
             mCharacter = character;
-            mWindowName = $"{mCharacter.Server}-{mCharacter.Name}";
+            mWindowName = $"{mCharacter.Server.Value}-{mCharacter.Name.Value}";
             mTextBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(character, mWindowName, textBoxStatus);
             mGeneralFunctions = new GeneralFunctions(mCharacter, mWindowName, textBoxStatus);
@@ -30,6 +25,9 @@ namespace VPT_Login.Libs
         public void ChayHet()
         {
             mAuto.WriteStatus("Bắt đầu chạy các auto đã chọn");
+            
+            Thread.Sleep(Constant.TimeShort);
+            mAuto.AnNhanVat();
             try
             {
                 int total = 0;
@@ -113,7 +111,7 @@ namespace VPT_Login.Libs
             }
             catch (Exception ex)
             {
-                Helper.WriteStatus(mTextBoxStatus, $"{mCharacter.Name}", $"Lỗi khi thực hiện auto: {ex.Message}");
+                Helper.WriteStatus(mTextBoxStatus, $"{mCharacter.Name.Value}", $"Lỗi khi thực hiện auto: {ex.Message}");
             }
         }
 
@@ -170,7 +168,7 @@ namespace VPT_Login.Libs
             }
             catch (Exception ex)
             {
-                Helper.WriteStatus(mTextBoxStatus, $"{mCharacter.Name}", $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
+                Helper.WriteStatus(mTextBoxStatus, $"{mCharacter.Name.Value}", $"Lỗi khi thực hiện hành động {actionName}: {ex.Message}");
             }
 
             //mCharacter.Running = 0;

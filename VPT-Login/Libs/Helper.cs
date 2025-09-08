@@ -1,10 +1,11 @@
-﻿using MahApps.Metro.Controls;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using VPT_Login.Models;
 
 namespace VPT_Login.Libs
 {
@@ -26,6 +27,17 @@ namespace VPT_Login.Libs
 
             }
 
+        }
+
+        public static int GenerateNextId(List<DataModel> list)
+        {
+            int id = 1;
+            var usedIds = new HashSet<int>(list.Select(x => x.Id.Value));
+            while (usedIds.Contains(id))
+            {
+                id++;
+            }
+            return id;
         }
 
         public static void ShowAlert(string id, string message)

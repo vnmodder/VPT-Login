@@ -41,7 +41,6 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     HeadersVisibility="Column"
-                    IsReadOnly="True"
                     ItemsSource="{Binding Characters, Mode=TwoWay}"
                     MouseDoubleClick="dgAccounts_MouseDoubleClick"
                     SelectedItem="{Binding SelectedItem.Value, Mode=TwoWay}">
@@ -49,24 +48,61 @@
                         <DataGridCheckBoxColumn Width="0.4*" Binding="{Binding IsChecked.Value}" />
                         <DataGridTextColumn
                             Width="0.6*"
-                            Binding="{Binding No}"
-                            Header="STT" />
+                            Binding="{Binding Id.Value}"
+                            Header="STT"
+                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn
                             Width="2*"
-                            Binding="{Binding Name}"
-                            Header="TÊN" />
+                            Binding="{Binding Name.Value}"
+                            Header="TÊN"
+                            IsReadOnly="True" />
                         <DataGridTextColumn
                             Width="1*"
-                            Binding="{Binding Server}"
-                            Header="SERVER" />
+                            Binding="{Binding Server.Value}"
+                            Header="SERVER"
+                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn
                             Width="1*"
-                            Binding="{Binding Version}"
-                            Header="VERSION" />
+                            Binding="{Binding Version.Value}"
+                            Header="VERSION"
+                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                         <DataGridTextColumn
                             Width="1*"
                             Binding="{Binding HWnd.Value}"
-                            Header="Screen_ID" />
+                            Header="Screen_ID"
+                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
@@ -170,7 +206,6 @@
                 </Grid.RowDefinitions>
                 <GroupBox Header="Nhật ký" Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
                     <TextBox
-                        AcceptsReturn="True"
                         FontFamily="Consolas"
                         IsReadOnly="True"
                         Text="{Binding SelectedItem.Value.LogText.Value}"
@@ -222,10 +257,10 @@
                             Height="35"
                             Margin="5,0,5,5"
                             Background="Green"
+                            Command="{Binding ChayAllCommand}"
                             Content="AUTO ALL"
                             FontSize="14"
-                            FontWeight="Bold"
-                            IsEnabled="False" />
+                            FontWeight="Bold" />
                         <Button
                             Grid.Column="2"
                             Height="35"
@@ -240,8 +275,8 @@
                             Height="35"
                             Margin="5,0,5,5"
                             Background="Red"
-                            Command="{Binding TatGameCommand}"
-                            Content="Tắt game"
+                            Command="{Binding StopAllAutoCommand}"
+                            Content="Dừng ALL"
                             FontSize="14"
                             FontWeight="Bold" />
                     </Grid>
@@ -490,7 +525,7 @@
                                             Grid.Row="1"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Đấu pet"
+                                            Content="Đổi năng nỗ"
                                             IsEnabled="False" />
                                         <Button
                                             Grid.Row="2"
@@ -499,34 +534,48 @@
                                             Command="{Binding HanhLangCommand}"
                                             Content="Nhận HL" />
                                         <Button
-                                            Grid.Column="3"
+                                            Grid.Row="1"
+                                            Grid.Column="2"
                                             Margin="5,5,0,0"
                                             Command="{Binding PhuBanCommand}"
                                             Content="Auto PB" />
                                         <Button
-                                            Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
-                                            Content="Đổi năng nỗ"
-                                            IsEnabled="False" />
-                                        <Button
-                                            Grid.Column="4"
-                                            Margin="5,5,5,0"
                                             Content="Xú quẻ"
-                                            IsEnabled="False" />
-                                        <Button
-                                            Grid.Row="1"
-                                            Grid.Column="4"
-                                            Margin="5,5,5,0"
-                                            Content="Ngừng xú quẻ"
                                             IsEnabled="False" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="3"
-                                            Grid.ColumnSpan="2"
-                                            Margin="5"
+                                            Margin="5,5,0,5"
+                                            Content="Đổi năng nỗ"
+                                            IsEnabled="False" />
+                                        <Button
+                                            Grid.Row="1"
+                                            Grid.Column="3"
+                                            Margin="5,5,0,0"
+                                            Content="Dừng xú quẻ"
+                                            IsEnabled="False" />
+                                        <Button
+                                            Grid.Row="0"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="4"
+                                            Margin="5,5,5,0"
+                                            Background="Green"
                                             Command="{Binding RunCommand}"
-                                            Content="Chạy các auto đang chọn" />
+                                            Opacity="0.8">
+                                            <TextBlock TextAlignment="Center">
+                                                CHẠY AUTO<LineBreak />
+                                                ĐANG CHỌN</TextBlock>
+                                        </Button>
+                                        <Button
+                                            Grid.Row="2"
+                                            Grid.Column="4"
+                                            Margin="5,5,5,5"
+                                            Background="Orange"
+                                            Command="{Binding LuuCaiDatCommand}"
+                                            Content="Lưu cài đặt"
+                                            Opacity="0.8" />
                                     </Grid>
                                 </Grid>
                             </metro:MetroTabItem>

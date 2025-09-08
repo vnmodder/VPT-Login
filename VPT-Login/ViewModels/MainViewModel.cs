@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Runtime.InteropServices;
 using VPT_Login.Models;
 using System.IO;
 using System.Xml.Serialization;
@@ -25,13 +24,15 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand ThemCommand { get; } = new ReactiveCommand();
         public ReactiveCommand XoaCommand { get; } = new ReactiveCommand();
         public ReactiveCommand VaoGameCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ChayAllCommand { get; } = new ReactiveCommand();
         public ReactiveCommand CapNhatVerCommand { get; } = new ReactiveCommand();
         public ReactiveCommand CapNhatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand VPNCommand { get; } = new ReactiveCommand();
         public ReactiveCommand BatPetCommand { get; } = new ReactiveCommand();
         public ReactiveCommand StopAutoCommand { get; } = new ReactiveCommand();
-        public ReactiveCommand TatGameCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand StopAllAutoCommand { get; } = new ReactiveCommand();
 
+        public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
         public ReactiveCommand DieuKhacCommand { get; } = new ReactiveCommand();
         public ReactiveCommand MatBaoCommand { get; } = new ReactiveCommand();
@@ -71,7 +72,8 @@ namespace VPT_Login.ViewModels
 
             BatPetCommand.Subscribe(() => buttonBatPet());
             StopAutoCommand.Subscribe(() => buttonStopAuto());
-            TatGameCommand.Subscribe(() => buttonTatGame());
+            StopAllAutoCommand.Subscribe(() => dungTatCa());
+            ChayAllCommand.Subscribe(() => runAll());
 
             RutboCommand.Subscribe(() => rutBo());
             DieuKhacCommand.Subscribe(() => dieuKhac());
@@ -81,21 +83,51 @@ namespace VPT_Login.ViewModels
             TuHanhCommand.Subscribe(() => runAutoTuHanh());
             PhuBanCommand.Subscribe(() => runNhanAutoPB());
             RunCommand.Subscribe(() => ChayHet());
+            LuuCaiDatCommand.Subscribe(() => SaveToXml());
         }
 
-        private void ChayHet()
+        private void runAll()
         {
-            if (SelectedItem.Value == null) { return; }
+
+            var selectedAccs = Characters.Where(x => x.IsChecked.Value).ToList();
+
+            foreach (var character in selectedAccs)
+            {
+                if (character.HWnd.Value == IntPtr.Zero || !Helper.IsWindow(character.HWnd.Value))
+                {
+                    MessageBox.Show($"Không tìm thấy cửa sổ cho nhân vật: {character.Name}");
+                    continue;
+                }
+
+                var mainAuto = new MainAuto(character, character.LogText);
+                Thread autoThread = new Thread(mainAuto.ChayHet);
+                autoThread.Name = $"{character.Server.Value}-{character.Name.Value}:ChayHet";
+                autoThread.IsBackground = true;
+                autoThread.Start();
+
+                Helper.ThreadList.Add(autoThread);
+            }
+
+        }
+
+        private void ChayHet(DataModel model = null)
+        {
+            if (model == null)
+            {
+                model = SelectedItem.Value;
+            }
+
+            if (model == null) { return; }
 
             //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
-            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            IntPtr hWnd = model.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, model.LogText);
             runTaskInThread(mainAuto.ChayHet, "ChayHet");
         }
 
@@ -135,7 +167,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-             //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -183,7 +215,7 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-           // SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
+            // SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -211,22 +243,21 @@ namespace VPT_Login.ViewModels
             runTaskInThread(mainAuto.rutBo, "rutBo");
         }
 
-        private void buttonTatGame()
+        private void dungTatCa()
         {
-            if (SelectedItem.Value == null)
+            foreach (var item in Characters.Where(x => x.IsChecked.Value))
             {
-                MessageBox.Show("Chưa chọn nhân vật để tắt.");
-                return;
-            }
-            if (SelectedItem.Value.HWnd.Value == IntPtr.Zero || !Helper.IsWindow(SelectedItem.Value.HWnd.Value))
-            {
-                MessageBox.Show("Nhân vật đang chọn chưa vào game");
-                return;
-            }
+                string matchKey = item.Name.Value;
 
-            //AutoItX3 au3 = new AutoItX3();
-            ClickHelper.CloseWindow(SelectedItem.Value.HWnd.Value);
-            SelectedItem.Value.HWnd.Value = IntPtr.Zero;
+                foreach (var thread in Helper.ThreadList.ToList())
+                {
+                    if (thread.IsAlive && thread.Name != null && thread.Name.Contains(matchKey))
+                    {
+                        Helper.WriteStatus(item.LogText, matchKey, "Đã ngừng auto");
+                        try { thread.Abort(); } catch { }
+                    }
+                }
+            }
         }
 
         private void ChayVPN()
@@ -410,10 +441,10 @@ namespace VPT_Login.ViewModels
         {
             if (i == null) return;
 
-            Ten.Value = i.Name;
-            Version.Value = i.Version;
-            Link.Value = i.Link;
-            Status.Value = i.Status == 1;
+            Ten.Value = i.Name.Value;
+            Version.Value = i.Version.Value;
+            Link.Value = i.Link.Value;
+            Status.Value = i.Status.Value == 1;
 
         }
 
@@ -427,7 +458,7 @@ namespace VPT_Login.ViewModels
 
             foreach (var item in Characters)
             {
-                item.Version = Version.Value;
+                item.Version.Value = Version.Value;
             }
 
             SaveToXml();
@@ -442,51 +473,26 @@ namespace VPT_Login.ViewModels
                 return;
             }
 
-            var itemToRemove = SelectedItem.Value;
-
-            if (Characters.Contains(itemToRemove))
-            {
-                Characters.Remove(itemToRemove);
-
-                // Cập nhật lại No cho đẹp
-                for (int i = 0; i < Characters.Count; i++)
-                {
-                    Characters[i].No = i + 1;
-                }
-
-                SaveToXml();
-                LoadFromXml();
-                SelectedItem.Value = null;
-            }
+            Characters.Remove(SelectedItem.Value);
+            SaveToXml(); // Không load lại
+            SelectedItem.Value = null;
         }
+
         private void LuuData()
         {
 
-            // Bước 1: Lấy server từ Link
             string link = Link.Value?.Trim() ?? string.Empty;
             string server = "Unknown";
-
             var match = Regex.Match(link, @"\/(s\d{2,3})\/", RegexOptions.IgnoreCase);
-            if (match.Success)
-            {
-                server = match.Groups[1].Value.ToUpper();
-            }
+            if (match.Success) server = match.Groups[1].Value.ToUpper();
 
-            // Bước 2: Tạo đối tượng mới
-            var newItem = new DataModel
-            {
-                No = Characters.Count + 1,
-                Name = Ten.Value?.Trim() ?? string.Empty,
-                Server = server,
-                Version = Version.Value?.Trim() ?? string.Empty,
-                Link = link,
-                Status = Status.Value ? 1 : 0
-            };
+            // Tạo Id mới chưa trùng
+            int newId = Helper.GenerateNextId(Characters.ToList());
 
-            // Bước 3: Thêm vào danh sách và lưu
+            var newItem = new DataModel(newId, Ten.Value?.Trim() ?? "", server, Version.Value?.Trim() ?? "", link, Status.Value ? 1 : 0);
+
             Characters.Add(newItem);
             SaveToXml();
-            LoadFromXml();
 
         }
 
@@ -494,11 +500,11 @@ namespace VPT_Login.ViewModels
         {
             try
             {
-                var list = Characters.ToList();
-                var serializer = new XmlSerializer(typeof(List<DataModel>), new XmlRootAttribute("ArrayOfDataModel"));
+                var xmlList = Characters.Select(c => c.ToXmlModel()).ToList();
+                var serializer = new XmlSerializer(typeof(List<XMLDataModel>), new XmlRootAttribute("ArrayOfDataModel"));
                 using (var writer = new StreamWriter(Constant.FilePath.XML_PATH, false, Encoding.UTF8))
                 {
-                    serializer.Serialize(writer, list);
+                    serializer.Serialize(writer, xmlList);
                 }
             }
             catch (Exception ex)
@@ -512,22 +518,64 @@ namespace VPT_Login.ViewModels
             {
                 if (File.Exists(Constant.FilePath.XML_PATH))
                 {
-                    var serializer = new XmlSerializer(typeof(List<DataModel>), new XmlRootAttribute("ArrayOfDataModel"));
+                    var serializer = new XmlSerializer(typeof(List<XMLDataModel>), new XmlRootAttribute("ArrayOfDataModel"));
                     using (var reader = new StreamReader(Constant.FilePath.XML_PATH))
                     {
-                        var data = serializer.Deserialize(reader) as List<DataModel>;
+                        var data = serializer.Deserialize(reader) as List<XMLDataModel>;
                         if (data != null)
                         {
-                            Characters.Clear();
-                            foreach (var item in data)
-                                Characters.Add(item);
+                            foreach (var xmlItem in data)
+                            {
+                                var existing = Characters.FirstOrDefault(c => c.Id.Value == xmlItem.Id);
+                                if (existing == null)
+                                {
+                                    // Thêm mới
+                                    Characters.Add(new DataModel(xmlItem));
+                                }
+                                else
+                                {
+
+                                    existing.Name.Value = xmlItem.Name;
+                                    existing.Server.Value = xmlItem.Server;
+                                    existing.Version.Value = xmlItem.Version;
+                                    existing.Link.Value = xmlItem.Link;
+                                    existing.Status.Value = xmlItem.Status;
+
+                                    // Cập nhật reactive property (giữ nguyên vùng nhớ)
+                                    existing.IsChecked.Value = xmlItem.IsChecked;
+                                    existing.PetKey.Value = xmlItem.PetKey;
+                                    existing.PetOption.Value = xmlItem.PetOption;
+                                    existing.ChiEp.Value = xmlItem.ChiEp;
+                                    existing.NLKey.Value = xmlItem.NLKey;
+                                    existing.NLDoiNNKey.Value = xmlItem.NLDoiNNKey;
+                                    existing.LoaiMB.Value = xmlItem.LoaiMB;
+                                    existing.CapMB.Value = xmlItem.CapMB;
+
+                                    existing.RutOutfit.Value = xmlItem.RutOutfit;
+                                    existing.CheMatBao.Value = xmlItem.CheMatBao;
+                                    existing.DieuKhac.Value = xmlItem.DieuKhac;
+                                    existing.HanhLang.Value = xmlItem.HanhLang;
+                                    existing.TuHanh.Value = xmlItem.TuHanh;
+                                    existing.KhoiPhuc.Value = xmlItem.KhoiPhuc;
+                                    existing.LatBai.Value = xmlItem.LatBai;
+                                    existing.PhuBan.Value = xmlItem.PhuBan;
+                                    existing.NangNo.Value = xmlItem.NangNo;
+                                    existing.TrongNL.Value = xmlItem.TrongNL;
+
+                                    existing.MHD.Value = xmlItem.MHD;
+                                    existing.MC.Value = xmlItem.MC;
+                                    existing.LTC.Value = xmlItem.LTC;
+                                    existing.LD.Value = xmlItem.LD;
+                                    existing.VLD.Value = xmlItem.VLD;
+                                    existing.Muoi.Value = xmlItem.Muoi;
+                                    existing.TGS.Value = xmlItem.TGS;
+                                    existing.Tham.Value = xmlItem.Tham;
+
+                                }
+                            }
                         }
                     }
                 }
-
-                int idx = Characters.IndexOf(SelectedItem.Value);
-                if (idx > 0)
-                    SelectedItem.Value = Characters[idx];
             }
             catch (Exception ex)
             {
@@ -544,40 +592,44 @@ namespace VPT_Login.ViewModels
                 return;
             }
 
-            item.Name = (Ten.Value ?? "").Trim();
-            item.Version = (Version.Value ?? "").Trim();
-            item.Link = (Link.Value ?? "").Trim();
-            item.Status = Status.Value ? 1 : 0;
+            item.Name.Value = Ten.Value ?? "";
+            item.Version.Value = Version.Value ?? "";
+            item.Link.Value = Link.Value ?? "";
+            item.Status.Value = Status.Value ? 1 : 0;
 
-            var match = Regex.Match(item.Link ?? "", @"\/(s\d{2,3})\/", RegexOptions.IgnoreCase);
-            if (match.Success) item.Server = match.Groups[1].Value.ToUpper();
+            var match = Regex.Match(item.Link.Value ?? "", @"\/(s\d{2,3})\/", RegexOptions.IgnoreCase);
+            if (match.Success) item.Server.Value = match.Groups[1].Value.ToUpper();
 
-            SaveToXml();
-            LoadFromXml();
+            SaveToXml(); // Không reload
         }
 
-        private void VaoGame()
+        private void VaoGame(DataModel model = null)
         {
-            if (SelectedItem.Value == null || string.IsNullOrEmpty(SelectedItem.Value?.Link))
+            if (model == null)
+            {
+                model = SelectedItem.Value;
+            }
+
+            if (model == null || string.IsNullOrEmpty(model?.Link.Value))
             {
                 MessageBox.Show("Chưa chọn nhân vật.");
                 return;
             }
-            if (SelectedItem.Value.HWnd.Value != IntPtr.Zero &&
-                Helper.IsWindow(SelectedItem.Value.HWnd.Value))
+            if (model.HWnd.Value != IntPtr.Zero &&
+                Helper.IsWindow(model.HWnd.Value))
             {
                 MessageBox.Show("Nhân vật hiện đang được mở!");
                 return;
             }
 
-            string link = SelectedItem.Value?.Link;
-            if (!string.IsNullOrEmpty(SelectedItem.Value?.Version))
+            string link = model?.Link.Value;
+            if (!string.IsNullOrEmpty(model?.Version.Value))
             {
-                link += ("&version=" + SelectedItem.Value?.Version);
+                link += ("&version=" + model?.Version);
             }
             try
             {
-                if (SelectedItem.Value?.Status == 1)
+                if (model?.Status.Value == 1)
                 {
                     if (string.IsNullOrEmpty(ipInterface))
                     {
@@ -590,8 +642,10 @@ namespace VPT_Login.ViewModels
                 }
                 else
                 {
-                    Process.Start(Constant.FilePath.FLASH_PLAYER, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
+                    Process.Start(Constant.FilePath.FLASH_PLAYER, model?.Link + "&version=" + model?.Version);
                 }
+
+
 
                 IntPtr defaultHWnd = IntPtr.Zero;
                 string defaultWindowName = Constant.FLASH_NAME;
@@ -602,8 +656,8 @@ namespace VPT_Login.ViewModels
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
                     {
-                        SelectedItem.Value.HWnd.Value = defaultHWnd;
-                        Helper.SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name);
+                        model.HWnd.Value = defaultHWnd;
+                        Helper.SetWindowText(defaultHWnd, model?.Server.Value + "-" + model?.Name.Value);
                         break;
                     }
 
@@ -647,13 +701,21 @@ namespace VPT_Login.ViewModels
 
         private void buttonStopAuto()
         {
-
-            foreach (var thread in Helper.ThreadList)
+            var selected = SelectedItem.Value;
+            if (selected == null)
             {
-                if (thread.Name.Contains($"{SelectedItem.Value?.Name}"))
+                MessageBox.Show("Hiện không chọn nhân vật nào.");
+                return;
+            }
+
+            string matchKey = selected.Name.Value;
+
+            foreach (var thread in Helper.ThreadList.ToList())
+            {
+                if (thread.IsAlive && thread.Name != null && thread.Name.Contains(matchKey))
                 {
-                    Helper.WriteStatus(SelectedItem.Value.LogText, $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}", "Đã ngừng auto");
-                    thread.Abort();
+                    Helper.WriteStatus(selected.LogText, matchKey, "Đã ngừng auto");
+                    try { thread.Abort(); } catch { }
                 }
             }
         }
