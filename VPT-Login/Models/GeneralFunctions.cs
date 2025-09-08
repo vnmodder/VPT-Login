@@ -221,10 +221,10 @@ namespace VPT_Login.Models
                 return;
             }
 
-            // Mở bảng nhân vật
+            mAuto.AnNhanVat();
+           
             mAuto.CloseAllDialog();
             bool mainDungSau = true;
-
             List<Point> mapPoints = collectMiniMapPointsForTrain();
             while (true)
             {
@@ -309,7 +309,7 @@ namespace VPT_Login.Models
                                         }
                                     }
                                     if (mCharacter.PetOption.Value != "khong" &&
-                                        (round_count == 1 || round_count == 8))
+                                        (round_count == 1 || round_count % 8 == 0))
                                     {
                                         if (mAuto.FindImageByGroup("bat_pet", "mookynang"))
                                         {
