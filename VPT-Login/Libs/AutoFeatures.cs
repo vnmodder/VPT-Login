@@ -1,19 +1,12 @@
-﻿
-using Emgu.CV;
-using KAutoHelper;
+﻿using KAutoHelper;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPT_Login.Models;
-using ZedGraph;
 
 namespace VPT_Login.Libs
 {
@@ -22,7 +15,7 @@ namespace VPT_Login.Libs
         private DataModel mCharacter;
         private ReactiveProperty<string> mTextBoxStatus;
 
-        public AutoIT au3 = new AutoIT();
+       // public AutoIT au3 = new AutoIT();
         public Random random = new Random();
         public string mWindowName;
 
@@ -47,7 +40,7 @@ namespace VPT_Login.Libs
 
                 Thread.Sleep(Constant.TimeShort);
                 // Mở bản đồ nhỏ
-                SendKey("~");
+                SendKey(Keys.Oemtilde);
 
                 // Mở bản đồ thể giới
                 ClickImageByGroup("maps", "world_map");
@@ -324,23 +317,23 @@ namespace VPT_Login.Libs
             // Đóng tất cả hộp thoại đang có
             for (int i = 0; i <= 3; i++)
             {
-                au3.controlsend(mWindowName, "{ESC}");
+                ClickHelper.ControlSendKey(mCharacter.HWnd.Value, Keys.Escape);
             }
         }
 
         public void CloseFlash()
         {
-            au3.winclose(mWindowName);
+            ClickHelper.CloseWindow(mCharacter.HWnd.Value);
         }
 
-        public void SendKey(string key, int wait = 1000)
+        public void SendKey(Keys key, int wait = 1000)
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
                 return;
             }
 
-            au3.controlsend(mWindowName, key);
+            ClickHelper.ControlSendKey(mCharacter.HWnd.Value, key);
             Thread.Sleep(wait);
         }
 
@@ -361,7 +354,7 @@ namespace VPT_Login.Libs
             if (pBtn != null)
             {
                 float scale = Helper.GetCurrentScale();
-                au3.clickRight(mWindowName, 1, (int) ((pBtn.Value.X + xRange)* scale), (int) ((pBtn.Value.Y + yRange) * scale));
+                ClickHelper.ClickRight(mCharacter.HWnd.Value, 1, (int) ((pBtn.Value.X + xRange)* scale), (int) ((pBtn.Value.Y + yRange) * scale));
                 Thread.Sleep(Constant.TimeShort);
                 return true;
             }
@@ -375,7 +368,7 @@ namespace VPT_Login.Libs
                 return;
             }
 
-            au3.click(mWindowName, numClick, xRange, yRange);
+            ClickHelper.Click(mCharacter.HWnd.Value, numClick, xRange, yRange);
             Thread.Sleep(wait);
         }
 
@@ -394,11 +387,11 @@ namespace VPT_Login.Libs
 
             if (isRightClick)
             {
-                au3.clickRight(mWindowName, numClick,(int) (x* scale), (int)(y * scale));
+                ClickHelper.ClickRight(mCharacter.HWnd.Value, numClick,(int) (x* scale), (int)(y * scale));
             }
             else
             {
-                au3.click(mWindowName, numClick, (int)(x * scale), (int)(y * scale));
+                ClickHelper.Click(mCharacter.HWnd.Value, numClick, (int)(x * scale), (int)(y * scale));
             }
 
             Thread.Sleep(wait);
@@ -415,7 +408,7 @@ namespace VPT_Login.Libs
             var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, image,.8);
             if (pBtn != null)
             {
-                au3.click(mWindowName, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
+                ClickHelper.Click(mCharacter.HWnd.Value, numClick, pBtn.Value.X + xRange, pBtn.Value.Y + yRange);
                 Thread.Sleep(wait);
                 return true;
             }
@@ -450,7 +443,7 @@ namespace VPT_Login.Libs
                 int clickX = (int)((pBtn.Value.X + xRange) * scale);
                 int clickY = (int)((pBtn.Value.Y + yRange) * scale);
 
-                au3.click(mWindowName, numClick, clickX, clickY);
+                ClickHelper.Click(mCharacter.HWnd.Value, numClick, clickX, clickY);
                 Thread.Sleep(wait);
                 return true;
             }

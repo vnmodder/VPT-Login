@@ -19,7 +19,7 @@ namespace VPT_Login.Libs
             this.mAuto = mAuto;
         }
 
-        public void thuHoach()
+        public void ThuHoach()
         {
             mAuto.WriteStatus("Thu hoạch nguyên liệu ...");
             mAuto.ClickImageByGroup("nguyen_lieu", "thu_hoach");
@@ -40,26 +40,26 @@ namespace VPT_Login.Libs
             }
         }
 
-        public bool kiemTraSoDatTrong()
+        public bool KiemTraSoDatTrong()
         {
             mAuto.WriteStatus("Kiểm tra còn đất trống để trồng hay không ?");
             return mAuto.FindImage(Constant.ImagePathNLFolder + "dat_trong.png");
         }
 
-        public void moNuoiTrong()
+        public void MoNuoiTrong()
         {
             mAuto.WriteStatus("Mở bảng nuôi trồng nguyên liệu ...");
             mAuto.ClickImageByGroup("nguyen_lieu", "nuoi_trong");
             Thread.Sleep(Constant.TimeShort);
         }
 
-        public void dongTrangVien()
+        public void DongTrangVien()
         {
             mAuto.WriteStatus("Đóng trang viên ...");
             mAuto.ClickImageByGroup("nguyen_lieu", "trang_vien");
         }
 
-        public void moTrangVien()
+        public void MoTrangVien()
         {
             mAuto.CloseAllDialog();
             // Mở menu phải

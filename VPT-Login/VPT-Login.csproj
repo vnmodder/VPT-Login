@@ -127,6 +127,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Libs\ClickHelper.cs" />
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
     <Compile Include="Libs\TrongNL.cs" />
@@ -142,7 +143,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Libs\AutoFeatures.cs" />
-    <Compile Include="Libs\AutoIT.cs" />
     <Compile Include="Libs\Constant.cs" />
     <Compile Include="Libs\Helper.cs" />
     <Compile Include="Libs\MainAuto.cs" />
@@ -172,6 +172,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="IMG\CN\bat_pet\mookynang.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="IMG\CN\global\annhanvat.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -266,6 +269,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\maps\tramthuylam_check.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\nguyen_lieu\trangvienantoan.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\nvhn\bang.png">
@@ -1058,8 +1064,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Content Include="Assets\AutoItX3.Assembly.dll" />
-    <Content Include="Assets\AutoItX3.dll" />
     <Content Include="Assets\BindIP.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1077,17 +1081,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="AutoItX3Lib">
-      <Guid>{F8937E53-D444-4E71-9275-35B64210CC3B}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\ico.png">

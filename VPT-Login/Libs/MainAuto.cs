@@ -39,7 +39,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.RutOutfit.Value && !mCharacter.RutOutfitXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.rutBo();
+                        mGeneralFunctions.RutOutfit();
                         if (mCharacter.RutOutfitXong.Value)
                         {
                             complet++;
@@ -49,7 +49,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.CheMatBao.Value && !mCharacter.CheMatBaoXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.runCheMatBao();
+                        mGeneralFunctions.RunCheMatBao();
                         if (mCharacter.CheMatBaoXong.Value)
                         {
                             complet++;
@@ -59,7 +59,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.DieuKhac.Value && !mCharacter.DieuKhacXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.khongGianDieuKhac();
+                        mGeneralFunctions.KhongGianDieuKhac();
                         if (mCharacter.DieuKhacXong.Value)
                         {
                             complet++;
@@ -69,7 +69,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.TrongNL.Value && !mCharacter.TrongNLXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.trongNL();
+                        mGeneralFunctions.TrongNL();
                         if (mCharacter.TrongNLXong.Value)
                         {
                             complet++;
@@ -79,7 +79,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.HanhLang.Value && !mCharacter.HanhLangXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.nhanThuongHanhLang();
+                        mGeneralFunctions.NhanThuongHanhLang();
                         if (mCharacter.HanhLangXong.Value)
                         {
                             complet++;
@@ -89,7 +89,7 @@ namespace VPT_Login.Libs
                     if (mCharacter.PhuBan.Value && !mCharacter.PhuBanXong.Value)
                     {
                         total++;
-                        mGeneralFunctions.runNhanAutoPB();
+                        mGeneralFunctions.RunNhanAutoPB();
                         if (mCharacter.PhuBanXong.Value)
                         {
                             complet++;
@@ -105,7 +105,7 @@ namespace VPT_Login.Libs
                 mGeneralFunctions.ClickAnToan();
                 while(mCharacter.TuHanh.Value && !mCharacter.TuHanhXong.Value)
                 {
-                    mGeneralFunctions.runAutoTuHanh();
+                    mGeneralFunctions.RunAutoTuHanh();
                 }
 
                 mAuto.WriteStatus("Hoàn tất quá trình chạy auto");
@@ -119,40 +119,40 @@ namespace VPT_Login.Libs
 
         public void batPet()
         {
-            runAction("batPet", () => mGeneralFunctions.batPet());
+            runAction("batPet", () => mGeneralFunctions.BatPet());
         }
 
         public void runCheMatBao()
         {
-            runAction("runCheMatBao", () => mGeneralFunctions.runCheMatBao());
+            runAction("runCheMatBao", () => mGeneralFunctions.RunCheMatBao());
         }
 
         public void nhanThuongHanhLang()
         {
-            runAction("nhanThuongHanhLang", () => mGeneralFunctions.nhanThuongHanhLang());
+            runAction("nhanThuongHanhLang", () => mGeneralFunctions.NhanThuongHanhLang());
         }
         public void trongNL()
         {
-            runAction("trongNL", () => mGeneralFunctions.trongNL());
+            runAction("trongNL", () => mGeneralFunctions.TrongNL());
         }
 
         public void runAutoTuHanh()
         {
-            runAction("runAutoTuHanh", () => mGeneralFunctions.runAutoTuHanh());
+            runAction("runAutoTuHanh", () => mGeneralFunctions.RunAutoTuHanh());
         }
         public void runNhanAutoPB()
         {
-            runAction("runNhanAutoPB", () => mGeneralFunctions.runNhanAutoPB());
+            runAction("runNhanAutoPB", () => mGeneralFunctions.RunNhanAutoPB());
         }
 
         public void rutBo()
         {
-            runAction("rutBo", () => mGeneralFunctions.rutBo());
+            runAction("rutBo", () => mGeneralFunctions.RutOutfit());
         }
 
         public void khongGianDieuKhac()
         {
-            runAction("khongGianDieuKhac", () => mGeneralFunctions.khongGianDieuKhac());
+            runAction("khongGianDieuKhac", () => mGeneralFunctions.KhongGianDieuKhac());
         }
 
         private void runAction(String actionName, Action action)

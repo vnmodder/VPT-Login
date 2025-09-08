@@ -5,15 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using System.Windows.Forms;
 using VPT_Login.Libs;
 
 namespace VPT_Login.Models
 {
     public class GeneralFunctions
-    {
-        private string mWindowName;
-        private DataModel mCharacter;
-        private ReactiveProperty<string> textBoxStatus;
+    {        private DataModel mCharacter;
         private AutoFeatures mAuto;
         private CheMatBao mCheMatBao;
         private TrongNL mTrongNL;
@@ -22,15 +20,13 @@ namespace VPT_Login.Models
         public GeneralFunctions(DataModel character, string mWindowName, ReactiveProperty<string> textBoxStatus)
         {
             this.mCharacter = character;
-            this.mWindowName = mWindowName;
-            this.textBoxStatus = textBoxStatus;
             mAuto = new AutoFeatures(mCharacter, mWindowName, textBoxStatus);
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
             mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
         }
 
-        public void runNhanAutoPB()
+        public void RunNhanAutoPB()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -72,7 +68,7 @@ namespace VPT_Login.Models
             mAuto.WriteStatus("Kết thúc \"Auto Phụ Bản\"");
         }
 
-        public void runAutoTuHanh()
+        public void RunAutoTuHanh()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -89,7 +85,7 @@ namespace VPT_Login.Models
             if (!mAuto.MoveToMap(map, 7, -18))
             {
                 mAuto.WriteStatus("Không thể di chuyển đến Thiên Tĩnh Địa, thử lại ...");
-                runAutoTuHanh();
+                RunAutoTuHanh();
             }
 
             // Bay lên
@@ -99,7 +95,7 @@ namespace VPT_Login.Models
             if (!mAuto.MoveToNPC(npc, location))
             {
                 mAuto.WriteStatus("Không thể di chuyển đến vị trí auto tu hành");
-                runAutoTuHanh();
+                RunAutoTuHanh();
             }
 
             // Bay xuống
@@ -133,7 +129,7 @@ namespace VPT_Login.Models
             
         }
 
-        public void nhanThuongHanhLang()
+        public void NhanThuongHanhLang()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -149,7 +145,7 @@ namespace VPT_Login.Models
             if (!mAuto.MoveToMap("quyencothanh", 5))
             {
                 mAuto.WriteStatus("Không thể di chuyển đến Quyến Cố Thành, thử lại ...");
-                nhanThuongHanhLang();
+                NhanThuongHanhLang();
             }
 
             // Bay lên
@@ -159,7 +155,7 @@ namespace VPT_Login.Models
             if (!mAuto.MoveToNPC(npc, location))
             {
                 mAuto.WriteStatus("Không thể di chuyển đến vị trí nhận quà hành lang");
-                nhanThuongHanhLang();
+                NhanThuongHanhLang();
             }
 
             // Bay xuống
@@ -179,7 +175,7 @@ namespace VPT_Login.Models
             }
         }
 
-        public void runCheMatBao()
+        public void RunCheMatBao()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -189,13 +185,13 @@ namespace VPT_Login.Models
             mAuto.WriteStatus("Bắt đầu \"Chế mật bảo\"");
 
             // Mở bảng chế mật bảo
-            if (mCheMatBao.moBangCheMB())
+            if (mCheMatBao.MoBangCheMB())
             {
                 // Mở bảng chế mật bảo cần chế
-                mCheMatBao.che();
+                mCheMatBao.CheTaoMatBao();
             }
         }
-        public void trongNL()
+        public void TrongNL()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -203,25 +199,25 @@ namespace VPT_Login.Models
             }
 
             mAuto.WriteStatus("Bắt đầu \"Trồng Nguyên Liệu\" ...");
-            mTrongNL.moTrangVien();
-            if (mTrongNL.kiemTraSoDatTrong())
+            mTrongNL.MoTrangVien();
+            if (mTrongNL.KiemTraSoDatTrong())
             {
-                mTrongNL.moNuoiTrong();
+                mTrongNL.MoNuoiTrong();
                 mAuto.WriteStatus("Chọn nguyên liệu để trồng ...");
-                mAuto.ClickImageByGroup("nguyen_lieu", mCharacter.NLKey.Value);
+                mAuto.ClickImageByGroup("nguyen_lieu", mCharacter.NLKey.Value);              
                 Thread.Sleep(Constant.TimeShort);
                 mTrongNL.trong();
             }
-            mTrongNL.thuHoach();
+            mTrongNL.ThuHoach();
             mCharacter.TrongNLXong.Value = true;
-            mTrongNL.dongTrangVien();
+            mTrongNL.DongTrangVien();
         }
 
-        public void batPet()
+        public void BatPet()
         {
             if (mCharacter.ChiEp.Value)
             {
-                epPet();
+                EpPet();
                 return;
             }
 
@@ -232,7 +228,7 @@ namespace VPT_Login.Models
             List<Point> mapPoints = collectMiniMapPointsForTrain();
             while (true)
             {
-                epPet();
+                EpPet();
 
                 mAuto.WriteStatus("Đang tìm và bắt pet...");
                 mAuto.CloseAllDialog();
@@ -253,7 +249,7 @@ namespace VPT_Login.Models
                             mAuto.ClickImageByGroup("global", "outbattletatauto");
                             if (!mAuto.FindImageByGroup("global", "map_top"))
                             {
-                                mAuto.SendKey("~");
+                                mAuto.SendKey(System.Windows.Forms.Keys.Oemtilde);
 
                                 if (!mAuto.FindImageByGroup("global", "map_top"))
                                 {
@@ -315,6 +311,11 @@ namespace VPT_Login.Models
                                     if (mCharacter.PetOption.Value != "khong" &&
                                         (round_count == 1 || round_count == 8))
                                     {
+                                        if(mAuto.FindImageByGroup("bat_pet", "mookynang"))
+                                        {
+                                            mAuto.ClickImageByGroup("bat_pet", "mookynang");
+                                            Thread.Sleep(Constant.TimeMediumShort);
+                                        }
 
                                         if (mAuto.FindImageByGroup("bat_pet", "batpet_" + mCharacter.PetOption.Value))
                                         {
@@ -334,7 +335,7 @@ namespace VPT_Login.Models
                                     }
                                     else
                                     {
-                                        mAuto.SendKey("d");
+                                        mAuto.SendKey(Keys.D);
                                     }
                                 }
                             }
@@ -346,15 +347,15 @@ namespace VPT_Login.Models
             }
         }
 
-        private void epPet()
+        private void EpPet()
         {
             mAuto.WriteStatus("Bắt đầu ép pet");
-            epPetByColor("trang");
-            epPetByColor("luc");
+            EpPetByColor("trang");
+            EpPetByColor("luc");
             mAuto.WriteStatus("Hoàn thành ép pet");
         }
 
-        private void epPetByColor(string color)
+        private void EpPetByColor(string color)
         {
 
             if (mAuto.DangTrongTranDau())
@@ -431,7 +432,7 @@ namespace VPT_Login.Models
             } while (petNumber >= 5);
         }
 
-        public List<Point> collectMiniMapPointsForTrain()
+        private List<Point> collectMiniMapPointsForTrain()
         {
             //string resourcePath = mCharacter.IsChinese == 1 ? "cn_resources" : "resources";
 
@@ -441,7 +442,7 @@ namespace VPT_Login.Models
             // Mở bảng đồ mini;
             if (!mAuto.FindImageByGroup("global", "map_top"))
             {
-                mAuto.SendKey("~");
+                mAuto.SendKey(Keys.Oemtilde);
 
                 if (!mAuto.FindImageByGroup("global", "map_top"))
                 {
@@ -473,7 +474,7 @@ namespace VPT_Login.Models
             return mapPoints;
         }
 
-        public void rutBo()
+        public void RutOutfit()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {
@@ -504,7 +505,7 @@ namespace VPT_Login.Models
             mAuto.WriteStatus("Rút oufit hoàn thành");
         }
 
-        public void khongGianDieuKhac()
+        public void KhongGianDieuKhac()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
             {

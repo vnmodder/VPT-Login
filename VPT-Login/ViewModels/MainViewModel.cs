@@ -14,7 +14,6 @@ using System.Text.RegularExpressions;
 using VPT_Login.Libs;
 using System.Threading;
 using System.Windows;
-using AutoItX3Lib;
 
 
 namespace VPT_Login.ViewModels
@@ -225,8 +224,8 @@ namespace VPT_Login.ViewModels
                 return;
             }
 
-            AutoItX3 au3 = new AutoItX3();
-            au3.WinClose($"{SelectedItem.Value.Server}-{SelectedItem.Value.Name}");
+            //AutoItX3 au3 = new AutoItX3();
+            ClickHelper.CloseWindow(SelectedItem.Value.HWnd.Value);
             SelectedItem.Value.HWnd.Value = IntPtr.Zero;
         }
 

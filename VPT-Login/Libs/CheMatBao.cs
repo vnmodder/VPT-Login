@@ -15,7 +15,7 @@ namespace VPT_Login.Libs
             mAuto = auto;
         }
 
-        public bool che()
+        public bool CheTaoMatBao()
         {
             int loop = 1;
 
@@ -62,7 +62,7 @@ namespace VPT_Login.Libs
             return true;
         }
 
-        public bool moBangCheMB()
+        public bool MoBangCheMB()
         {
             mAuto.CloseAllDialog();
 
@@ -84,7 +84,7 @@ namespace VPT_Login.Libs
             // Kiểm tra đã mở dc bảng chế tao mật bảo chưa ?
             if (!mAuto.FindImageByGroup("mat_bao", "chetaomatbao", false, true))
             {
-                moBangCheMB();
+                MoBangCheMB();
             }
 
             return true;
