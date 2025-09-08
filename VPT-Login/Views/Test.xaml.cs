@@ -1,9 +1,7 @@
 ﻿using Reactive.Bindings;
-using System;
 using System.Linq;
 using System.Windows;
 using VPT_Login.Libs;
-using VPT_Login.Models;
 
 namespace VPT_Login.Views
 {

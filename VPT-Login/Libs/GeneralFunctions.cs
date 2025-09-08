@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-using VPT_Login.Libs;
+using VPT_Login.Models;
 
-namespace VPT_Login.Models
+namespace VPT_Login.Libs
 {
     public class GeneralFunctions
     {
@@ -52,6 +52,8 @@ namespace VPT_Login.Models
 
             // Bay xuống
             mAuto.BayXuong();
+            Thread.Sleep(Constant.TimeShort);
+
             if (mAuto.TalkToNPC("sugiamophuban", mapName: "tienlapthanh"))
             {
                 // Chọn Auto Tu Hành
@@ -99,8 +101,8 @@ namespace VPT_Login.Models
             }
 
             // Bay xuống
-            mAuto.BayXuong();
-
+            //mAuto.BayXuong();
+            Thread.Sleep(Constant.TimeShort);
             // Nói chuyện với NPC
             if (mAuto.TalkToNPC(npc, mapName: map))
             {
@@ -160,6 +162,7 @@ namespace VPT_Login.Models
 
             // Bay xuống
             mAuto.BayXuong();
+            Thread.Sleep(Constant.TimeShort);
 
             // Nói chuyện với NPC
             if (mAuto.TalkToNPC(npc, 0, 0, -40, mapName: location))

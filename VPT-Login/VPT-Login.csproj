@@ -148,7 +148,7 @@
     <Compile Include="Libs\Helper.cs" />
     <Compile Include="Libs\MainAuto.cs" />
     <Compile Include="Models\DataModel.cs" />
-    <Compile Include="Models\GeneralFunctions.cs" />
+    <Compile Include="Libs\GeneralFunctions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

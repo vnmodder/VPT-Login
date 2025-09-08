@@ -1,9 +1,8 @@
 ﻿using Reactive.Bindings;
 using System;
-using System.Xml.Serialization;
 
 namespace VPT_Login.Models
-{
+    {
     public class DataModel
     {
         public ReactiveProperty<int> Id { get; } = new ReactiveProperty<int>();

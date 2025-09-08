@@ -166,8 +166,8 @@ namespace VPT_Login.Libs
             {
                 // Click vào vị trí khác bên cạnh NPC
                 WriteStatus("Click vào vị trí khác bên cạnh NPC ...");
-                ClickToImage(npcViTriTenImagePath1, random.Next(-100, 100), random.Next(-100, 100));
-                ClickToImage(npcViTriTenImagePath2, random.Next(-100, 100), random.Next(-100, 100));
+                ClickToImage(npcViTriTenImagePath1, random.Next(-50, 50), random.Next(-50, 50));
+                ClickToImage(npcViTriTenImagePath2, random.Next(-50, 50), random.Next(-50, 50));
 
                 //if(!FindImageByGroup("maps", mapName + "_check"))
                 //{
