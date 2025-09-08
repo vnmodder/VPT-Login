@@ -4,13 +4,8 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Security.Policy;
 using System.Threading;
-using System.Windows.Media.Media3D;
 using VPT_Login.Libs;
-using ZedGraph;
 
 namespace VPT_Login.Models
 {
@@ -73,6 +68,7 @@ namespace VPT_Login.Models
 
             mAuto.WriteStatus("Bắt đầu \"Auto Phụ Bản\"");
             mAutoPhuBan.auto();
+            mCharacter.PhuBanXong.Value = true;
             mAuto.WriteStatus("Kết thúc \"Auto Phụ Bản\"");
         }
 
@@ -120,7 +116,21 @@ namespace VPT_Login.Models
 
                 // Bấm có
                 mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                mCharacter.TuHanhXong.Value = true;
+                mAuto.WriteStatus("Đã nhận auto tu hành");
             }
+        }
+
+        public void ClickAnToan()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+            mAuto.ClickImageByGroup("global", "nhanvat");
+            mAuto.CloseAllDialog();
+            Thread.Sleep(Constant.VeryTimeShort);
+            
         }
 
         public void nhanThuongHanhLang()
@@ -161,10 +171,10 @@ namespace VPT_Login.Models
                 // Kéo xuống dưới
                 //mAuto.ClickImageByGroup("global", "keoxuong", false, true, 3);
 
-                Thread.Sleep(Constant.TimeMediumShort);
+                Thread.Sleep(2000);
                 // Bấm nhận thưởng hành lang
                 mAuto.ClickImageByGroup("global", "nhanthuonghanhlang", false, true);
-
+                mCharacter.HanhLangXong.Value = true;
                 mAuto.WriteStatus("Đã nhận xong");
             }
         }
@@ -203,6 +213,7 @@ namespace VPT_Login.Models
                 mTrongNL.trong();
             }
             mTrongNL.thuHoach();
+            mCharacter.TrongNLXong.Value = true;
             mTrongNL.dongTrangVien();
         }
 
@@ -489,6 +500,7 @@ namespace VPT_Login.Models
             // Bấm xác nhận
             mAuto.ClickImageByGroup("rutbo", "rutboxacnhan", false, true);
 
+            mCharacter.RutOutfitXong.Value = true;
             mAuto.WriteStatus("Rút oufit hoàn thành");
         }
 
@@ -514,7 +526,7 @@ namespace VPT_Login.Models
 
             // Chọn có
             mAuto.ClickImageByGroup("global", "luachonco", false, true);
-
+            mCharacter.DieuKhacXong.Value = true;
             mAuto.WriteStatus("Đã hoàn thành \"Đổi không gian điêu khắc\"");
         }
 

@@ -26,7 +26,7 @@ namespace VPT_Login.Libs
             int i = 0;
             while (mPhuBan[i] != null && i <= Constant.MaxLoopQ)
             {
-                
+
 
                 while (!mAuto.IsTalkWithNPC("sugiamophuban"))
                 {
@@ -34,15 +34,24 @@ namespace VPT_Login.Libs
                 }
 
                 // Click vào nhiệm vụ được trả hoặc chưa nhận
-                mAuto.ClickImageByGroup("phu_ban", mPhuBan[i], false, true);
+                if (mAuto.FindImageByGroup("phu_ban", mPhuBan[i]))
+                {
+                    mAuto.ClickImageByGroup("phu_ban", mPhuBan[i], false, true);
+                    Thread.Sleep(Constant.TimeShort);
+                    // Click nhận nhiệm vụ và trả nhiệm vụ
+                    if (mAuto.FindImageByGroup("phu_ban", "nhannhiemvu"))
+                    {
+                        mAuto.ClickImageByGroup("phu_ban", "nhannhiemvu", false, true);
+                        Thread.Sleep(Constant.TimeShort);
+                        mAuto.ClickImageByGroup("phu_ban", "xong", false, true);
 
-                // Click nhận nhiệm vụ và trả nhiệm vụ
-                mAuto.ClickImageByGroup("phu_ban", "nhannhiemvu", false, true);
-                mAuto.ClickImageByGroup("phu_ban", "xong", false, true);
+                        mAuto.WriteStatus("Nhận phụ bản thành công " + mPhuBan[i]);
+                        Thread.Sleep(Constant.TimeShort);
+                        i++;
+                    }
+                }
 
-                mAuto.WriteStatus("Nhận phụ bản thành công ...");
-                Thread.Sleep(Constant.TimeShort);
-                i++;
+
             }
         }
 
@@ -55,7 +64,7 @@ namespace VPT_Login.Libs
             int i = 0;
             while (mPhuBan[i] != null && i <= Constant.MaxLoopQ)
             {
-                
+
 
                 // Chuyển trang
                 if (mPhuBan[i] == "thamhiem" || mPhuBan[i] == "thegioiso")
@@ -150,7 +159,7 @@ namespace VPT_Login.Libs
             int i = 0;
             if (mCharacter.MHD.Value)
             {
-                mPhuBan[i]="mehuyendong";
+                mPhuBan[i] = "mehuyendong";
                 i++;
             }
 

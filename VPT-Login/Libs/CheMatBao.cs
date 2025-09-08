@@ -57,7 +57,7 @@ namespace VPT_Login.Libs
                 Thread.Sleep(2000);
                 loop++;
             }
-
+            mChar.CheMatBaoXong.Value = true;
             mAuto.WriteStatus("Chế mật bảo hoàn thành");
             return true;
         }
@@ -73,7 +73,7 @@ namespace VPT_Login.Libs
             mAuto.ClickImageByGroup("mat_bao", "honkhi", false, false);
 
             // Chờ 5s
-            Thread.Sleep(5000);
+            Thread.Sleep(4000);
 
             // Mở bảng mật bảo
             mAuto.ClickImageByGroup("mat_bao", "matbao", true, true);
