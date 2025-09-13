@@ -11,6 +11,8 @@ namespace VPT_Login.Models
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>("");
         public ReactiveProperty<string> Link { get; } = new ReactiveProperty<string>("");
         public ReactiveProperty<int> Status { get; } = new ReactiveProperty<int>();
+        public ReactiveProperty<int> Online { get; } = new ReactiveProperty<int>();
+        public ReactiveProperty<bool> Relog { get; } = new ReactiveProperty<bool>(false);
 
         public ReactiveProperty<int> No { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<IntPtr> HWnd { get; } = new ReactiveProperty<IntPtr>(IntPtr.Zero);

@@ -26,6 +26,47 @@ namespace VPT_Login.Libs
             mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
         }
 
+        public void TrainQuai()
+        {
+            int x = 120;
+            int y = 460;
+            int y2 = y + 15;
+            mAuto.WriteStatus("Đang tiến hành train map...");
+            List<Point> mapPoints = collectMiniMapPointsForTrain();
+            while (true)
+            {
+
+                foreach (Point p in mapPoints)
+                {
+                    if (!mAuto.DangTrongTranDau())
+                    {
+                        mAuto.ClickImageByGroup("global", "outbattletatauto");
+                        if (!mAuto.FindImageByGroup("global", "map_top"))
+                        {
+                            mAuto.SendKey(System.Windows.Forms.Keys.Oemtilde);
+
+                            if (!mAuto.FindImageByGroup("global", "map_top"))
+                            {
+                                mAuto.ClickImageByGroup("maps", "map");
+                            }
+                        }
+                        mAuto.ClickPoint(p.X, p.Y);
+                        Thread.Sleep(Constant.TimeMediumShort);
+                    }
+
+                    while (mAuto.DangTrongTranDau())
+                    {
+                        if (!mAuto.FindImageByGroup("global", "auto_check") &&
+                            mAuto.FindImageByGroup("global", "inbattleauto"))
+                        {
+                            mAuto.ClickImageByGroup("global", "inbattleauto");
+                        }
+                        Thread.Sleep(Constant.TimeShort);
+                    }
+                }              
+            }
+        }
+
         public void RunNhanAutoPB()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
@@ -363,10 +404,7 @@ namespace VPT_Login.Libs
 
             if (mAuto.DangTrongTranDau())
             {
-                mAuto.ClickPoint(50, 50);
-                mAuto.ClickImageByGroup("global", "inbattleauto");
-                Thread.Sleep(Constant.TimeShort);
-                mAuto.ClickImageByGroup("global", "inbattletatauto");
+                outBattel();
             }
 
             int petNumber = 0;
@@ -394,6 +432,7 @@ namespace VPT_Login.Libs
                     petNumber = pets.Count;
                     string cl = color == "trang" ? "trắng" : "xanh lá";
                     mAuto.WriteStatus($"Đang có {petNumber} pet {Constant.PetList[mCharacter.PetKey.Value]} màu {cl}");
+                    outBattel();
                     if (petNumber >= 5)
                     {
                         Thread.Sleep(Constant.VeryTimeShort);
@@ -433,6 +472,17 @@ namespace VPT_Login.Libs
                     mAuto.ClickImageByGroup("bat_pet", "eppet_nextpage");
                 }
             } while (petNumber >= 5);
+        }
+
+        private void outBattel()
+        {
+            if(mAuto.FindImageByGroup("global", "inbattleauto"))
+            {
+                mAuto.ClickPoint(50, 50);
+                mAuto.ClickImageByGroup("global", "inbattleauto");
+                Thread.Sleep(Constant.TimeShort);
+                mAuto.ClickImageByGroup("global", "inbattletatauto");
+            }
         }
 
         private List<Point> collectMiniMapPointsForTrain()

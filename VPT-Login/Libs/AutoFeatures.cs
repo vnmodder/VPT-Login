@@ -131,6 +131,7 @@ namespace VPT_Login.Libs
                     Thread.Sleep(2000);
                 }
                 loop++;
+                CloseAllDialog();
             } while (!findNPC(npc) && loop <= Constant.MaxLoop);
 
             if (loop >= Constant.MaxLoop)
@@ -166,8 +167,8 @@ namespace VPT_Login.Libs
             {
                 // Click vào vị trí khác bên cạnh NPC
                 WriteStatus("Click vào vị trí khác bên cạnh NPC ...");
-                ClickToImage(npcViTriTenImagePath1, random.Next(-50, 50), random.Next(-50, 50));
-                ClickToImage(npcViTriTenImagePath2, random.Next(-50, 50), random.Next(-50, 50));
+                ClickToImage(npcViTriTenImagePath1, random.Next(-30, 30), random.Next(-30, 30));
+                ClickToImage(npcViTriTenImagePath2, random.Next(-30, 30), random.Next(-30, 30));
 
                 //if(!FindImageByGroup("maps", mapName + "_check"))
                 //{
@@ -530,7 +531,7 @@ namespace VPT_Login.Libs
                 ClickToImage(Constant.ImagePathGlobalBay);
             }
         }
-
+       
         public void BayXuong()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
@@ -542,10 +543,14 @@ namespace VPT_Login.Libs
             {
                 stopAuto();
             }
+
+            ClickHelper.ControlSendKey(mCharacter.HWnd.Value, Keys.F);
+            Thread.Sleep(Constant.TimeMediumShort);
+
             while (FindImageByGroup("global", "xuong", true, true))
             {
-                Thread.Sleep(Constant.TimeMediumShort);
                 ClickToImage(Constant.ImagePathGlobalXuong);
+                Thread.Sleep(Constant.TimeMediumShort);
             }
         }
 

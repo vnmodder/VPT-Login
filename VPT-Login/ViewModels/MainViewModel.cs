@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using VPT_Login.Models;
+using System.Runtime.InteropServices;
 
 
 namespace VPT_Login.ViewModels
@@ -31,6 +32,8 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand BatPetCommand { get; } = new ReactiveCommand();
         public ReactiveCommand StopAutoCommand { get; } = new ReactiveCommand();
         public ReactiveCommand StopAllAutoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand StatusCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand TrainMapCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -58,6 +61,9 @@ namespace VPT_Login.ViewModels
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
         public MainViewModel()
         {
             LoadFromXml();
@@ -67,6 +73,8 @@ namespace VPT_Login.ViewModels
             CapNhatVerCommand.Subscribe(() => CapNhatVersion());
             CapNhatCommand.Subscribe(() => CapNhatThongTin());
             VPNCommand.Subscribe(() => ChayVPN());
+            StatusCommand.Subscribe(() => statusUpdate());
+            TrainMapCommand.Subscribe(() => trainMap());
 
             SelectedItem.Subscribe((i) => Itemchaged(i));
 
@@ -86,6 +94,31 @@ namespace VPT_Login.ViewModels
             LuuCaiDatCommand.Subscribe(() => SaveToXml());
         }
 
+        private void trainMap()
+        {
+            if(SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.trainMap, "trainMap");
+        }
+
+        private void statusUpdate()
+        {
+            foreach (var item in Characters)
+            {
+                string windowName = item?.Server.Value + "-" + item?.Name.Value;
+                item.HWnd.Value= FindWindow(null, windowName);
+            }
+        }
+
         private void runAll()
         {
 
@@ -95,7 +128,7 @@ namespace VPT_Login.ViewModels
             {
                 if (character.HWnd.Value == IntPtr.Zero || !Helper.IsWindow(character.HWnd.Value))
                 {
-                    MessageBox.Show($"Không tìm thấy cửa sổ cho nhân vật: {character.Name}");
+                    MessageBox.Show($"Không tìm thấy cửa sổ cho nhân vật: {character.Name.Value}");
                     continue;
                 }
 
@@ -625,7 +658,7 @@ namespace VPT_Login.ViewModels
             string link = model?.Link.Value;
             if (!string.IsNullOrEmpty(model?.Version.Value))
             {
-                link += ("&version=" + model?.Version);
+                link += ("&version=" + model?.Version.Value);
             }
             try
             {
@@ -642,7 +675,7 @@ namespace VPT_Login.ViewModels
                 }
                 else
                 {
-                    Process.Start(Constant.FilePath.FLASH_PLAYER, model?.Link + "&version=" + model?.Version);
+                    Process.Start(Constant.FilePath.FLASH_PLAYER, model?.Link.Value + "&version=" + model?.Version.Value);
                 }
 
 

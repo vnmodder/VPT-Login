@@ -119,6 +119,11 @@ namespace VPT_Login.Libs
         {
             runAction("batPet", () => mGeneralFunctions.BatPet());
         }
+        
+        public void trainMap()
+        {
+            runAction("trainMap", () => mGeneralFunctions.TrainQuai());
+        }
 
         public void runCheMatBao()
         {
