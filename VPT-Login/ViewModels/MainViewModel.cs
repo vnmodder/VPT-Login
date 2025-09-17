@@ -35,6 +35,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand StatusCommand { get; } = new ReactiveCommand();
         public ReactiveCommand TrainMapCommand { get; } = new ReactiveCommand();
         public ReactiveCommand XuQueCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand LatTheCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -76,7 +77,6 @@ namespace VPT_Login.ViewModels
             VPNCommand.Subscribe(() => ChayVPN());
             StatusCommand.Subscribe(() => statusUpdate());
             TrainMapCommand.Subscribe(() => trainMap());
-            XuQueCommand.Subscribe(() => xuQue());
 
             SelectedItem.Subscribe((i) => Itemchaged(i));
 
@@ -94,6 +94,24 @@ namespace VPT_Login.ViewModels
             PhuBanCommand.Subscribe(() => runNhanAutoPB());
             RunCommand.Subscribe(() => ChayHet());
             LuuCaiDatCommand.Subscribe(() => SaveToXml());
+            XuQueCommand.Subscribe(() => xuQue());
+            LatTheCommand.Subscribe(() => latThe());
+        }
+
+        private void latThe()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.AutoLatThe, "AutoLatThe");
         }
 
         private void xuQue()

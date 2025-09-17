@@ -20,7 +20,68 @@ namespace VPT_Login.Libs
             mChar = dataModel;
         }
 
-        public bool auto()
+        public void AutoLatThe()
+        {
+            mAuto.WriteStatus("Bắt đầu \"Lật thẻ\" ...");
+            mAuto.CloseAllDialog();
+            Thread.Sleep(Constant.TimeMediumShort);
+            int check = 0;
+            while (!mAuto.FindImageByGroup("xu_que", "latTheCheck") && check < 5)
+            {
+                // Mở xủ quẻ
+                while (!mAuto.FindImageByGroup("xu_que", "xuQueTui"))
+                {
+                    // Kéo quick feature list lên trên cùng
+                    while (mAuto.FindImageByGroup("global", "quickFeatureListUpArrow") &&
+                        !mAuto.FindImageByGroup("global", "quickFeatureXuQue"))
+                    {
+                        mAuto.ClickImageByGroup("global", "quickFeatureListUpArrow");
+                        Thread.Sleep(Constant.TimeShort);
+                    }
+
+                    // Kéo quick feature list xuống để tìm xủ quẻ
+                    while (!mAuto.FindImageByGroup("global", "quickFeatureXuQue") && mAuto.FindImageByGroup("global", "quickFeatureListDownArrow"))
+                    {
+                        mAuto.ClickImageByGroup("global", "quickFeatureListDownArrow");
+                        Thread.Sleep(Constant.TimeShort);
+                    }
+
+                    // Mở xủ quẻ
+                    mAuto.ClickImageByGroup("global", "quickFeatureXuQue");
+                    Thread.Sleep(Constant.TimeMediumShort);
+
+                    //Mở lật thẻ
+                    if (mAuto.FindImageByGroup("xu_que", "iconLatThe"))
+                    {
+                        mAuto.WriteStatus("Mở lật thẻ");
+                        mAuto.ClickImageByGroup("xu_que", "iconLatThe");
+                        Thread.Sleep(Constant.TimeMedium);
+                        break;
+                    }                    
+                }
+
+                check++;
+            }
+            check = 0;
+            mAuto.WriteStatus("Đã mở");
+
+            while ( check < 7)
+            {
+                mAuto.WriteStatus("Click mở thẻ");
+                mAuto.ClickImageByGroup("xu_que", "latThe");
+                Thread.Sleep(Constant.TimeMediumShort);
+
+                mAuto.ClickImageByGroup("xu_que", "nhanLatThe");
+                Thread.Sleep(Constant.TimeMediumShort);
+
+                mAuto.ClickImageByGroup("xu_que", "latTheCo");
+                Thread.Sleep(Constant.TimeMediumShort);
+                check++;
+            }
+            mChar.LatBaiXong.Value = true;
+            mAuto.WriteStatus("Hoàn thành \"Lật thẻ\" ...");
+        }
+        public bool XuQue()
         {
             mAuto.WriteStatus("Bắt đầu \"Xủ Quẻ\" ...");
             mAuto.CloseAllDialog();

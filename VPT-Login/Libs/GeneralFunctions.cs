@@ -625,7 +625,12 @@ namespace VPT_Login.Libs
 
         public void xuQue()
         {
-            mAutoXuQue.auto();
+            mAutoXuQue.XuQue();
+        }
+
+        internal void AutoLatThe()
+        {
+            mAutoXuQue.AutoLatThe();
         }
     }
 }

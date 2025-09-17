@@ -94,7 +94,17 @@ namespace VPT_Login.Libs
                         }
                     }
 
-                    if(complet>= total)
+                    if (mCharacter.LatBai.Value && !mCharacter.LatBaiXong.Value)
+                    {
+                        total++;
+                        mGeneralFunctions.AutoLatThe();
+                        if (mCharacter.LatBaiXong.Value)
+                        {
+                            complet++;
+                        }
+                    }
+
+                    if (complet>= total)
                     {
                         break;
                     }
@@ -118,6 +128,11 @@ namespace VPT_Login.Libs
         public void batPet()
         {
             runAction("batPet", () => mGeneralFunctions.BatPet());
+        } 
+
+        public void AutoLatThe()
+        {
+            runAction("AutoLatThe", () => mGeneralFunctions.AutoLatThe());
         }
         
         public void trainMap()

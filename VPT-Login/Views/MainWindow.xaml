@@ -409,7 +409,7 @@
                                             Margin="15,5,0,0"
                                             Content="Lật bài"
                                             IsChecked="{Binding SelectedItem.Value.LatBai.Value}"
-                                            IsEnabled="False" />
+   />
                                         <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="1"
@@ -521,8 +521,8 @@
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
-                                            Content="Lật bài"
-                                            IsEnabled="False" />
+                                            Command="{Binding LatTheCommand}"
+                                            Content="Lật bài" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="1"
