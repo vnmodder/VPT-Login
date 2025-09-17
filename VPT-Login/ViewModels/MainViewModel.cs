@@ -34,6 +34,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand StopAllAutoCommand { get; } = new ReactiveCommand();
         public ReactiveCommand StatusCommand { get; } = new ReactiveCommand();
         public ReactiveCommand TrainMapCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand XuQueCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -75,6 +76,7 @@ namespace VPT_Login.ViewModels
             VPNCommand.Subscribe(() => ChayVPN());
             StatusCommand.Subscribe(() => statusUpdate());
             TrainMapCommand.Subscribe(() => trainMap());
+            XuQueCommand.Subscribe(() => xuQue());
 
             SelectedItem.Subscribe((i) => Itemchaged(i));
 
@@ -92,6 +94,22 @@ namespace VPT_Login.ViewModels
             PhuBanCommand.Subscribe(() => runNhanAutoPB());
             RunCommand.Subscribe(() => ChayHet());
             LuuCaiDatCommand.Subscribe(() => SaveToXml());
+        }
+
+        private void xuQue()
+        {
+            if (SelectedItem.Value == null) { return; }
+
+            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
+
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.xuQue, "xuQue");
         }
 
         private void trainMap()
@@ -649,7 +667,7 @@ namespace VPT_Login.ViewModels
                 return;
             }
             if (model.HWnd.Value != IntPtr.Zero &&
-                Helper.IsWindow(model.HWnd.Value))
+                Helper.IsWindow(model.HWnd.Value) && !model.Relog.Value)
             {
                 MessageBox.Show("Nhân vật hiện đang được mở!");
                 return;

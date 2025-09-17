@@ -163,13 +163,13 @@
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
                             Text="China" />
-                        <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}" />
+                        <CheckBox x:Name="cbChina" IsChecked="{Binding SelectedItem.Value.Status.Value, Mode=TwoWay}" />
                         <TextBlock
                             Margin="10,0,5,0"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
                             Text="Được mở trùng" />
-                        <CheckBox x:Name="cbReLog" IsChecked="{Binding Relog.Value, Mode=TwoWay}" />
+                        <CheckBox x:Name="cbReLog" IsChecked="{Binding SelectedItem.Value.Relog.Value, Mode=TwoWay}" />
                         <Button
                             Margin="10,0,0,0"
                             Background="Blue"
@@ -534,12 +534,7 @@
                                             Margin="5,5,0,0"
                                             Command="{Binding TrongNLCommand}"
                                             Content="Nguyên liệu" />
-                                        <Button
-                                            Grid.Row="1"
-                                            Grid.Column="2"
-                                            Margin="5,5,0,0"
-                                            Content="Đổi năng nỗ"
-                                            IsEnabled="False" />
+
                                         <Button
                                             Grid.Row="0"
                                             Grid.Column="1"
@@ -555,8 +550,8 @@
                                         <Button
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
-                                            Content="Xú quẻ"
-                                            IsEnabled="False" />
+                                            Command="{Binding XuQueCommand}"
+                                            Content="Xú quẻ" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="3"
@@ -567,7 +562,7 @@
                                             Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
-                                            Content="Dừng xú quẻ"
+                                            Content="Auto tinh cung"
                                             IsEnabled="False" />
                                         <Button
                                             Grid.Row="2"

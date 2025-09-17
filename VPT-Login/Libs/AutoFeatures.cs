@@ -132,6 +132,7 @@ namespace VPT_Login.Libs
                 }
                 loop++;
                 CloseAllDialog();
+                Thread.Sleep(Constant.TimeMediumShort);
             } while (!findNPC(npc) && loop <= Constant.MaxLoop);
 
             if (loop >= Constant.MaxLoop)
@@ -217,7 +218,7 @@ namespace VPT_Login.Libs
             string npcViTriTenImagePath2 = Constant.ImagePathViTriNPC + "ten" + npc + "2.png";
             string npcViTriImagePath1 = Constant.ImagePathViTriNPC + npc + "1.png";
             string npcViTriImagePath2 = Constant.ImagePathViTriNPC + npc + "2.png";
-
+            
             CloseAllDialog();
 
             if (FindImage(npcViTriImagePath1)
@@ -543,7 +544,7 @@ namespace VPT_Login.Libs
             {
                 stopAuto();
             }
-
+            CloseAllDialog();
             ClickHelper.ControlSendKey(mCharacter.HWnd.Value, Keys.F);
             Thread.Sleep(Constant.TimeMediumShort);
 
@@ -567,6 +568,9 @@ namespace VPT_Login.Libs
             {
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
+                    break;
+                case "xu_que":
+                    groupPath = Constant.ImagePathXuQueFolder;
                     break;
                 case "nguyen_lieu":
                     groupPath = Constant.ImagePathNLFolder;
@@ -627,6 +631,9 @@ namespace VPT_Login.Libs
             {
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
+                    break;
+                case "xu_que":
+                    groupPath = Constant.ImagePathXuQueFolder;
                     break;
                 case "nguyen_lieu":
                     groupPath = Constant.ImagePathNLFolder;

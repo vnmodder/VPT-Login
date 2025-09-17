@@ -10,7 +10,7 @@ namespace VPT_Login.Libs
         private string mWindowName;
         public AutoFeatures mAuto;
         private DataModel mCharacter;
-        public GeneralFunctions mGeneralFunctions;
+                public GeneralFunctions mGeneralFunctions;
         ReactiveProperty<string> mTextBoxStatus;
 
         public MainAuto(DataModel character, ReactiveProperty<string> textBoxStatus)
@@ -123,6 +123,11 @@ namespace VPT_Login.Libs
         public void trainMap()
         {
             runAction("trainMap", () => mGeneralFunctions.TrainQuai());
+        }
+
+        public void xuQue()
+        {
+            runAction("xuQue", () => mGeneralFunctions.xuQue());
         }
 
         public void runCheMatBao()

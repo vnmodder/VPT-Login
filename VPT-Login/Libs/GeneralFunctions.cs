@@ -16,6 +16,7 @@ namespace VPT_Login.Libs
         private CheMatBao mCheMatBao;
         private TrongNL mTrongNL;
         private AutoPhuBan mAutoPhuBan;
+        private AutoXuQue mAutoXuQue;
 
         public GeneralFunctions(DataModel character, string mWindowName, ReactiveProperty<string> textBoxStatus)
         {
@@ -24,6 +25,7 @@ namespace VPT_Login.Libs
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
             mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
+            mAutoXuQue = new AutoXuQue(mAuto, mCharacter);
         }
 
         public void TrainQuai()
@@ -63,7 +65,7 @@ namespace VPT_Login.Libs
                         }
                         Thread.Sleep(Constant.TimeShort);
                     }
-                }              
+                }
             }
         }
 
@@ -266,7 +268,7 @@ namespace VPT_Login.Libs
             }
 
             mAuto.AnNhanVat();
-           
+
             mAuto.CloseAllDialog();
             bool mainDungSau = true;
             List<Point> mapPoints = collectMiniMapPointsForTrain();
@@ -314,7 +316,8 @@ namespace VPT_Login.Libs
                                 var list = mAuto.FindImages("/bat_pet/pet_" + mCharacter.PetKey.Value + ".png");
 
                                 if (list == null || list.Count < 1 ||
-                                    mCharacter.PetOption.Value == "dan" && round_count > 5)
+                                    mCharacter.PetOption.Value == "dan" && round_count > 5 ||
+                                    mCharacter.PetOption.Value != "dan" && round_count > 9)
                                 {
                                     mAuto.ClickPoint(50, 50);
                                     mAuto.ClickImageByGroup("global", "inbattleauto");
@@ -353,7 +356,7 @@ namespace VPT_Login.Libs
                                         }
                                     }
                                     if (mCharacter.PetOption.Value != "khong" &&
-                                        (round_count == 1 || round_count % 8 == 0))
+                                        (round_count == 1))
                                     {
                                         if (mAuto.FindImageByGroup("bat_pet", "mookynang"))
                                         {
@@ -401,11 +404,8 @@ namespace VPT_Login.Libs
 
         private void EpPetByColor(string color)
         {
-
-            if (mAuto.DangTrongTranDau())
-            {
-                outBattel();
-            }
+            outBattel();
+           
 
             int petNumber = 0;
             do
@@ -439,6 +439,7 @@ namespace VPT_Login.Libs
                         int petInUse = 0;
                         while (petInUse < 5)
                         {
+                            outBattel();
                             mAuto.ClickPoint(pets[petInUse].X, pets[petInUse].Y - 20, 2);
                             mAuto.ClickPoint(pets[petInUse].X, pets[petInUse].Y - 20, 2);
                             Thread.Sleep(Constant.TimeMediumShort);
@@ -476,7 +477,7 @@ namespace VPT_Login.Libs
 
         private void outBattel()
         {
-            if(mAuto.FindImageByGroup("global", "inbattleauto"))
+            if (mAuto.FindImageByGroup("global", "inbattleauto"))
             {
                 mAuto.ClickPoint(50, 50);
                 mAuto.ClickImageByGroup("global", "inbattleauto");
@@ -620,6 +621,11 @@ namespace VPT_Login.Libs
             }
 
             return false;
+        }
+
+        public void xuQue()
+        {
+            mAutoXuQue.auto();
         }
     }
 }
