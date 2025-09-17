@@ -61,7 +61,7 @@
                         <TextBlock Text="China" Grid.Column="4" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         <StackPanel Orientation="Horizontal" Grid.Column="5">
                             <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
-                            <Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                            <!--<Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>-->
                         </StackPanel>
                         
                     </Grid>
