@@ -10,7 +10,7 @@ namespace VPT_Login.Libs
         private string mWindowName;
         public AutoFeatures mAuto;
         private DataModel mCharacter;
-                public GeneralFunctions mGeneralFunctions;
+        public GeneralFunctions mGeneralFunctions;
         ReactiveProperty<string> mTextBoxStatus;
 
         public MainAuto(DataModel character, ReactiveProperty<string> textBoxStatus)
@@ -25,7 +25,7 @@ namespace VPT_Login.Libs
         public void ChayHet()
         {
             mAuto.WriteStatus("Bắt đầu chạy các auto đã chọn");
-            
+
             Thread.Sleep(Constant.TimeShort);
             mAuto.AnNhanVat();
             try
@@ -74,6 +74,26 @@ namespace VPT_Login.Libs
                         }
                     }
 
+                    if (mCharacter.LatBai.Value && !mCharacter.LatBaiXong.Value)
+                    {
+                        total++;
+                        mGeneralFunctions.AutoLatThe();
+                        if (mCharacter.LatBaiXong.Value)
+                        {
+                            complet++;
+                        }
+                    }
+
+                    if (mCharacter.KhoiPhuc.Value && !mCharacter.KhoiPhucXong.Value)
+                    {
+                        total++;
+                        mGeneralFunctions.hoiPhuc();
+                        if (mCharacter.KhoiPhucXong.Value)
+                        {
+                            complet++;
+                        }
+                    }
+
                     if (mCharacter.HanhLang.Value && !mCharacter.HanhLangXong.Value)
                     {
                         total++;
@@ -94,29 +114,21 @@ namespace VPT_Login.Libs
                         }
                     }
 
-                    if (mCharacter.LatBai.Value && !mCharacter.LatBaiXong.Value)
-                    {
-                        total++;
-                        mGeneralFunctions.AutoLatThe();
-                        if (mCharacter.LatBaiXong.Value)
-                        {
-                            complet++;
-                        }
-                    }
+                   
 
-                    if (complet>= total)
+                    if (complet >= total)
                     {
                         break;
                     }
                 }
 
                 mGeneralFunctions.ClickAnToan();
-                while(mCharacter.TuHanh.Value && !mCharacter.TuHanhXong.Value)
+                while (mCharacter.TuHanh.Value && !mCharacter.TuHanhXong.Value)
                 {
                     mGeneralFunctions.RunAutoTuHanh();
                 }
 
-                mAuto.WriteStatus("Hoàn tất quá trình chạy auto");
+                mAuto.WriteStatus($"Hoàn tất quá trình chạy {complet}/{total} auto");
 
             }
             catch (Exception ex)
@@ -128,13 +140,18 @@ namespace VPT_Login.Libs
         public void batPet()
         {
             runAction("batPet", () => mGeneralFunctions.BatPet());
-        } 
+        }
 
         public void AutoLatThe()
         {
             runAction("AutoLatThe", () => mGeneralFunctions.AutoLatThe());
         }
-        
+
+        public void hoiPhuc()
+        {
+            runAction("hoiPhuc", () => mGeneralFunctions.hoiPhuc());
+        }
+
         public void trainMap()
         {
             runAction("trainMap", () => mGeneralFunctions.TrainQuai());

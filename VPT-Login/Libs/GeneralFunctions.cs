@@ -623,6 +623,82 @@ namespace VPT_Login.Libs
             return false;
         }
 
+        public void hoiPhuc()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu \"Nhận hồi phục\"");
+            mAuto.CloseAllDialog();
+
+            // Mở nhiệm vụ hàng ngày
+            while (!mAuto.FindImageByGroup("global", "nhiemvuhangngay_check"))
+            {
+                mAuto.WriteStatus("Mở bảng nhiệm vụ hàng ngày");
+                mAuto.ClickImageByGroup("global", "nhiemvuhangngay");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            // Mở nhận hồi phục
+            while (!mAuto.FindImageByGroup("global", "nvhn_hoiphuc_check"))
+            {
+                mAuto.WriteStatus("Mở bảng nhận hồi phục");
+                mAuto.ClickImageByGroup("global", "nvhn_hoiphuc");
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_tuhanh"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục tu hành");
+                mAuto.ClickImageByGroup("global", "nvhp_tuhanh", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_nhiemvunghe"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục nhiệm vụ nghề");
+                mAuto.ClickImageByGroup("global", "nvhp_nhiemvunghe", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_tuluyenpet"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục tu luyện pet");
+                mAuto.ClickImageByGroup("global", "nvhp_tuluyenpet", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_trian"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục trị an");
+                mAuto.ClickImageByGroup("global", "nvhp_trian", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_truma"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục trừ ma");
+                mAuto.ClickImageByGroup("global", "nvhp_truma", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            if (mAuto.FindImageByGroup("global", "nvhp_treothuong"))
+            {
+                mAuto.WriteStatus("Nhận hồi phục treo thưởng");
+                mAuto.ClickImageByGroup("global", "nvhp_treothuong", false, false, 1, 470, -10);
+                Thread.Sleep(Constant.TimeShort);
+            }
+
+            Thread.Sleep(Constant.TimeShort);
+            mAuto.ClickImageByGroup("global", "caidat");
+            mAuto.CloseAllDialog();
+            mCharacter.KhoiPhucXong.Value = true;
+            mAuto.WriteStatus("\"Nhận hồi phục\" đã xong");
+        }
+
+
         public void xuQue()
         {
             mAutoXuQue.XuQue();

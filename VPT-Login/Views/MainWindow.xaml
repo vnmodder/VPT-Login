@@ -395,8 +395,7 @@
                                             Grid.Row="3"
                                             Margin="15,5,0,0"
                                             Content="Nhận khôi phục"
-                                            IsChecked="{Binding SelectedItem.Value.KhoiPhuc.Value}"
-                                            IsEnabled="False" />
+                                            IsChecked="{Binding SelectedItem.Value.KhoiPhuc.Value}" />
                                         <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="1"
@@ -408,8 +407,7 @@
                                             Grid.Row="4"
                                             Margin="15,5,0,0"
                                             Content="Lật bài"
-                                            IsChecked="{Binding SelectedItem.Value.LatBai.Value}"
-   />
+                                            IsChecked="{Binding SelectedItem.Value.LatBai.Value}" />
                                         <CheckBox
                                             Grid.Row="4"
                                             Grid.Column="1"
@@ -515,8 +513,8 @@
                                             Grid.Row="2"
                                             Grid.Column="2"
                                             Margin="5,5,0,5"
-                                            Content="Khôi phục"
-                                            IsEnabled="False" />
+                                            Command="{Binding KhoiPhucCommand}"
+                                            Content="Khôi phục" />
                                         <Button
                                             Grid.Row="1"
                                             Grid.Column="1"

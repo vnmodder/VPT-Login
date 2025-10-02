@@ -78,6 +78,9 @@ namespace VPT_Login.Libs
                 Thread.Sleep(Constant.TimeMediumShort);
                 check++;
             }
+
+            Thread.Sleep(Constant.TimeShort);
+            mAuto.CloseAllDialog();
             mChar.LatBaiXong.Value = true;
             mAuto.WriteStatus("Hoàn thành \"Lật thẻ\" ...");
         }
