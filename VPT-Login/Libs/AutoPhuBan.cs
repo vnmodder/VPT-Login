@@ -82,7 +82,7 @@ namespace VPT_Login.Libs
                     mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120);
                     Thread.Sleep(Constant.TimeShort);
                     //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 120, 35);
-                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120, 35);
+                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120, 40);
                 }
 
                 // Auto phụ bản

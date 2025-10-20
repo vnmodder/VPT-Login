@@ -28,11 +28,11 @@ namespace VPT_Login.Libs
             mAuto.ClickImageByGroup("mat_bao", mChar.LoaiMB.Value);
 
             // Chế mật bảo
-            if(mAuto.FindImageByGroup("mat_bao", "hetluotche"))
-            {
-                mAuto.WriteStatus("Hôm nay đã hết lượt chế");
-                return false;
-            }
+            //if(mAuto.FindImageByGroup("mat_bao", "hetluotche"))
+            //{
+            //    mAuto.WriteStatus("Hôm nay đã hết lượt chế");
+            //    return false;
+            //}
 
             while (loop <= Constant.MaxLoopQ)
             {

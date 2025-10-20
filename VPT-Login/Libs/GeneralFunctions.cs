@@ -410,7 +410,8 @@ namespace VPT_Login.Libs
             int petNumber = 0;
             do
             {
-                mAuto.CloseAllDialog();
+                mAuto.CloseAllDialog(); 
+                Thread.Sleep(Constant.TimeShort);
                 while (!mAuto.FindImageByGroup("bat_pet", "eppet_bang_check"))
                 {
                     mAuto.ClickImageByGroup("bat_pet", "eppet_bang");
