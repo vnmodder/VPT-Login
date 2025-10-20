@@ -57,7 +57,7 @@ namespace VPT_Login.Libs
                         mAuto.ClickImageByGroup("xu_que", "iconLatThe");
                         Thread.Sleep(Constant.TimeMedium);
                         break;
-                    }                    
+                    }
                 }
 
                 check++;
@@ -65,28 +65,42 @@ namespace VPT_Login.Libs
             check = 0;
             mAuto.WriteStatus("Đã mở");
 
-            while ( check < 6)
+            while (check < 6)
             {
                 mAuto.WriteStatus("Click mở thẻ");
                 mAuto.ClickImageByGroup("xu_que", "latThe");
                 Thread.Sleep(Constant.TimeMediumShort);
 
-                if (mAuto.FindImageByGroup("xu_que", "latthe_ketqua_1",percent:.9) ||
+
+                if (mAuto.FindImageByGroup("xu_que", "latthe_ketqua_1", percent: .9) ||
                     mAuto.FindImageByGroup("xu_que", "latthe_ketqua_2", percent: .9) ||
                     mAuto.FindImageByGroup("xu_que", "latthe_ketqua_3", percent: .9))
                 {
                     int count = 0;
-                    while (count<5)
+                    while (count < 5)
                     {
                         for (int i = 1; i < 7; i++)
                         {
-                            if(mAuto.FindImageByGroup("xu_que", "latthe_so_" + i))
+                            if (mAuto.FindImageByGroup("xu_que", "latthe_so_" + i))
                             {
                                 mAuto.ClickImageByGroup("xu_que", "latthe_so_" + i);
                                 Thread.Sleep(Constant.TimeMediumShort);
                                 count++;
                                 continue;
                             }
+                        }
+
+
+                        if (!mAuto.FindImageByGroup("xu_que", "latthe_so_1") &&
+                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_2") &&
+                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_3") &&
+                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_4") &&
+                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_5") &&
+                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_6") &&
+                                  mAuto.FindImageByGroup("xu_que", "latthe_ketqua_1", percent: .8))
+                        {
+                            check = 6;
+                            break;
                         }
                     }
 
@@ -97,11 +111,12 @@ namespace VPT_Login.Libs
                 mAuto.ClickImageByGroup("xu_que", "nhanLatThe");
                 Thread.Sleep(Constant.TimeMediumShort);
 
-                mAuto.ClickImageByGroup("xu_que", "latTheCo");
+                mAuto.ClickImageByGroup("xu_que", "latTheCo", false, true);
                 Thread.Sleep(Constant.TimeMediumShort);
                 check++;
 
-                if(mAuto.FindImageByGroup("xu_que", "hetLuot", percent: .9)){
+                if (mAuto.FindImageByGroup("xu_que", "hetLuot", percent: .9))
+                {
                     break;
                 }
             }

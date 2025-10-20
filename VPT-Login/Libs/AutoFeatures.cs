@@ -613,7 +613,7 @@ namespace VPT_Login.Libs
                 (hover && FindImage(groupPath + name + "_hover.png", percent));
             if (!found)
             {
-                 WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
+                 //WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
             }
 
             return found;
@@ -672,7 +672,7 @@ namespace VPT_Login.Libs
             }
             if (!FindImageByGroup(group, name, active, hover, percent))
             {
-                WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
+                //WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
             ClickToImage(groupPath + name + ".png", x, y, numClick, percent: percent);
