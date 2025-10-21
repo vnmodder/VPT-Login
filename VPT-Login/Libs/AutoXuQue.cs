@@ -67,7 +67,6 @@ namespace VPT_Login.Libs
 
             while (check < 6)
             {
-                mAuto.WriteStatus("Click mở thẻ");
                 mAuto.ClickImageByGroup("xu_que", "latThe");
                 Thread.Sleep(Constant.TimeMediumShort);
 
@@ -90,7 +89,6 @@ namespace VPT_Login.Libs
 
                     var keepCards = getCardValuesToKeep(cardCounts);
                     int cardsToChange = 5 - keepCards.Sum(kv => kv.Value);
-                    mAuto.WriteStatus($"đổi {cardsToChange} thẻ");
                     int count = 0;
 
                     for (int i = 0; i < 6 && count < cardsToChange; i++)
@@ -99,15 +97,13 @@ namespace VPT_Login.Libs
                             !keepCards.Select(x => x.Key).Contains(i + 1))
                         {
                             mAuto.ClickImageByGroup("xu_que", "latthe_so_" + (i + 1));
-                            Thread.Sleep(Constant.TimeShort);
-                            mAuto.WriteStatus($"đã lật thẻ {i + 1}");
+                            Thread.Sleep(700);
                             count++;
                         }
                     }
 
                     if (count > 0)
                     {
-                        mAuto.WriteStatus("bấm đổi");
                         mAuto.ClickImageByGroup("xu_que", "lat_thedoi");
                         Thread.Sleep(Constant.TimeMediumShort);
                     }
