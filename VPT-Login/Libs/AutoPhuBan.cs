@@ -33,20 +33,24 @@ namespace VPT_Login.Libs
                     mAuto.ClickImageByGroup("phu_ban", mPhuBan[i], false, true);
                     Thread.Sleep(Constant.TimeShort);
                     // Click nhận nhiệm vụ và trả nhiệm vụ
-                    if (mAuto.FindImageByGroup("phu_ban", "nhannhiemvu"))
+                    if (mAuto.FindImageByGroup("phu_ban", "nhannhiemvu", false, true) ||
+                        mAuto.FindImageByGroup("phu_ban", "nhannhiemvu2", false, true))
                     {
                         mAuto.ClickImageByGroup("phu_ban", "nhannhiemvu", false, true);
+                        mAuto.ClickImageByGroup("phu_ban", "nhannhiemvu2", false, true);
                         Thread.Sleep(Constant.TimeShort);
                         mAuto.ClickImageByGroup("phu_ban", "xong", false, true);
+                        mAuto.ClickImageByGroup("phu_ban", "xong2", false, true);
 
                         mAuto.WriteStatus("Nhận phụ bản thành công " + mPhuBan[i]);
                         Thread.Sleep(Constant.TimeShort);
                     }
                 }
-                else {
+                else
+                {
                     mAuto.WriteStatus("Không tìm thấy phụ bản " + mPhuBan[i]);
                 }
-                        i++;
+                i++;
 
 
             }
@@ -79,16 +83,38 @@ namespace VPT_Login.Libs
                     || mPhuBan[i] == "trolailanghuyet"
                     || mPhuBan[i] == "quyhutmau" || mPhuBan[i] == "thegioiso")
                 {
-                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120);
-                    Thread.Sleep(Constant.TimeShort);
-                    //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 120, 35);
-                    mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120, 40);
+                    if (mAuto.FindImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false))
+                    {
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120);
+                        Thread.Sleep(Constant.TimeShort);
+                        //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 120, 35);
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 120, 40);
+
+                        // Auto phụ bản
+                        //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 40, 40);
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 45, 37);
+                    }
+                    else if (mAuto.FindImageByGroup("phu_ban", "batdau" + mPhuBan[i] + 2, false, false))
+                    {
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i] + 2, false, false, 1, 120);
+                        Thread.Sleep(Constant.TimeShort);
+                        //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 120, 35);
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i] + 2, false, false, 1, 120, 40);
+                        // Auto phụ bản
+                        //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 40, 40);
+                        mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i] + 2, false, false, 1, 45, 37);
+
+                    }
+
                 }
 
-                // Auto phụ bản
-                //mAuto.ClickRightToImage("/phu_ban/batdau" + mPhuBan[i]+".png", 40, 40);
-                mAuto.ClickImageByGroup("phu_ban", "batdau" + mPhuBan[i], false, false, 1, 45, 37);
-                mAuto.ClickImageByGroup("phu_ban", "xacnhanco", false, true);
+                Thread.Sleep(Constant.TimeMediumShort);
+                if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
+                    mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                if (mAuto.FindImageByGroup("global", "xacnhanco2", false, true))
+                    mAuto.ClickImageByGroup("global", "xacnhanco2", false, true);
+                //mAuto.ClickImageByGroup("phu_ban", "xacnhanco", false, true);
+
                 Thread.Sleep(Constant.TimeShort);
                 i++;
             }

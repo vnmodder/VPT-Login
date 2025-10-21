@@ -156,7 +156,10 @@ namespace VPT_Login.Libs
                 mAuto.ClickImageByGroup("global", "batdauautotuhanh", false, false);
 
                 // Bấm có
-                mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
+                    mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                if (mAuto.FindImageByGroup("global", "xacnhanco2", false, true))
+                    mAuto.ClickImageByGroup("global", "xacnhanco2", false, true);
                 mCharacter.TuHanhXong.Value = true;
                 mAuto.WriteStatus("Đã nhận auto tu hành");
             }

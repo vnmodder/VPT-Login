@@ -1,4 +1,5 @@
-﻿using KAutoHelper;
+﻿using Emgu.CV;
+using KAutoHelper;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
@@ -55,9 +56,9 @@ namespace VPT_Login.Libs
                 ClickImageByGroup("maps", mapName, true, false, 1, x, y);
                 Thread.Sleep(Constant.VeryTimeShort);
                 if (FindImageByGroup("global", "xacnhanco", false, true))
-                {
                     ClickImageByGroup("global", "xacnhanco", false, true);
-                }
+                if (FindImageByGroup("global", "xacnhanco2", false, true))
+                    ClickImageByGroup("global", "xacnhanco2", false, true);
 
 
                 loop++;
@@ -613,7 +614,7 @@ namespace VPT_Login.Libs
                 (hover && FindImage(groupPath + name + "_hover.png", percent));
             if (!found)
             {
-                 //WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
+                 WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
             }
 
             return found;
@@ -672,7 +673,7 @@ namespace VPT_Login.Libs
             }
             if (!FindImageByGroup(group, name, active, hover, percent))
             {
-                //WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
+                WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
             ClickToImage(groupPath + name + ".png", x, y, numClick, percent: percent);
