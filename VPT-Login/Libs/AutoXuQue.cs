@@ -71,47 +71,52 @@ namespace VPT_Login.Libs
                 mAuto.ClickImageByGroup("xu_que", "latThe");
                 Thread.Sleep(Constant.TimeMediumShort);
 
+                List<KeyValuePair<int, int>> cardCounts = new List<KeyValuePair<int, int>>();
+                for (int i = 0; i < 6; i++)
+                {
+                    var found = mAuto.FindImages($"/xu_que/latthe_so_{i + 1}.png");
+                    cardCounts.Add(new KeyValuePair<int, int>(i + 1, found?.Count() ?? 0));
+                }
+                if (cardCounts.Sum(kv => kv.Value) == 0)
+                {
+                    break;
+                }
 
                 if (mAuto.FindImageByGroup("xu_que", "latthe_ketqua_1", percent: .9) ||
                     mAuto.FindImageByGroup("xu_que", "latthe_ketqua_2", percent: .9) ||
-                    mAuto.FindImageByGroup("xu_que", "latthe_ketqua_3", percent: .9))
+                    mAuto.FindImageByGroup("xu_que", "latthe_ketqua_3", percent: .9) ||
+                    mAuto.FindImageByGroup("xu_que", "latthe_ketqua_4", percent: .9))
                 {
+
+                    var keepCards = getCardValuesToKeep(cardCounts);
+                    int cardsToChange = 5 - keepCards.Sum(kv => kv.Value);
+                    mAuto.WriteStatus($"đổi {cardsToChange} thẻ");
                     int count = 0;
-                    while (count < 5)
+
+                    for (int i = 0; i < 6 && count < cardsToChange; i++)
                     {
-                        for (int i = 1; i < 7; i++)
+                        if (mAuto.FindImageByGroup("xu_que", "latthe_so_" + (i + 1)) &&
+                            !keepCards.Select(x => x.Key).Contains(i + 1))
                         {
-                            if (mAuto.FindImageByGroup("xu_que", "latthe_so_" + i))
-                            {
-                                mAuto.ClickImageByGroup("xu_que", "latthe_so_" + i);
-                                Thread.Sleep(Constant.TimeMediumShort);
-                                count++;
-                                continue;
-                            }
-                        }
-
-
-                        if (!mAuto.FindImageByGroup("xu_que", "latthe_so_1") &&
-                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_2") &&
-                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_3") &&
-                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_4") &&
-                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_5") &&
-                                  !mAuto.FindImageByGroup("xu_que", "latthe_so_6") &&
-                                  mAuto.FindImageByGroup("xu_que", "latthe_ketqua_1", percent: .8))
-                        {
-                            check = 6;
-                            break;
+                            mAuto.ClickImageByGroup("xu_que", "latthe_so_" + (i + 1));
+                            Thread.Sleep(Constant.TimeShort);
+                            mAuto.WriteStatus($"đã lật thẻ {i + 1}");
+                            count++;
                         }
                     }
 
-                    mAuto.ClickImageByGroup("xu_que", "lat_thedoi");
-                    Thread.Sleep(Constant.TimeMediumShort);
+                    if (count > 0)
+                    {
+                        mAuto.WriteStatus("bấm đổi");
+                        mAuto.ClickImageByGroup("xu_que", "lat_thedoi");
+                        Thread.Sleep(Constant.TimeMediumShort);
+                    }
                 }
-
                 mAuto.ClickImageByGroup("xu_que", "nhanLatThe");
-                Thread.Sleep(Constant.TimeMediumShort);
+                Thread.Sleep(Constant.TimeShort);
 
                 mAuto.ClickImageByGroup("xu_que", "latTheCo", false, true);
+                mAuto.ClickImageByGroup("xu_que", "latTheCo2", false, true);
                 Thread.Sleep(Constant.TimeMediumShort);
                 check++;
 
@@ -126,6 +131,63 @@ namespace VPT_Login.Libs
             mChar.LatBaiXong.Value = true;
             mAuto.WriteStatus("Hoàn thành \"Lật thẻ\" ...");
         }
+
+        private List<KeyValuePair<int, int>> getCardValuesToKeep(List<KeyValuePair<int, int>> cardCounts)
+        {
+            // ensure we have entries for 1..6 (nếu cần)
+            // (bỏ qua nếu bạn luôn đảm bảo cardCounts chứa 1..6)
+            var countsDict = cardCounts.ToDictionary(kv => kv.Key, kv => kv.Value);
+
+            var sorted = cardCounts
+                .Where(kv => kv.Value > 0)
+                .OrderByDescending(kv => kv.Value)   // ưu tiên số lượng lớn
+                .ThenByDescending(kv => kv.Key)      // nếu bằng nhau, ưu tiên số lớn hơn
+                .ToList();
+
+            // 3 đồng
+            if (sorted.Count > 0 && sorted[0].Value == 3)
+            {
+                // trả về KeyValuePair của giá trị có 3 lá (giữ key + count hiện có)
+                return new List<KeyValuePair<int, int>> { sorted[0] };
+            }
+
+            // 2 đôi (hai giá trị có count == 2) -> giữ đôi lớn hơn (pairs[0] do sorted sắp)
+            var pairs = sorted.Where(kv => kv.Value == 2).ToList();
+            if (pairs.Count == 2)
+            {
+                return pairs;
+            }
+
+            // 1 đôi -> kiểm tra chuỗi 4 liên tiếp
+            if (sorted.Count > 0 && sorted[0].Value == 2)
+            {
+                // Các chuỗi 4 giá trị liên tiếp cần kiểm tra
+                List<int[]> possibleRuns = new List<int[]>
+    {
+        new int[] {1, 2, 3, 4},
+        new int[] {2, 3, 4, 5},
+        new int[] {3, 4, 5, 6}
+    };
+
+                foreach (var run in possibleRuns)
+                {
+                    // Kiểm tra từng giá trị trong chuỗi: phải tồn tại (count >= 1)
+                    bool allExist = run.All(v => countsDict.ContainsKey(v) && countsDict[v] > 0);
+                    if (allExist)
+                    {
+                        // Trả về toàn bộ lá của chuỗi liên tiếp này
+                        return run.Select(v => new KeyValuePair<int, int>(v, countsDict[v])).ToList();
+                    }
+                }
+
+                // Nếu không có chuỗi liên tiếp đủ điều kiện → chỉ giữ lại đôi
+                return new List<KeyValuePair<int, int>> { pairs[0] };
+            }
+
+            // không gì => úp hết
+            return new List<KeyValuePair<int, int>>();
+        }
+
         public bool XuQue()
         {
             mAuto.WriteStatus("Bắt đầu \"Xủ Quẻ\" ...");

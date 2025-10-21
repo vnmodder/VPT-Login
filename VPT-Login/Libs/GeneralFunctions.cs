@@ -576,7 +576,7 @@ namespace VPT_Login.Libs
                 return;
             }
 
-            Thread.Sleep(Constant.TimeMedium);
+            Thread.Sleep(Constant.TimeM);
             // Chọn đổi
             mAuto.ClickImageByGroup("global", "khonggiandieukhacdoi", false, false);
 

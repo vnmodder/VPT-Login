@@ -23,6 +23,7 @@ namespace VPT_Login.Libs
         public const int VeryTimeShort = 100; // Short time
         public const int TimeMediumShort = 300; // Short time
         public const int TimeShort = 1000; // Short time
+        public const int TimeM = 2000; // Short time
         public const int TimeMedium = 3000; // Medium time
         public const int TimeLong = 5000; // Long time
 
