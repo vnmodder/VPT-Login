@@ -1218,6 +1218,9 @@
     <Content Include="IMG\CN\xu_que\xuQue5Sao.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="IMG\CN\xu_que\xuQueCam.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="IMG\CN\xu_que\xuQueGiai.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1228,6 +1231,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\xu_que\xuQuePhanGiai.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\xu_que\xuQuePhanGiai_hover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\xu_que\xuQueTim.png">

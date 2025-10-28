@@ -230,7 +230,7 @@ namespace VPT_Login.Libs
                     }
                     while (mAuto.FindImageByGroup("xu_que", "xuQueXacNhanPhanGiai"))
                     {
-                        mAuto.ClickImageByGroup("xu_que", "xuQuePhanGiai");
+                        mAuto.ClickImageByGroup("xu_que", "xuQuePhanGiai",false,true);
                     }
                 }
 
