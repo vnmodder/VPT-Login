@@ -10,7 +10,7 @@ namespace VPT_Login.Libs
         public const string asset = "Assets";
         public const string img_cn = "IMG/CN";
         public const string tracking = "tracking";
-        public const string FLASH_NAME = "Adobe Flash Player 10";
+        public const string FLASH_NAME = "Adobe Flash Player 20";
 
 
         public static class FilePath

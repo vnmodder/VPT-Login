@@ -744,7 +744,7 @@ namespace VPT_Login.ViewModels
                     if (defaultHWnd != IntPtr.Zero)
                     {
                         model.HWnd.Value = defaultHWnd;
-                        Helper.SetWindowText(defaultHWnd, model?.Server.Value + "-" + model?.Name.Value);
+                        Helper.SetWindowText(defaultHWnd,model?.Id.Value + "-" +model?.Server.Value + "-" + model?.Name.Value +"-" + "Liên hệ auto: https://www.facebook.com/luongan1194");
                         break;
                     }
 

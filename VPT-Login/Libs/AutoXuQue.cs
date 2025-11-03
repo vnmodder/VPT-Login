@@ -215,24 +215,40 @@ namespace VPT_Login.Libs
             while (true)
             {
                 // Phân giải nếu thấy
-                while (mAuto.FindImageByGroup("xu_que", "xuQueTrang", percent: .9) ||
-                    mAuto.FindImageByGroup("xu_que", "xuQueLuc", percent: .9) ||
-                    mAuto.FindImageByGroup("xu_que", "xuQueLam", percent: .9))
+                //while (mAuto.FindImageByGroup("xu_que", "xuQueTrang", percent: .9) ||
+                //    mAuto.FindImageByGroup("xu_que", "xuQueLuc", percent: .9) ||
+                //    mAuto.FindImageByGroup("xu_que", "xuQueLam", percent: .9))
+                //{
+                //    if (mAuto.FindImageByGroup("xu_que", "xuQueTrang", percent: .9))
+                //        mAuto.ClickImageByGroup("xu_que", "xuQueTrang", x: 22, y: 0, percent: .9);
+                //    if (mAuto.FindImageByGroup("xu_que", "xuQueLuc", percent: .9))
+                //        mAuto.ClickImageByGroup("xu_que", "xuQueLuc", x: 22, y: 0, percent: .9);
+                //    if (mAuto.FindImageByGroup("xu_que", "xuQueLam", percent: .9))
+                //    {
+                //        mAuto.ClickImageByGroup("xu_que", "xuQueLam", x: 22, y: 0, percent: .9);
+
+                //    }
+                //    while (mAuto.FindImageByGroup("xu_que", "xuQueXacNhanPhanGiai"))
+                //    {
+                //        mAuto.ClickImageByGroup("xu_que", "xuQuePhanGiai",false,true);
+                //    }
+                //}
+
+                while (mAuto.FindImageByGroup("xu_que", "xuQueGiai", false, true, .9))
                 {
-                    if (mAuto.FindImageByGroup("xu_que", "xuQueTrang", percent: .9))
-                        mAuto.ClickImageByGroup("xu_que", "xuQueTrang", x: 22, y: 0, percent: .9);
-                    if (mAuto.FindImageByGroup("xu_que", "xuQueLuc", percent: .9))
-                        mAuto.ClickImageByGroup("xu_que", "xuQueLuc", x: 22, y: 0, percent: .9);
-                    if (mAuto.FindImageByGroup("xu_que", "xuQueLam", percent: .9))
+                    if (mAuto.FindImageByGroup("xu_que", "xuQueGiai", false, true))
                     {
-                        mAuto.ClickImageByGroup("xu_que", "xuQueLam", x: 22, y: 0, percent: .9);
+                        mAuto.ClickImageByGroup("xu_que", "xuQueGiai", false, true);
 
                     }
                     while (mAuto.FindImageByGroup("xu_que", "xuQueXacNhanPhanGiai"))
                     {
-                        mAuto.ClickImageByGroup("xu_que", "xuQuePhanGiai",false,true);
+                        //mAuto.ClickImageByGroup("xu_que", "xuQuePhanGiai", false, true);
+                        mAuto.ClickImageByGroup("xu_que", "latTheCo", false, true);
+                        mAuto.ClickImageByGroup("xu_que", "latTheCo2", false, true);
                     }
                 }
+
 
                 // Xủ quẻ :D
                 int i = 0;
