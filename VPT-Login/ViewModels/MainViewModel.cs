@@ -19,9 +19,7 @@ namespace VPT_Login.ViewModels
     public class MainViewModel
     {
         private string xmlPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "data.vpt");
-        private string forceBindIP = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "forceBindIP.exe");
         private string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "flash.exe");
-        private string ipInterface;
 
         public ReactiveCommand ThemCommand { get; } = new ReactiveCommand();
         public ReactiveCommand XoaCommand { get; } = new ReactiveCommand();
@@ -406,7 +404,7 @@ namespace VPT_Login.ViewModels
                 //    Process.Start(exePath, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
                 //}
                 IntPtr defaultHWnd = IntPtr.Zero;
-                string defaultWindowName = "Adobe Flash Player 10";
+                string defaultWindowName = "Adobe Flash Player 20";
 
                 // Thử tối đa 2 giây để tìm cửa sổ
                 for (int i = 0; i < 20; i++)
@@ -414,7 +412,7 @@ namespace VPT_Login.ViewModels
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
                     {
-                        SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name);
+                        SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name + "- Liên hệ mua auto: https://www.facebook.com/luongan1194");
                         break;
                     }
 
