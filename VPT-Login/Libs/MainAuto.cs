@@ -74,6 +74,16 @@ namespace VPT_Login.Libs
                         }
                     }
 
+                    if (mCharacter.NangNo.Value && !mCharacter.NangNoXong.Value)
+                    {
+                        total++;
+                        mGeneralFunctions.ChoTLAn();
+                        if (mCharacter.NangNoXong.Value)
+                        {
+                            complet++;
+                        }
+                    }
+
                     if (mCharacter.LatBai.Value && !mCharacter.LatBaiXong.Value)
                     {
                         total++;
@@ -150,6 +160,11 @@ namespace VPT_Login.Libs
         public void hoiPhuc()
         {
             runAction("hoiPhuc", () => mGeneralFunctions.hoiPhuc());
+        } 
+
+        public void nuoiTL()
+        {
+            runAction("nuoiTL", () => mGeneralFunctions.ChoTLAn());
         }
 
         public void trainMap()

@@ -408,12 +408,12 @@ namespace VPT_Login.Libs
         private void EpPetByColor(string color)
         {
             outBattel();
-           
+
 
             int petNumber = 0;
             do
             {
-                mAuto.CloseAllDialog(); 
+                mAuto.CloseAllDialog();
                 Thread.Sleep(Constant.TimeShort);
                 while (!mAuto.FindImageByGroup("bat_pet", "eppet_bang_check"))
                 {
@@ -561,6 +561,43 @@ namespace VPT_Login.Libs
 
             mCharacter.RutOutfitXong.Value = true;
             mAuto.WriteStatus("Rút oufit hoàn thành");
+        }
+
+        public void ChoTLAn()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu Cho tinh linh ăn");
+            mAuto.CloseAllDialog();
+            Thread.Sleep(Constant.TimeM);
+            int i = 0;
+            while (!mAuto.FindImageByGroup("tlinh", "TLinh_check") || i < 5)
+            {
+                mAuto.ClickImageByGroup("tlinh", "moTLinh");
+                i++;
+                Thread.Sleep(Constant.VeryTimeShort);
+            }
+
+            mAuto.ClickImageByGroup("tlinh", "mo_cho_an");
+            Thread.Sleep(Constant.TimeShort);
+
+            for (i = 0; i < 25; i++)
+            {
+                if (mAuto.FindImageByGroup("tlinh", "hetluot"))
+                {
+                    break;
+                }
+
+                mAuto.ClickImageByGroup("tlinh", "choan", false, true, percent: .9);
+                Thread.Sleep(Constant.VeryTimeShort);
+            }
+
+            mCharacter.NangNoXong.Value = true;
+            Thread.Sleep(Constant.VeryTimeShort);
+            mAuto.WriteStatus(" Cho tinh linh ăn hoàn thành");
         }
 
         public void KhongGianDieuKhac()

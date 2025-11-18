@@ -34,6 +34,7 @@ namespace VPT_Login.Libs
 
         public const string ImagePathGlobalFolder = "/global/";
         public const string ImagePathBatPetFolder = "/bat_pet/";
+        public const string ImagePathTinhLinhFolder = "/tlinh/";
         public const string ImagePathXuQueFolder = "/xu_que/";
         public const string ImagePathRutBoFolder = "/rutbo/";
         public const string ImagePathMapsFolder = "/maps/";
@@ -51,7 +52,7 @@ namespace VPT_Login.Libs
         {
              { "cao", "Cáo tuyết - Thần 4800" },
              { "ts", "TS Eskimos - Trí 4600" },
-             { "cg", "Cơ Giáp 300 - Xảo 4500" },
+             { "cg", "Cơ Giáp 3000 - Xảo 4500" },
              { "mn", "TT Mã Não - Nhẫn 4800" },
              { "cl", "Bàn thạch Long - Thần 5000" },
              { "cm", "TS Cá mập - Lực 4930" },

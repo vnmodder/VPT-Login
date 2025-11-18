@@ -130,15 +130,18 @@ namespace VPT_Login.Libs
 
         private List<KeyValuePair<int, int>> getCardValuesToKeep(List<KeyValuePair<int, int>> cardCounts)
         {
-            // ensure we have entries for 1..6 (nếu cần)
             // (bỏ qua nếu bạn luôn đảm bảo cardCounts chứa 1..6)
             var countsDict = cardCounts.ToDictionary(kv => kv.Key, kv => kv.Value);
 
             var sorted = cardCounts
                 .Where(kv => kv.Value > 0)
                 .OrderByDescending(kv => kv.Value)   // ưu tiên số lượng lớn
-                .ThenByDescending(kv => kv.Key)      // nếu bằng nhau, ưu tiên số lớn hơn
                 .ToList();
+
+            if (sorted.Count == 1)
+            {
+                return new List<KeyValuePair<int, int>> { sorted[0] };
+            }
 
             // 3 đồng
             if (sorted.Count > 0 && sorted[0].Value == 3)

@@ -34,7 +34,7 @@ namespace VPT_Login.Models
         public ReactiveProperty<string> PetKey { get; } = new ReactiveProperty<string>("cao");
         public ReactiveProperty<string> PetOption { get; } = new ReactiveProperty<string>("khong");
         public ReactiveProperty<bool> ChiEp { get; } = new ReactiveProperty<bool>();
-        public ReactiveProperty<string> NLKey { get; } = new ReactiveProperty<string>("vai");
+        public ReactiveProperty<string> NLKey { get; } = new ReactiveProperty<string>("kim_loai");
         public ReactiveProperty<string> NLDoiNNKey { get; } = new ReactiveProperty<string>("gam_voc");
         public ReactiveProperty<string> LoaiMB { get; } = new ReactiveProperty<string>("thanbinh");
         public ReactiveProperty<string> CapMB { get; } = new ReactiveProperty<string>("1");
@@ -46,7 +46,7 @@ namespace VPT_Login.Models
         public ReactiveProperty<bool> KhoiPhuc { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> LatBai { get; } = new ReactiveProperty<bool>();
         public ReactiveProperty<bool> PhuBan { get; } = new ReactiveProperty<bool>(true);
-        public ReactiveProperty<bool> NangNo { get; } = new ReactiveProperty<bool>();
+        public ReactiveProperty<bool> NangNo { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> TrongNL { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> MHD { get; } = new ReactiveProperty<bool>(false);
         public ReactiveProperty<bool> MC { get; } = new ReactiveProperty<bool>(false);

@@ -37,6 +37,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand XuQueCommand { get; } = new ReactiveCommand();
         public ReactiveCommand LatTheCommand { get; } = new ReactiveCommand();
         public ReactiveCommand KhoiPhucCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand NuoiTLCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -98,13 +99,25 @@ namespace VPT_Login.ViewModels
             XuQueCommand.Subscribe(() => xuQue());
             LatTheCommand.Subscribe(() => latThe());
             KhoiPhucCommand.Subscribe(() => khoiPhuc());
+            NuoiTLCommand.Subscribe(() => nuoiTL());
+        }
+
+        private void nuoiTL()
+        {
+            if (SelectedItem.Value == null) { return; }
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.nuoiTL, "nuoiTL");
         }
 
         private void khoiPhuc()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -120,8 +133,6 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
-
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -135,8 +146,6 @@ namespace VPT_Login.ViewModels
         private void xuQue()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -152,8 +161,6 @@ namespace VPT_Login.ViewModels
         {
             if(SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
-
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -168,7 +175,7 @@ namespace VPT_Login.ViewModels
         {
             foreach (var item in Characters)
             {
-                string windowName = item?.Server.Value + "-" + item?.Name.Value;
+                string windowName = item?.Id.Value + "-" + item?.Server.Value + "-" + item?.Name.Value + "\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120";
                 item.HWnd.Value= FindWindow(null, windowName);
             }
         }
@@ -206,8 +213,6 @@ namespace VPT_Login.ViewModels
 
             if (model == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
-
             IntPtr hWnd = model.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -221,8 +226,6 @@ namespace VPT_Login.ViewModels
         private void nguyenLieu()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -238,8 +241,6 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00200c7e;
-
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -253,8 +254,6 @@ namespace VPT_Login.ViewModels
         private void matBao()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x000506dc;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -270,8 +269,6 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00030ad4;
-
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -285,8 +282,6 @@ namespace VPT_Login.ViewModels
         private void runAutoTuHanh()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00100c32;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -302,8 +297,6 @@ namespace VPT_Login.ViewModels
         {
             if (SelectedItem.Value == null) { return; }
 
-            // SelectedItem.Value.HWnd.Value = (IntPtr)0x0015086e;
-
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
             {
@@ -317,8 +310,6 @@ namespace VPT_Login.ViewModels
         private void rutBo()
         {
             if (SelectedItem.Value == null) { return; }
-
-            //SelectedItem.Value.HWnd.Value = (IntPtr)0x00130bb4;
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -744,7 +735,7 @@ namespace VPT_Login.ViewModels
                     if (defaultHWnd != IntPtr.Zero)
                     {
                         model.HWnd.Value = defaultHWnd;
-                        Helper.SetWindowText(defaultHWnd,model?.Id.Value + "-" +model?.Server.Value + "-" + model?.Name.Value +"-" + "Liên hệ auto: https://www.facebook.com/luongan1194");
+                        Helper.SetWindowText(defaultHWnd,model?.Id.Value + "-" +model?.Server.Value + "-" + model?.Name.Value +"\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120");
                         break;
                     }
 

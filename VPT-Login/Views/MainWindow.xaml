@@ -455,9 +455,9 @@
                                             Grid.Row="3"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
-                                            Content="Đổi năng nỗ"
+                                            Content="Cho TL ăn"
                                             IsChecked="{Binding SelectedItem.Value.NangNo.Value}"
-                                            IsEnabled="False" />
+                                            IsEnabled="true" />
                                         <CheckBox
                                             Grid.Row="3"
                                             Grid.Column="3"
@@ -560,8 +560,8 @@
                                             Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
-                                            Content="Auto tinh cung"
-                                            IsEnabled="False" />
+                                            Command="{Binding NuoiTLCommand}"
+                                            Content="Cho TL ăn" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="4"
@@ -573,10 +573,9 @@
                                             Grid.Row="0"
                                             Grid.Column="4"
                                             Margin="5,5,5,0"
-                                            Background="Orange"
+                                            Background="Blue"
                                             Command="{Binding LuuCaiDatCommand}"
-                                            Content="Lưu cài đặt"
-                                            Opacity="0.8" />
+                                            Content="Lưu cài đặt" />
                                         <Button
                                             Grid.Row="1"
                                             Grid.Column="4"
