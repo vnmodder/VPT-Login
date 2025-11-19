@@ -167,6 +167,10 @@ namespace VPT_Login.Libs
             runAction("nuoiTL", () => mGeneralFunctions.ChoTLAn());
         }
 
+        public void thaiCo()
+        {
+            runAction("thaiCo", () => mGeneralFunctions.ThaiCo());
+        }
         public void trainMap()
         {
             runAction("trainMap", () => mGeneralFunctions.TrainQuai());

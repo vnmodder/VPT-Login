@@ -573,6 +573,9 @@ namespace VPT_Login.Libs
                 case "tlinh":
                     groupPath = Constant.ImagePathTinhLinhFolder;
                     break;
+                case "thai_co":
+                    groupPath = Constant.ImagePathThaiCoFolder;
+                    break;
                 case "xu_que":
                     groupPath = Constant.ImagePathXuQueFolder;
                     break;
@@ -638,6 +641,9 @@ namespace VPT_Login.Libs
                     break; 
                 case "tlinh":
                     groupPath = Constant.ImagePathTinhLinhFolder;
+                    break;
+                case "thai_co":
+                    groupPath = Constant.ImagePathThaiCoFolder;
                     break;
                 case "xu_que":
                     groupPath = Constant.ImagePathXuQueFolder;

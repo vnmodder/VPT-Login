@@ -3,6 +3,7 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Policy;
 using System.Threading;
 using System.Windows.Forms;
 using VPT_Login.Models;
@@ -598,6 +599,126 @@ namespace VPT_Login.Libs
             mCharacter.NangNoXong.Value = true;
             Thread.Sleep(Constant.VeryTimeShort);
             mAuto.WriteStatus(" Cho tinh linh ăn hoàn thành");
+        }
+
+
+        public void ThaiCo()
+        {
+            if (mCharacter.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            mAuto.WriteStatus("Bắt đầu auto Thái cổ");
+            mAuto.ClickImageByGroup("global", "conghoi", false, true);
+
+            while (true)
+            {
+                if (!mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true))
+                {
+                    Thread.Sleep(Constant.TimeMedium);
+                    continue;
+                }
+
+                mAuto.CloseAllDialog();
+                resetAuto();
+                int i = 0;
+                while (!mAuto.FindImageByGroup("thai_co", "nhiemvu_check") && i <20)
+                {
+                    mAuto.CloseAllDialog();
+                    if (i % 2 == 0)
+                        mAuto.ClickImageByGroup("thai_co", "nhiemvu");
+                    else
+                        mAuto.SendKey(Keys.Q);
+                    i++;
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+
+                Thread.Sleep(Constant.TimeShort);
+                if (mAuto.FindImageByGroup("thai_co", "nv_phu", false, true) &&
+                    !mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
+                    mAuto.ClickImageByGroup("thai_co", "nv_phu");
+
+                if (mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
+                {
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "chonhuy", false, true);
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "huy_nv", false, true);
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+                    // Bấm có
+                    if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
+                        mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                    if (mAuto.FindImageByGroup("global", "xacnhanco2", false, true))
+                        mAuto.ClickImageByGroup("global", "xacnhanco2", false, true);
+                }
+                Thread.Sleep(Constant.VeryTimeShort);
+                mAuto.CloseAllDialog();
+                Thread.Sleep(Constant.TimeShort);
+
+                if (!mAuto.FindImageByGroup("thai_co", "npc_thaico"))
+                {
+                    i = 0;
+                    while (!mAuto.FindImageByGroup("thai_co", "npc_thaico") && i < 40)
+                    {
+                        if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
+                            mAuto.ClickImageByGroup("thai_co", "thaico_1");
+                        if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                            mAuto.ClickImageByGroup("thai_co", "thaico_2");
+                        if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                            mAuto.ClickImageByGroup("thai_co", "thaico_3");
+                        if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                            mAuto.ClickImageByGroup("thai_co", "thaico_4");
+                        if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                            mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                    }                 
+                }
+
+                i = 0;
+                while (!mAuto.FindImageByGroup("thai_co", "nhan_nv", false, true) && i < 20)
+                {
+                    Thread.Sleep(Constant.TimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "nv_thaico", false, true);
+                }
+                Thread.Sleep(Constant.VeryTimeShort);
+                mAuto.ClickImageByGroup("thai_co", "nhan_nv", false, true);
+                Thread.Sleep(Constant.TimeShort);
+
+                i = 0;
+                while (mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true) && i < 40)
+                {
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_1");
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_2");
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_3");
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_4");
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                }
+            }
+
+        }
+
+        private void resetAuto()
+        {
+            if (mAuto.FindImageByGroup("global", "outbattletatauto"))
+            {
+                mAuto.ClickImageByGroup("global", "outbattletatauto");
+            }
+
+            Thread.Sleep(Constant.VeryTimeShort);
+            mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+
+            if (mAuto.FindImageByGroup("global", "thugon_kynang"))
+            {
+                mAuto.ClickImageByGroup("global", "thugon_kynang");
+            }
         }
 
         public void KhongGianDieuKhac()

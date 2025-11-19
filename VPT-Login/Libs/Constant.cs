@@ -35,6 +35,7 @@ namespace VPT_Login.Libs
         public const string ImagePathGlobalFolder = "/global/";
         public const string ImagePathBatPetFolder = "/bat_pet/";
         public const string ImagePathTinhLinhFolder = "/tlinh/";
+        public const string ImagePathThaiCoFolder = "/thai_co/";
         public const string ImagePathXuQueFolder = "/xu_que/";
         public const string ImagePathRutBoFolder = "/rutbo/";
         public const string ImagePathMapsFolder = "/maps/";

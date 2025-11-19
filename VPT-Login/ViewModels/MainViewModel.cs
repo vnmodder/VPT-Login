@@ -38,6 +38,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand LatTheCommand { get; } = new ReactiveCommand();
         public ReactiveCommand KhoiPhucCommand { get; } = new ReactiveCommand();
         public ReactiveCommand NuoiTLCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ThaiCoCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -100,6 +101,20 @@ namespace VPT_Login.ViewModels
             LatTheCommand.Subscribe(() => latThe());
             KhoiPhucCommand.Subscribe(() => khoiPhuc());
             NuoiTLCommand.Subscribe(() => nuoiTL());
+            ThaiCoCommand.Subscribe(() => thaiCo());
+        }
+
+        private void thaiCo()
+        {
+            if (SelectedItem.Value == null) { return; }
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            runTaskInThread(mainAuto.thaiCo, "thaiCo");
         }
 
         private void nuoiTL()
@@ -739,7 +754,7 @@ namespace VPT_Login.ViewModels
                         break;
                     }
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                 }
 
                 if (defaultHWnd == IntPtr.Zero)

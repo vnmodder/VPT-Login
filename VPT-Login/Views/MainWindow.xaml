@@ -538,14 +538,15 @@
                                             Grid.Column="1"
                                             Margin="5,5,0,0"
                                             Command="{Binding HanhLangCommand}"
-                                            Content="Nhận HL" />
+                                            Content="Hành Lang" />
                                         <Button
                                             Grid.Row="1"
                                             Grid.Column="2"
                                             Margin="5,5,0,0"
                                             Command="{Binding PhuBanCommand}"
-                                            Content="Auto PB" />
+                                            Content="Auto Phụ bản" />
                                         <Button
+                                            Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
                                             Command="{Binding XuQueCommand}"
@@ -554,14 +555,13 @@
                                             Grid.Row="2"
                                             Grid.Column="3"
                                             Margin="5,5,0,5"
-                                            Content="Đổi năng nỗ"
-                                            IsEnabled="False" />
+                                            Command="{Binding ThaiCoCommand}"
+                                            Content="Auto Thái cổ" />
                                         <Button
-                                            Grid.Row="1"
                                             Grid.Column="3"
                                             Margin="5,5,0,0"
                                             Command="{Binding NuoiTLCommand}"
-                                            Content="Cho TL ăn" />
+                                            Content="Nuôi Tinh Linh" />
                                         <Button
                                             Grid.Row="2"
                                             Grid.Column="4"
