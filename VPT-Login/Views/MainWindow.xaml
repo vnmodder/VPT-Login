@@ -77,29 +77,17 @@
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>-->
-                        <DataGridTextColumn
-                            Width="1*"
-                            Binding="{Binding Version.Value}"
-                            Header="VERSION"
-                            IsReadOnly="True">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridComboBoxColumn Header="RS auto" Width="1*"
+                        </DataGridTextColumn>-->                       
+                        <DataGridComboBoxColumn Header="Nhóm auto" Width="1.2*"
     ItemsSource="{Binding ResetAutoOptionsList, Source={StaticResource ViewModel}}"
     DisplayMemberPath="Value"
     SelectedValuePath="Key"
-    SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}" /> 
-                         <DataGridTextColumn
-                            Width="1*"
+    SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}" />
+                        <DataGridCheckBoxColumn Width="0.7*"  Header="Khóa" Binding="{Binding CheckAuto.Value}" />
+                        <DataGridTextColumn
+                            Width=".8*"
                             Binding="{Binding HWnd.Value}"
-                            Header="Screen_ID"
+                            Header="Screen"
                             IsReadOnly="True">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">

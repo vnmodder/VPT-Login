@@ -97,6 +97,8 @@ namespace VPT_Login.Models
             this.PhuBan.Value = xml.PhuBan;
             this.NangNo.Value = xml.NangNo;
             this.TrongNL.Value = xml.TrongNL;
+            this.NhomAuto.Value = xml.NhomAuto;
+            this.CheckAuto.Value = xml.CheckAuto;
 
             this.MHD.Value = xml.MHD;
             this.MC.Value = xml.MC;
@@ -138,6 +140,9 @@ namespace VPT_Login.Models
                 PhuBan = this.PhuBan.Value,
                 NangNo = this.NangNo.Value,
                 TrongNL = this.TrongNL.Value,
+
+                NhomAuto = this.NhomAuto.Value,
+                CheckAuto = this.CheckAuto.Value,
 
                 MHD = this.MHD.Value,
                 MC = this.MC.Value,

@@ -639,6 +639,9 @@ namespace VPT_Login.Libs
 
                 Thread.Sleep(Constant.VeryTimeShort);
                 mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+                Thread.Sleep(Constant.TimeMediumShort);
+                if (mAuto.FindImageByGroup("global", "outbattletatauto_not"))
+                    mAuto.ClickImageByGroup("global", "outbattletatauto_not");
 
                 if (mAuto.FindImageByGroup("global", "thugon_kynang"))
                 {
@@ -659,9 +662,9 @@ namespace VPT_Login.Libs
                 }
 
                 Thread.Sleep(Constant.TimeShort);
-                if (mAuto.FindImageByGroup("thai_co", "nv_phu", false, true) &&
-                    !mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
-                    mAuto.ClickImageByGroup("thai_co", "nv_phu");
+                if (mAuto.FindImageByGroup("thai_co", "nv_phu", false, true, percent: .9) &&
+                    !mAuto.FindImageByGroup("thai_co", "chonhuy", false, true, percent: .9))
+                    mAuto.ClickImageByGroup("thai_co", "nv_phu", percent: .9);
 
                 if (mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
                 {
@@ -773,6 +776,9 @@ namespace VPT_Login.Libs
 
                             Thread.Sleep(Constant.VeryTimeShort);
                             auto.ClickImageByGroup("global", "outbattletatauto_not");
+                            Thread.Sleep(Constant.TimeMediumShort);
+                            if (auto.FindImageByGroup("global", "outbattletatauto_not"))
+                                auto.ClickImageByGroup("global", "outbattletatauto_not");
 
                             if (auto.FindImageByGroup("global", "thugon_kynang"))
                                 auto.ClickImageByGroup("global", "thugon_kynang");

@@ -85,7 +85,7 @@ namespace VPT_Login.Libs
 
         public static Dictionary<string, string> ResetAutoOptions = new Dictionary<string, string>()
         {
-            {"0", "Không reset" },
+            {"0", "Không nhóm" },
             {"1", "Nhóm 1" },
             {"2", "Nhóm 2" },
             {"3", "Nhóm 3" },

@@ -27,6 +27,8 @@
         public bool PhuBan { get; set; } = true;
         public bool NangNo { get; set; }
         public bool TrongNL { get; set; } = true;
+        public bool CheckAuto { get; set; } = false;
+        public string NhomAuto { get; set; } = "0";
 
         // Auto phụ bản
         public bool MHD { get; set; } = false;
