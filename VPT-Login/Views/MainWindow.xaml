@@ -592,7 +592,7 @@
                                     <TextBlock
                                         FontSize="14"
                                         FontWeight="Normal"
-                                        Text="Cài đặt chung" />
+                                        Text="Cài đặt auto" />
                                 </metro:MetroTabItem.Header>
                                 <Grid Margin="5,10,0,0">
                                     <Grid.ColumnDefinitions>
@@ -613,7 +613,7 @@
                                         Grid.RowSpan="5"
                                         Grid.Column="2"
                                         Grid.ColumnSpan="2"
-                                        Margin="10,-5,5,0"
+                                        Margin="30,-5,5,0"
                                         Header="Cài đặt phụ bản"
                                         Style="{DynamicResource MahApps.Styles.GroupBox.VisualStudio}">
                                         <StackPanel>
@@ -692,31 +692,34 @@
                                         Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
-                                        Text="Đổi năng nỗ với" />
+                                        Text="Tự nạp lại auto" />
                                     <ComboBox
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"
-                                        ItemsSource="{Binding DoiNNOptions}"
-                                        SelectedValue="{Binding SelectedItem.Value.NLDoiNNKey.Value, Mode=TwoWay}"
+                                        ItemsSource="{Binding ResetAutoOptions}"
+                                        SelectedValue="{Binding SelectedItem.Value.NhomAuto.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
                                     <TextBlock
                                         Grid.Row="4"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
-                                        Text="Chức năng chưa mở" />
+                                        IsEnabled="False"
+                                        Text="Đổi năng nỗ với" />
                                     <ComboBox
                                         Grid.Row="4"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"
                                         IsEnabled="False"
+                                        ItemsSource="{Binding DoiNNOptions}"
+                                        SelectedValue="{Binding SelectedItem.Value.NLDoiNNKey.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
                                 </Grid>
                             </metro:MetroTabItem>
 
-                            <metro:MetroTabItem>
+                            <!--<metro:MetroTabItem>
                                 <metro:MetroTabItem.Header>
                                     <TextBlock
                                         FontSize="14"
@@ -730,7 +733,7 @@
                                         FontSize="12"
                                         Text="Tính năng chưa mở" />
                                 </Grid>
-                            </metro:MetroTabItem>
+                            </metro:MetroTabItem>-->
                         </metro:MetroTabControl>
                     </GroupBox>
                 </Grid>

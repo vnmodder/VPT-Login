@@ -62,6 +62,7 @@ namespace VPT_Login.ViewModels
         public Dictionary<string, string> DoiNNOptions => Constant.DoiNNOptions;
         public Dictionary<string, string> DSCapMB => Constant.DicCapMB;
         public Dictionary<string, string> DSLoaiMB => Constant.DicLoaiMB;
+        public Dictionary<string, string> ResetAutoOptions => Constant.ResetAutoOptions;
 
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();

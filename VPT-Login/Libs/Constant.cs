@@ -83,6 +83,20 @@ namespace VPT_Login.Libs
             {"pha_le", "Pha lê" },
         };
 
+        public static Dictionary<string, string> ResetAutoOptions = new Dictionary<string, string>()
+        {
+            {"0", "Không reset" },
+            {"1", "Nhóm 1" },
+            {"2", "Nhóm 2" },
+            {"3", "Nhóm 3" },
+            {"4", "Nhóm 4" },
+            {"5", "Nhóm 5" },
+            {"6", "Nhóm 6" },
+            {"7", "Nhóm 7" },
+            {"8", "Nhóm 8" },
+            {"9", "Nhóm 9" },
+        };
+
         public static Dictionary<string, string> DoiNNOptions = new Dictionary<string, string>()
         {
             {"gam_voc", "Gấm vóc" },

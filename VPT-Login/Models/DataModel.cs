@@ -56,6 +56,7 @@ namespace VPT_Login.Models
         public ReactiveProperty<bool> Muoi { get; } = new ReactiveProperty<bool>(false);
         public ReactiveProperty<bool> TGS { get; } = new ReactiveProperty<bool>(false);
         public ReactiveProperty<bool> Tham { get; } = new ReactiveProperty<bool>(false);
+        public ReactiveProperty<string> NhomAuto { get; } = new ReactiveProperty<string>("0");
 
         public DataModel(int id, string name, string server, string version, string link, int status)
         {

@@ -612,6 +612,7 @@ namespace VPT_Login.Libs
             mAuto.WriteStatus("Bắt đầu auto Thái cổ");
             mAuto.ClickImageByGroup("global", "conghoi", false, true);
 
+            int count = 0;
             while (true)
             {
                 if (!mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true))
@@ -622,8 +623,9 @@ namespace VPT_Login.Libs
 
                 mAuto.CloseAllDialog();
                 resetAuto();
+            huynv:
                 int i = 0;
-                while (!mAuto.FindImageByGroup("thai_co", "nhiemvu_check") && i <20)
+                while (!mAuto.FindImageByGroup("thai_co", "nhiemvu_check") && i < 5)
                 {
                     mAuto.CloseAllDialog();
                     if (i % 2 == 0)
@@ -641,7 +643,6 @@ namespace VPT_Login.Libs
 
                 if (mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
                 {
-
                     Thread.Sleep(Constant.VeryTimeShort);
                     mAuto.ClickImageByGroup("thai_co", "chonhuy", false, true);
 
@@ -649,58 +650,69 @@ namespace VPT_Login.Libs
                     mAuto.ClickImageByGroup("thai_co", "huy_nv", false, true);
 
                     Thread.Sleep(Constant.VeryTimeShort);
-                    // Bấm có
-                    if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
-                        mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+
                     if (mAuto.FindImageByGroup("global", "xacnhanco2", false, true))
                         mAuto.ClickImageByGroup("global", "xacnhanco2", false, true);
+                    else if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
+                        mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
                 }
                 Thread.Sleep(Constant.VeryTimeShort);
-                mAuto.CloseAllDialog();
-                Thread.Sleep(Constant.TimeShort);
-
-                if (!mAuto.FindImageByGroup("thai_co", "npc_thaico"))
-                {
-                    i = 0;
-                    while (!mAuto.FindImageByGroup("thai_co", "npc_thaico") && i < 40)
-                    {
-                        if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
-                            mAuto.ClickImageByGroup("thai_co", "thaico_1");
-                        if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
-                            mAuto.ClickImageByGroup("thai_co", "thaico_2");
-                        if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
-                            mAuto.ClickImageByGroup("thai_co", "thaico_3");
-                        if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
-                            mAuto.ClickImageByGroup("thai_co", "thaico_4");
-                        if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
-                            mAuto.ClickImageByGroup("thai_co", "thaico_5");
-                    }                 
-                }
 
                 i = 0;
-                while (!mAuto.FindImageByGroup("thai_co", "nhan_nv", false, true) && i < 20)
+                while (!mAuto.FindImageByGroup("thai_co", "npc_thaico") && i < 10)
+                {
+                    mAuto.CloseAllDialog();
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_1");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_2");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_3");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_4");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                    i++;
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+
+                Thread.Sleep(Constant.VeryTimeShort);
+                if (!mAuto.FindImageByGroup("thai_co", "nv_thaico", false, true))
+                {
+                    goto huynv;
+                }
+                i = 0;
+
+                while (!mAuto.FindImageByGroup("thai_co", "nhan_nv", false, true) && i < 5)
                 {
                     Thread.Sleep(Constant.TimeShort);
                     mAuto.ClickImageByGroup("thai_co", "nv_thaico", false, true);
+                    i++;
                 }
                 Thread.Sleep(Constant.VeryTimeShort);
                 mAuto.ClickImageByGroup("thai_co", "nhan_nv", false, true);
                 Thread.Sleep(Constant.TimeShort);
 
                 i = 0;
-                while (mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true) && i < 40)
+                while (mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true) && i < 10)
                 {
                     if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_1");
-                    if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_2");
-                    if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_3");
-                    if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_4");
-                    if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                    i++;
+                    
+                    Thread.Sleep(Constant.VeryTimeShort);
                 }
+
+                count++;
+                mAuto.WriteStatus($"Đã đánh {count} lần Thái cổ");
             }
 
         }
