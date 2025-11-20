@@ -632,20 +632,20 @@ namespace VPT_Login.Libs
                     ResetAuto();
                 }
 
-                if (mAuto.FindImageByGroup("global", "outbattletatauto"))
+                if (mAuto.FindImageByGroup("global", "outbattletatauto",percent:.9))
                 {
-                    mAuto.ClickImageByGroup("global", "outbattletatauto");
+                    mAuto.ClickImageByGroup("global", "outbattletatauto",percent:.9);
                 }
 
                 Thread.Sleep(Constant.VeryTimeShort);
-                mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
                 Thread.Sleep(Constant.TimeMediumShort);
-                if (mAuto.FindImageByGroup("global", "outbattletatauto_not"))
-                    mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+                if (mAuto.FindImageByGroup("global", "outbattletatauto_not", percent: .9))
+                    mAuto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
 
-                if (mAuto.FindImageByGroup("global", "thugon_kynang"))
+                if (mAuto.FindImageByGroup("global", "thugon_kynang", percent: .9))
                 {
-                    mAuto.ClickImageByGroup("global", "thugon_kynang");
+                    mAuto.ClickImageByGroup("global", "thugon_kynang", percent: .9);
                 }
 
             huynv:
@@ -771,14 +771,14 @@ namespace VPT_Login.Libs
                             }
 
                             auto.CloseAllDialog();
-                            if (auto.FindImageByGroup("global", "outbattletatauto"))
-                                auto.ClickImageByGroup("global", "outbattletatauto");
+                            if (auto.FindImageByGroup("global", "outbattletatauto", percent: .9))
+                                auto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
 
                             Thread.Sleep(Constant.VeryTimeShort);
-                            auto.ClickImageByGroup("global", "outbattletatauto_not");
+                            auto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
                             Thread.Sleep(Constant.TimeMediumShort);
-                            if (auto.FindImageByGroup("global", "outbattletatauto_not"))
-                                auto.ClickImageByGroup("global", "outbattletatauto_not");
+                            if (auto.FindImageByGroup("global", "outbattletatauto_not", percent: .9))
+                                auto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
 
                             if (auto.FindImageByGroup("global", "thugon_kynang"))
                                 auto.ClickImageByGroup("global", "thugon_kynang");
