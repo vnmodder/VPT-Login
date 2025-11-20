@@ -14,17 +14,15 @@ namespace VPT_Login.Libs
     public class AutoFeatures
     {
         private DataModel mCharacter;
-        private ReactiveProperty<string> mTextBoxStatus;
 
         // public AutoIT au3 = new AutoIT();
         public Random random = new Random();
         public string mWindowName;
 
-        public AutoFeatures(DataModel mCharacter, string mWindowName, ReactiveProperty<string> textBoxStatus)
+        public AutoFeatures(DataModel mCharacter, string mWindowName)
         {
             this.mCharacter = mCharacter;
             this.mWindowName = mWindowName;
-            this.mTextBoxStatus = textBoxStatus;
         }
 
         public bool MoveToMap(string mapName, int x = 0, int y = -20)
@@ -297,7 +295,7 @@ namespace VPT_Login.Libs
             }
             System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
             {
-                mTextBoxStatus.Value += (mCharacter.Name.Value + ": " + statusText + Environment.NewLine);
+                mCharacter.LogText.Value += (mCharacter.Name.Value + ": " + statusText + Environment.NewLine);
             });
         }
 

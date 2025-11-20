@@ -13,13 +13,12 @@ namespace VPT_Login.Libs
         public GeneralFunctions mGeneralFunctions;
         ReactiveProperty<string> mTextBoxStatus;
 
-        public MainAuto(DataModel character, ReactiveProperty<string> textBoxStatus)
+        public MainAuto(DataModel character, ReactiveCollection<DataModel> Characters)
         {
             mCharacter = character;
             mWindowName = $"{mCharacter.Server.Value}-{mCharacter.Name.Value}";
-            mTextBoxStatus = textBoxStatus;
-            mAuto = new AutoFeatures(character, mWindowName, textBoxStatus);
-            mGeneralFunctions = new GeneralFunctions(mCharacter, mWindowName, textBoxStatus);
+            mAuto = new AutoFeatures(character, mWindowName);
+            mGeneralFunctions = new GeneralFunctions(mCharacter, mWindowName, Characters);
         }
 
         public void ChayHet()

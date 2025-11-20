@@ -21,6 +21,7 @@ namespace VPT_Login.Libs
             {
                 System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
                 {
+                    if(textBox == null) { return; }
                     textBox.Value += (id + ": " + statusText + Environment.NewLine);
                 });
             }

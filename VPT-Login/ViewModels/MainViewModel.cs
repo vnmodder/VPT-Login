@@ -62,7 +62,7 @@ namespace VPT_Login.ViewModels
         public Dictionary<string, string> DoiNNOptions => Constant.DoiNNOptions;
         public Dictionary<string, string> DSCapMB => Constant.DicCapMB;
         public Dictionary<string, string> DSLoaiMB => Constant.DicLoaiMB;
-        public Dictionary<string, string> ResetAutoOptions => Constant.ResetAutoOptions;
+        public Dictionary<string, string> ResetAutoOptionsList => Constant.ResetAutoOptions;
 
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
@@ -114,7 +114,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.thaiCo, "thaiCo");
         }
 
@@ -127,7 +127,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.nuoiTL, "nuoiTL");
         }
 
@@ -141,7 +141,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.hoiPhuc, "hoiPhuc");
         }
 
@@ -155,7 +155,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.AutoLatThe, "AutoLatThe");
         }
 
@@ -169,7 +169,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.xuQue, "xuQue");
         }
 
@@ -183,7 +183,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.trainMap, "trainMap");
         }
 
@@ -209,7 +209,7 @@ namespace VPT_Login.ViewModels
                     continue;
                 }
 
-                var mainAuto = new MainAuto(character, character.LogText);
+                var mainAuto = new MainAuto(character, Characters);
                 Thread autoThread = new Thread(mainAuto.ChayHet);
                 autoThread.Name = $"{character.Server.Value}-{character.Name.Value}:ChayHet";
                 autoThread.IsBackground = true;
@@ -235,7 +235,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, model.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.ChayHet, "ChayHet");
         }
 
@@ -249,7 +249,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.trongNL, "trongNL");
         }
 
@@ -263,7 +263,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.runNhanAutoPB, "runNhanAutoPB");
         }
 
@@ -277,7 +277,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.runCheMatBao, "runCheMatBao");
         }
 
@@ -291,7 +291,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.nhanThuongHanhLang, "nhanThuongHanhLang");
         }
 
@@ -305,7 +305,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.runAutoTuHanh, "runAutoTuHanh");
         }
 
@@ -319,7 +319,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.khongGianDieuKhac, "khongGianDieuKhac");
         }
 
@@ -333,7 +333,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.rutBo, "rutBo");
         }
 
@@ -781,7 +781,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, SelectedItem.Value.LogText);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
             runTaskInThread(mainAuto.batPet, "batPet");
         }
 

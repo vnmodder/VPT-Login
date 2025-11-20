@@ -3,10 +3,13 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Security.Policy;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPT_Login.Models;
+using static Emgu.CV.OCR.Tesseract;
 
 namespace VPT_Login.Libs
 {
@@ -18,11 +21,13 @@ namespace VPT_Login.Libs
         private TrongNL mTrongNL;
         private AutoPhuBan mAutoPhuBan;
         private AutoXuQue mAutoXuQue;
+        private ReactiveCollection<DataModel> characters;
 
-        public GeneralFunctions(DataModel character, string mWindowName, ReactiveProperty<string> textBoxStatus)
+        public GeneralFunctions(DataModel character, string mWindowName, ReactiveCollection<DataModel> Characters)
         {
             this.mCharacter = character;
-            mAuto = new AutoFeatures(mCharacter, mWindowName, textBoxStatus);
+            this.characters = Characters;
+            mAuto = new AutoFeatures(mCharacter, mWindowName);
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
             mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
@@ -622,7 +627,24 @@ namespace VPT_Login.Libs
                 }
 
                 mAuto.CloseAllDialog();
-                resetAuto();
+                if (count % 30 == 0)
+                {
+                    ResetAuto();
+                }
+
+                if (mAuto.FindImageByGroup("global", "outbattletatauto"))
+                {
+                    mAuto.ClickImageByGroup("global", "outbattletatauto");
+                }
+
+                Thread.Sleep(Constant.VeryTimeShort);
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+
+                if (mAuto.FindImageByGroup("global", "thugon_kynang"))
+                {
+                    mAuto.ClickImageByGroup("global", "thugon_kynang");
+                }
+
             huynv:
                 int i = 0;
                 while (!mAuto.FindImageByGroup("thai_co", "nhiemvu_check") && i < 5)
@@ -707,7 +729,7 @@ namespace VPT_Login.Libs
                     else if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
                         mAuto.ClickImageByGroup("thai_co", "thaico_5");
                     i++;
-                    
+
                     Thread.Sleep(Constant.VeryTimeShort);
                 }
 
@@ -717,19 +739,53 @@ namespace VPT_Login.Libs
 
         }
 
-        private void resetAuto()
+        public void ResetAuto()
         {
-            if (mAuto.FindImageByGroup("global", "outbattletatauto"))
-            {
-                mAuto.ClickImageByGroup("global", "outbattletatauto");
-            }
 
-            Thread.Sleep(Constant.VeryTimeShort);
-            mAuto.ClickImageByGroup("global", "outbattletatauto_not");
+            var list = characters
+                .Where(x => !mCharacter.NhomAuto.Value.Equals("0")
+                         && x.Id.Value != mCharacter.Id.Value
+                         && x.NhomAuto.Value == mCharacter.NhomAuto.Value)
+                .ToList();
 
-            if (mAuto.FindImageByGroup("global", "thugon_kynang"))
+            foreach (var ch in list)
             {
-                mAuto.ClickImageByGroup("global", "thugon_kynang");
+                Task.Run(() =>
+                {
+                    var name = ch?.Id.Value + "-" + ch?.Server.Value + "-" + ch?.Name.Value + "\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120";
+                    var auto = new AutoFeatures(ch, name);
+                    try
+                    {
+                        if (ch.HWnd.Value == IntPtr.Zero) return;
+                        int i = 0;
+                        while (true && i < 10)
+                        {
+                            i++;
+                            if (!auto.FindImageByGroup("global", "khongtrongtrandau", false, true))
+                            {
+                                Thread.Sleep(Constant.TimeMedium);
+                                continue;
+                            }
+
+                            auto.CloseAllDialog();
+                            if (auto.FindImageByGroup("global", "outbattletatauto"))
+                                auto.ClickImageByGroup("global", "outbattletatauto");
+
+                            Thread.Sleep(Constant.VeryTimeShort);
+                            auto.ClickImageByGroup("global", "outbattletatauto_not");
+
+                            if (auto.FindImageByGroup("global", "thugon_kynang"))
+                                auto.ClickImageByGroup("global", "thugon_kynang");
+
+                            auto.WriteStatus("Đã reset auto");
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        auto.WriteStatus("Lỗi: " + ex.Message);
+                    }
+                });
             }
         }
 
