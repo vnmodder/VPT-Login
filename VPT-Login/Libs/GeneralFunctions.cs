@@ -23,11 +23,11 @@ namespace VPT_Login.Libs
         private AutoXuQue mAutoXuQue;
         private ReactiveCollection<DataModel> characters;
 
-        public GeneralFunctions(DataModel character, string mWindowName, ReactiveCollection<DataModel> Characters)
+        public GeneralFunctions(DataModel character, ReactiveCollection<DataModel> Characters)
         {
             this.mCharacter = character;
             this.characters = Characters;
-            mAuto = new AutoFeatures(mCharacter, mWindowName);
+            mAuto = new AutoFeatures(mCharacter);
             mCheMatBao = new CheMatBao(mCharacter, mAuto);
             mTrongNL = new TrongNL(mCharacter, mAuto);
             mAutoPhuBan = new AutoPhuBan(mCharacter, mAuto);
@@ -632,21 +632,16 @@ namespace VPT_Login.Libs
                     ResetAuto();
                 }
 
-                if (mAuto.FindImageByGroup("global", "outbattletatauto",percent:.9))
-                {
-                    mAuto.ClickImageByGroup("global", "outbattletatauto",percent:.9);
-                }
+                mAuto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
 
                 Thread.Sleep(Constant.VeryTimeShort);
-                mAuto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
-                Thread.Sleep(Constant.TimeMediumShort);
-                if (mAuto.FindImageByGroup("global", "outbattletatauto_not", percent: .9))
-                    mAuto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+                Thread.Sleep(Constant.VeryTimeShort);
 
-                if (mAuto.FindImageByGroup("global", "thugon_kynang", percent: .9))
-                {
-                    mAuto.ClickImageByGroup("global", "thugon_kynang", percent: .9);
-                }
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+
+                mAuto.ClickImageByGroup("global", "thugon_kynang");
+                mAuto.ClickImageByGroup("global", "inbattleauto");
 
             huynv:
                 int i = 0;
@@ -755,8 +750,7 @@ namespace VPT_Login.Libs
             {
                 Task.Run(() =>
                 {
-                    var name = ch?.Id.Value + "-" + ch?.Server.Value + "-" + ch?.Name.Value + "\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120";
-                    var auto = new AutoFeatures(ch, name);
+                    var auto = new AutoFeatures(ch);
                     try
                     {
                         if (ch.HWnd.Value == IntPtr.Zero) return;
@@ -771,18 +765,16 @@ namespace VPT_Login.Libs
                             }
 
                             auto.CloseAllDialog();
-                            if (auto.FindImageByGroup("global", "outbattletatauto", percent: .9))
-                                auto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
+                            auto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
 
                             Thread.Sleep(Constant.VeryTimeShort);
-                            auto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
-                            Thread.Sleep(Constant.TimeMediumShort);
-                            if (auto.FindImageByGroup("global", "outbattletatauto_not", percent: .9))
-                                auto.ClickImageByGroup("global", "outbattletatauto_not", percent: .9);
+                            auto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+                            Thread.Sleep(Constant.VeryTimeShort);
 
-                            if (auto.FindImageByGroup("global", "thugon_kynang"))
-                                auto.ClickImageByGroup("global", "thugon_kynang");
+                            auto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
 
+                            auto.ClickImageByGroup("global", "thugon_kynang");
+                            auto.ClickImageByGroup("global", "inbattleauto");
                             auto.WriteStatus("Đã reset auto");
                             return;
                         }

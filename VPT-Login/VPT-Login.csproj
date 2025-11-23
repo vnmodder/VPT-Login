@@ -132,6 +132,7 @@
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
     <Compile Include="Libs\MemoryScanner.cs" />
+    <Compile Include="Libs\ResetAuto.cs" />
     <Compile Include="Libs\TrongNL.cs" />
     <Compile Include="Models\XMLDataModel.cs" />
     <Compile Include="Views\Test.xaml.cs">
@@ -224,6 +225,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\global\outbattletatauto_not.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\global\outbattletatauto_not_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IMG\CN\global\outbattletatauto_not_hover.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="IMG\CN\global\xacnhanco.png">

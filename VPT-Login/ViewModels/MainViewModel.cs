@@ -49,11 +49,13 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand TuHanhCommand { get; } = new ReactiveCommand();
         public ReactiveCommand PhuBanCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RunCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ResetAutoCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Link { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<bool> Status { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<bool> IsBlocked { get; } = new ReactiveProperty<bool>(false);
         //public ReactiveProperty<string> LogText { get; } = new ReactiveProperty<string>("");
 
         public Dictionary<string, string> PetList => Constant.PetList;
@@ -103,6 +105,18 @@ namespace VPT_Login.ViewModels
             KhoiPhucCommand.Subscribe(() => khoiPhuc());
             NuoiTLCommand.Subscribe(() => nuoiTL());
             ThaiCoCommand.Subscribe(() => thaiCo());
+
+            IsBlocked.Subscribe((x) => dongBangAuto(x));
+        }
+
+        private void dongBangAuto(bool x)
+        {
+            if (x == false)
+            {
+                return;
+            }
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
+            runTaskInThread(mainAuto.runResetAuto, "runResetAuto");
         }
 
         private void thaiCo()
@@ -114,7 +128,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.thaiCo, "thaiCo");
         }
 
@@ -127,7 +141,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.nuoiTL, "nuoiTL");
         }
 
@@ -141,7 +155,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.hoiPhuc, "hoiPhuc");
         }
 
@@ -155,7 +169,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.AutoLatThe, "AutoLatThe");
         }
 
@@ -169,13 +183,13 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.xuQue, "xuQue");
         }
 
         private void trainMap()
         {
-            if(SelectedItem.Value == null) { return; }
+            if (SelectedItem.Value == null) { return; }
 
             IntPtr hWnd = SelectedItem.Value.HWnd.Value;
             if (hWnd == IntPtr.Zero)
@@ -183,7 +197,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.trainMap, "trainMap");
         }
 
@@ -192,7 +206,7 @@ namespace VPT_Login.ViewModels
             foreach (var item in Characters)
             {
                 string windowName = item?.Id.Value + "-" + item?.Server.Value + "-" + item?.Name.Value + "\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120";
-                item.HWnd.Value= FindWindow(null, windowName);
+                item.HWnd.Value = FindWindow(null, windowName);
             }
         }
 
@@ -209,7 +223,7 @@ namespace VPT_Login.ViewModels
                     continue;
                 }
 
-                var mainAuto = new MainAuto(character, Characters);
+                var mainAuto = new MainAuto(character, Characters, IsBlocked);
                 Thread autoThread = new Thread(mainAuto.ChayHet);
                 autoThread.Name = $"{character.Server.Value}-{character.Name.Value}:ChayHet";
                 autoThread.IsBackground = true;
@@ -235,7 +249,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.ChayHet, "ChayHet");
         }
 
@@ -249,7 +263,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.trongNL, "trongNL");
         }
 
@@ -263,7 +277,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.runNhanAutoPB, "runNhanAutoPB");
         }
 
@@ -277,7 +291,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.runCheMatBao, "runCheMatBao");
         }
 
@@ -291,7 +305,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.nhanThuongHanhLang, "nhanThuongHanhLang");
         }
 
@@ -305,7 +319,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.runAutoTuHanh, "runAutoTuHanh");
         }
 
@@ -319,7 +333,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.khongGianDieuKhac, "khongGianDieuKhac");
         }
 
@@ -333,7 +347,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.rutBo, "rutBo");
         }
 
@@ -751,7 +765,7 @@ namespace VPT_Login.ViewModels
                     if (defaultHWnd != IntPtr.Zero)
                     {
                         model.HWnd.Value = defaultHWnd;
-                        Helper.SetWindowText(defaultHWnd,model?.Id.Value + "-" +model?.Server.Value + "-" + model?.Name.Value +"\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120");
+                        Helper.SetWindowText(defaultHWnd, model?.Id.Value + "-" + model?.Server.Value + "-" + model?.Name.Value + "\t" + "Liên hệ auto: https://facebook.com/groups/VPT.TQ.S120");
                         break;
                     }
 
@@ -781,7 +795,7 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters);
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.batPet, "batPet");
         }
 

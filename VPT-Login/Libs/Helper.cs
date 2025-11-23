@@ -22,7 +22,7 @@ namespace VPT_Login.Libs
                 System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
                 {
                     if(textBox == null) { return; }
-                    textBox.Value += (id + ": " + statusText + Environment.NewLine);
+                    textBox.Value += (DateTime.Now.ToString("HH:mm:ss") + ": " + statusText + Environment.NewLine);
                 });
             }
             catch

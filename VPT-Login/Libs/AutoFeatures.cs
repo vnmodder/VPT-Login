@@ -17,12 +17,10 @@ namespace VPT_Login.Libs
 
         // public AutoIT au3 = new AutoIT();
         public Random random = new Random();
-        public string mWindowName;
 
-        public AutoFeatures(DataModel mCharacter, string mWindowName)
+        public AutoFeatures(DataModel mCharacter)
         {
             this.mCharacter = mCharacter;
-            this.mWindowName = mWindowName;
         }
 
         public bool MoveToMap(string mapName, int x = 0, int y = -20)
@@ -295,7 +293,7 @@ namespace VPT_Login.Libs
             }
             System.Windows.Application.Current?.Dispatcher?.Invoke(() =>
             {
-                mCharacter.LogText.Value += (mCharacter.Name.Value + ": " + statusText + Environment.NewLine);
+                mCharacter.LogText.Value += (DateTime.Now.ToString("HH:mm:ss") + ": " + statusText + Environment.NewLine);
             });
         }
 
@@ -686,14 +684,17 @@ namespace VPT_Login.Libs
                 //WriteStatus("ClickImageByGroup không tìm thấy " + groupPath + name + ".png");
                 return;
             }
-            ClickToImage(groupPath + name + ".png", x, y, numClick, percent: percent);
-            if (active)
+            if (ClickToImage(groupPath + name + ".png", x, y, numClick, percent: percent))
             {
-                ClickToImage(groupPath + name + "_active.png", x, y, numClick, percent: percent);
+                return;
+            }
+            if (active && ClickToImage(groupPath + name + "_active.png", x, y, numClick, percent: percent))
+            {
+                return;
             }
             if (hover)
             {
-                ClickToImage(groupPath + name + "_hover.png", x, y, numClick,percent: percent);
+                ClickToImage(groupPath + name + "_hover.png", x, y, numClick, percent: percent);
             }
         }
         public bool DangTrongTranDau()

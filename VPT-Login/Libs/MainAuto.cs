@@ -7,18 +7,23 @@ namespace VPT_Login.Libs
 {
     public class MainAuto
     {
-        private string mWindowName;
         public AutoFeatures mAuto;
         private DataModel mCharacter;
         public GeneralFunctions mGeneralFunctions;
-        ReactiveProperty<string> mTextBoxStatus;
+        private ReactiveProperty<string> mTextBoxStatus;
+        private ResetAuto resetAuto;
 
-        public MainAuto(DataModel character, ReactiveCollection<DataModel> Characters)
+        public MainAuto(DataModel character, ReactiveCollection<DataModel> Characters, ReactiveProperty<bool> isChecked)
         {
             mCharacter = character;
-            mWindowName = $"{mCharacter.Server.Value}-{mCharacter.Name.Value}";
-            mAuto = new AutoFeatures(character, mWindowName);
-            mGeneralFunctions = new GeneralFunctions(mCharacter, mWindowName, Characters);
+            mAuto = new AutoFeatures(character);
+            mGeneralFunctions = new GeneralFunctions(mCharacter, Characters);
+            resetAuto = new ResetAuto(isChecked, Characters);
+        }
+
+        public void runResetAuto()
+        {
+            runAction("hoiPhuc", () => resetAuto.RunResetAuto());
         }
 
         public void ChayHet()

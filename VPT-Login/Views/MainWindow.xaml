@@ -77,13 +77,34 @@
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>-->                       
-                        <DataGridComboBoxColumn Header="Nhóm auto" Width="1.2*"
-    ItemsSource="{Binding ResetAutoOptionsList, Source={StaticResource ViewModel}}"
-    DisplayMemberPath="Value"
-    SelectedValuePath="Key"
-    SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}" />
-                        <DataGridCheckBoxColumn Width="0.7*"  Header="Khóa" Binding="{Binding CheckAuto.Value}" />
+                        </DataGridTextColumn>-->
+                        <DataGridComboBoxColumn
+                            Width="1.2*"
+                            DisplayMemberPath="Value"
+                            Header="Nhóm auto"
+                            ItemsSource="{Binding ResetAutoOptionsList, Source={StaticResource ViewModel}}"
+                            SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}"
+                            SelectedValuePath="Key" />
+                        <DataGridTemplateColumn Width="0.7*">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        Margin="7,0,0,0"
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding DataContext.IsBlocked.Value, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
+                                        IsThreeState="False"
+                                        ToolTip="Check/Uncheck tất cả" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        IsChecked="{Binding CheckAuto.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn
                             Width=".8*"
                             Binding="{Binding HWnd.Value}"
@@ -185,6 +206,11 @@
                             Background="Red"
                             Command="{Binding XoaCommand}"
                             Content="XÓA" />
+                        <!--<Button
+                            Margin="5,0,0,0"
+                            Background="Green"
+                            Command="{Binding ResetAutoCommand}"
+                            Content="B" />-->
                         <Button
                             Margin="25,0,0,0"
                             Background="Blue"
