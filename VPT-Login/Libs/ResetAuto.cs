@@ -25,7 +25,7 @@ namespace VPT_Login.Libs
             while (isChecked.Value)
             {
                 resetAutoAll();
-                Thread.Sleep(1000 * 30);
+                Thread.Sleep(1000 * 60 * 5);
             }
         }
 
@@ -55,17 +55,16 @@ namespace VPT_Login.Libs
                             }
 
                             auto.CloseAllDialog();
-                            if (auto.FindImageByGroup("global", "outbattletatauto", percent: .9))
-                                auto.ClickImageByGroup("global", "outbattletatauto");
+                            auto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
 
                             Thread.Sleep(Constant.VeryTimeShort);
                             auto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
                             Thread.Sleep(Constant.VeryTimeShort);
-                            if (auto.FindImageByGroup("global", "outbattletatauto_not", true, true))
-                                auto.ClickImageByGroup("global", "outbattletatauto_not");
 
-                            if (auto.FindImageByGroup("global", "thugon_kynang"))
-                                auto.ClickImageByGroup("global", "thugon_kynang");
+                            auto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+
+                            auto.ClickImageByGroup("global", "thugon_kynang");
+                            auto.ClickImageByGroup("global", "inbattleauto");
 
                             auto.WriteStatus("Đã reset auto");
                             return;

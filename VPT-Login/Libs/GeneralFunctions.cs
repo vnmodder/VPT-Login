@@ -627,11 +627,6 @@ namespace VPT_Login.Libs
                 }
 
                 mAuto.CloseAllDialog();
-                if (count % 30 == 0)
-                {
-                    ResetAuto();
-                }
-
                 mAuto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
 
                 Thread.Sleep(Constant.VeryTimeShort);

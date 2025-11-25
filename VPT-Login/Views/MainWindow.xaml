@@ -16,7 +16,7 @@
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="Padding" Value="10,4" />
         </Style>
-        <local:MainViewModel x:Key="ViewModel" />
+        <!--<local:MainViewModel x:Key="ViewModel" />-->
     </metro:MetroWindow.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -65,7 +65,7 @@
                             Binding="{Binding Name.Value}"
                             Header="TÊN"
                             IsReadOnly="True" />
-                        <!--<DataGridTextColumn
+                        <DataGridTextColumn
                             Width="1*"
                             Binding="{Binding Server.Value}"
                             Header="SERVER"
@@ -77,14 +77,27 @@
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>-->
-                        <DataGridComboBoxColumn
+                        </DataGridTextColumn>
+                        <DataGridTextColumn
+      Width="1*"
+      Binding="{Binding Version.Value}"
+      Header="Version"
+      IsReadOnly="True" >
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="TextAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <!--<DataGridComboBoxColumn
                             Width="1.2*"
                             DisplayMemberPath="Value"
                             Header="Nhóm auto"
                             ItemsSource="{Binding ResetAutoOptionsList, Source={StaticResource ViewModel}}"
                             SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}"
-                            SelectedValuePath="Key" />
+                            SelectedValuePath="Key" />-->
                         <DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
