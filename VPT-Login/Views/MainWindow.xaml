@@ -58,12 +58,12 @@
                         <TextBlock Text="Link" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         <TextBox x:Name="txtLink" Text="{Binding Link.Value, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3"
                                  metro:TextBoxHelper.Watermark="URL Link" Margin="0,0,10,0"/>
-                        <TextBlock Text="China" Grid.Column="4" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="5">
-                            <CheckBox x:Name="cbChina" IsChecked="{Binding Status.Value, Mode=TwoWay}"/>
-                            <!--<Button Content="VPN" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>-->
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.ColumnSpan="2">
+                            <Button Content="Thái cổ" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                            <Button Content="Hủy Auto" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
                         </StackPanel>
-                        
+
                     </Grid>
                 </StackPanel>
             </GroupBox>

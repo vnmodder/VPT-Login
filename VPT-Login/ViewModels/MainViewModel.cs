@@ -53,94 +53,6 @@ namespace VPT_Login.ViewModels
             SelectedItem.Subscribe((i) => Itemchaged(i));
         }
 
-        //private void ChayVPN()
-        //{
-        //    try
-        //    {
-        //        string result = RunCmd("route print");
-        //        int? vpnInterface = GetInterfaceIndexByName(result, "VPN Client Adapter");
-        //        result = RunCmd("ipconfig");
-        //        var (iface, gateway) = GetIPv4AndGatewayByAdapterKeyword(result, "VPN Client");
-        //        ipInterface = iface;
-        //        RunCmdAsAdmin($"route delete 0.0.0.0 mask 0.0.0.0 {gateway}");
-        //        RunCmdAsAdmin($"route add 0.0.0.0 mask 0.0.0.0 {gateway} metric 60 if {vpnInterface}");
-        //        System.Windows.MessageBox.Show("Đã thiết lập VPN");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        System.Windows.MessageBox.Show("Lỗi khi VPN" + ex.Message);
-        //    }
-        //}
-
-        //static void RunCmdAsAdmin(string command)
-        //{
-        //    var psi = new ProcessStartInfo
-        //    {
-        //        FileName = "cmd.exe",
-        //        Arguments = "/c " + command,
-        //        UseShellExecute = true,
-        //        Verb = "runas", // yêu cầu quyền admin
-        //        CreateNoWindow = true
-        //    };
-
-        //    try
-        //    {
-        //        using (var process = Process.Start(psi))
-        //        {
-        //            process?.WaitForExit();
-        //        }
-        //    }
-        //    catch (System.ComponentModel.Win32Exception ex)
-        //    {
-        //        if (ex.NativeErrorCode == 1223)
-        //        {
-        //            throw new Exception("Người dùng đã từ chối quyền admin (UAC).");
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //}
-
-        //static string RunCmd(string command, int timeoutMs = 10000)
-        //{
-        //    var psi = new ProcessStartInfo("cmd.exe", "/c " + command)
-        //    {
-        //        UseShellExecute = false,
-        //        RedirectStandardOutput = true,
-        //        RedirectStandardError = true,
-        //        CreateNoWindow = true,
-        //        StandardOutputEncoding = Encoding.UTF8,
-        //        StandardErrorEncoding = Encoding.UTF8
-        //    };
-
-        //    using (var process = new Process { StartInfo = psi })
-        //    {
-        //        StringBuilder outputBuilder = new StringBuilder();
-        //        StringBuilder errorBuilder = new StringBuilder();
-
-        //        process.OutputDataReceived += (s, e) => { if (e.Data != null) outputBuilder.AppendLine(e.Data); };
-        //        process.ErrorDataReceived += (s, e) => { if (e.Data != null) errorBuilder.AppendLine(e.Data); };
-
-        //        process.Start();
-        //        process.BeginOutputReadLine();
-        //        process.BeginErrorReadLine();
-
-        //        if (!process.WaitForExit(timeoutMs))
-        //        {
-        //            try { process.Kill(); } catch { }
-        //            throw new TimeoutException($"Lệnh '{command}' bị timeout sau {timeoutMs}ms.");
-        //        }
-
-        //        if (process.ExitCode != 0)
-        //        {
-        //            throw new Exception($"Lệnh '{command}' thất bại:\n{errorBuilder}");
-        //        }
-
-        //        return outputBuilder.ToString();
-        //    }
-        //}
 
         public static (string ip, string gateway) GetIPv4AndGatewayByAdapterKeyword(string ipconfigOutput, string keyword)
         {
@@ -200,36 +112,6 @@ namespace VPT_Login.ViewModels
             return (null, null); // không tìm thấy
         }
 
-        //private int? GetInterfaceIndexByName(string routePrintOutput, string keyword)
-        //{
-        //    var lines = routePrintOutput.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        //    bool inInterfaceList = false;
-
-        //    foreach (var line in lines)
-        //    {
-        //        // Tìm phần bắt đầu Interface List
-        //        if (line.Contains("Interface List"))
-        //        {
-        //            inInterfaceList = true;
-        //            continue;
-        //        }
-
-        //        // Kết thúc phần Interface List nếu đến dòng === hoặc IPv4 Route Table
-        //        if (inInterfaceList && (line.Contains("====") || line.Contains("IPv4 Route Table")))
-        //            break;
-
-        //        if (inInterfaceList && line.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-        //        {
-        //            var match = System.Text.RegularExpressions.Regex.Match(line.Trim(), @"^(\d+)");
-        //            if (match.Success)
-        //            {
-        //                return int.Parse(match.Groups[1].Value);
-        //            }
-        //        }
-        //    }
-
-        //    return null; // không tìm thấy
-        //}
         private void Itemchaged(DataModel i)
         {
             if (i == null) return;
@@ -404,7 +286,7 @@ namespace VPT_Login.ViewModels
                 //    Process.Start(exePath, SelectedItem.Value?.Link + "&version=" + SelectedItem.Value?.Version);
                 //}
                 IntPtr defaultHWnd = IntPtr.Zero;
-                string defaultWindowName = "Adobe Flash Player 20";
+                string defaultWindowName = "Adobe Flash Player 10";
 
                 // Thử tối đa 2 giây để tìm cửa sổ
                 for (int i = 0; i < 20; i++)

@@ -14,5 +14,7 @@ namespace VPT_Login.Models
         public string Version { get; set; }
         public string Link { get; set; }
         public int Status { get; set; }
+
+
     }
 }
