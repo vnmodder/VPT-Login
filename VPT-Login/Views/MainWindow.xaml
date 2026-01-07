@@ -58,10 +58,10 @@
                         <TextBlock Text="Link" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontWeight="SemiBold"/>
                         <TextBox x:Name="txtLink" Text="{Binding Link.Value, Mode=TwoWay}" Grid.Column="1" Grid.ColumnSpan="3"
                                  metro:TextBoxHelper.Watermark="URL Link" Margin="0,0,10,0"/>
-
                         <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.ColumnSpan="2">
-                            <Button Content="Thái cổ" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
-                            <Button Content="Hủy Auto" Margin="5,0,0,0"  Command="{Binding VPNCommand}"></Button>
+                            <Button Content="Thái cổ" Margin="0,0,0,0"  Command="{Binding ThaiCoCommand}"></Button>
+                            <Button Content="Hủy Auto" Margin="5,0,0,0"  Command="{Binding HuyThaiCoCommand}"></Button>
+                            <Button Content="S" Margin="5,0,0,0"  Command="{Binding StatusCommand}"></Button>
                         </StackPanel>
 
                     </Grid>
@@ -90,13 +90,13 @@
                       CanUserAddRows="False"
                       Margin="5"
                       MouseDoubleClick="dgAccounts_MouseDoubleClick"
-                      ItemsSource="{Binding Characters}"
+                      ItemsSource="{Binding Characters,  Mode=TwoWay}"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="STT" Binding="{Binding No}" Width="0.5*" />
                     <DataGridTextColumn Header="TÊN" Binding="{Binding Name}"  Width="2*" />
-                    <DataGridTextColumn Header="SERVER" Binding="{Binding Server}"  Width="1*"/>
-                    <DataGridTextColumn Header="VERSION" Binding="{Binding Version}"  Width="1*"/>
+                    <DataGridTextColumn Header="HWND" Binding="{Binding HWnd.Value}"  Width="1*"/>
+                    <DataGridTextColumn Header="Auto" Binding="{Binding Active.Value}"  Width="1*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

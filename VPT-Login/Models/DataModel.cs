@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Reactive.Bindings;
+using System;
+using System.Xml.Serialization;
 
 namespace VPT_Login.Models
 {
@@ -15,6 +13,10 @@ namespace VPT_Login.Models
         public string Link { get; set; }
         public int Status { get; set; }
 
+        [XmlIgnore]
+        public ReactiveProperty<bool> Active { get; } = new ReactiveProperty<bool>(false);
+        [XmlIgnore]
+        public ReactiveProperty<IntPtr> HWnd { get; } = new ReactiveProperty<IntPtr>(IntPtr.Zero);
 
     }
 }

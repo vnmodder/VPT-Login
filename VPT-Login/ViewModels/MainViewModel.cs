@@ -1,18 +1,19 @@
-﻿using Reactive.Bindings;
+﻿using KAutoHelper;
+using Reactive.Bindings;
 using System;
-using KAutoHelper;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 using System.Collections.ObjectModel;
-using VPT_Login.Models;
+using System.Diagnostics;
 using System.IO;
-using System.Xml.Serialization;
-using System.Web.UI.WebControls;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web.UI.WebControls;
+using System.Windows.Forms;
+using System.Xml.Serialization;
+using VPT_Login.Models;
 
 namespace VPT_Login.ViewModels
 {
@@ -26,7 +27,9 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand VaoGameCommand { get; } = new ReactiveCommand();
         public ReactiveCommand CapNhatVerCommand { get; } = new ReactiveCommand();
         public ReactiveCommand CapNhatCommand { get; } = new ReactiveCommand();
-        public ReactiveCommand VPNCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ThaiCoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand HuyThaiCoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand StatusCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
@@ -40,6 +43,8 @@ namespace VPT_Login.ViewModels
 
         [DllImport("user32.dll", EntryPoint = "SetWindowText", CharSet = CharSet.Unicode)]
         public static extern bool SetWindowText(IntPtr hWnd, String strNewWindowName);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         public MainViewModel()
         {
@@ -49,10 +54,37 @@ namespace VPT_Login.ViewModels
             XoaCommand.Subscribe(() => XoaData());
             CapNhatVerCommand.Subscribe(() => CapNhatVersion());
             CapNhatCommand.Subscribe(() => CapNhatThongTin());
-            //VPNCommand.Subscribe(() => ChayVPN());
             SelectedItem.Subscribe((i) => Itemchaged(i));
+
+
+            ThaiCoCommand.Subscribe(() => ThaiCo());
+            HuyThaiCoCommand.Subscribe(() => HuyThaiCo());
+            StatusCommand.Subscribe(() => statusUpdate());
         }
 
+        private void HuyThaiCo()
+        {
+            foreach (var thread in Helper.ThreadList)
+            {
+                if (thread.Name.Contains($"{SelectedItem.Value.Name}"))
+                {
+                    SelectedItem.Value.Active.Value = false;
+                    thread.Abort();
+                }
+            }
+        }
+
+        private void ThaiCo()
+        {
+            if (SelectedItem.Value == null)
+                return;
+
+            Helper.ThreadList.Add(new Thread(AutoThaiCo));
+            int index = Helper.ThreadList.Count() - 1;
+            Helper.ThreadList[index].Name = $"{SelectedItem.Value?.Server}-{SelectedItem.Value?.Name}:" + "thaico";
+            Helper.ThreadList[index].Start();
+            SelectedItem.Value.Active.Value = true;
+        }
 
         public static (string ip, string gateway) GetIPv4AndGatewayByAdapterKeyword(string ipconfigOutput, string keyword)
         {
@@ -110,6 +142,15 @@ namespace VPT_Login.ViewModels
             }
 
             return (null, null); // không tìm thấy
+        }
+
+        private void statusUpdate()
+        {
+            foreach (var item in Characters)
+            {
+                string windowName = item.Server + "-" + item.Name + "- Liên hệ mua auto: https://discord.gg/ExTvNzCnkA";
+                item.HWnd.Value = FindWindow(null, windowName);
+            }
         }
 
         private void Itemchaged(DataModel i)
@@ -294,7 +335,8 @@ namespace VPT_Login.ViewModels
                     defaultHWnd = AutoControl.FindWindowHandle(null, defaultWindowName);
                     if (defaultHWnd != IntPtr.Zero)
                     {
-                        SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name + "- Liên hệ mua auto: https://www.facebook.com/luongan1194");
+                        SelectedItem.Value.HWnd.Value = defaultHWnd;
+                        SetWindowText(defaultHWnd, SelectedItem.Value?.Server + "-" + SelectedItem.Value?.Name + "- Liên hệ mua auto: https://discord.gg/ExTvNzCnkA");
                         break;
                     }
 
@@ -310,6 +352,131 @@ namespace VPT_Login.ViewModels
             {
                 System.Windows.MessageBox.Show("Lỗi: " + ex.Message);
             }
+        }
+
+        private void AutoThaiCo()
+        {
+            if (SelectedItem.Value.HWnd.Value == IntPtr.Zero)
+            {
+                return;
+            }
+
+            AutoFeatures mAuto = new AutoFeatures(SelectedItem.Value);
+
+            mAuto.ClickImageByGroup("global", "conghoi", false, true);
+
+            int count = 0;
+            while (true)
+            {
+                if (!mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true))
+                {
+                    Thread.Sleep(Constant.TimeMedium);
+                    continue;
+                }
+
+                mAuto.CloseAllDialog();
+                mAuto.ClickImageByGroup("global", "outbattletatauto", percent: .9);
+
+                Thread.Sleep(Constant.VeryTimeShort);
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+                Thread.Sleep(Constant.VeryTimeShort);
+
+                mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+
+                mAuto.ClickImageByGroup("global", "thugon_kynang");
+                mAuto.ClickImageByGroup("global", "inbattleauto");
+
+            huynv:
+                int i = 0;
+                while (!mAuto.FindImageByGroup("thai_co", "nhiemvu_check") && i < 5)
+                {
+                    mAuto.CloseAllDialog();
+                    if (i % 2 == 0)
+                        mAuto.ClickImageByGroup("thai_co", "nhiemvu");
+                    else
+                        mAuto.SendKey(Keys.Q);
+                    i++;
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+
+                Thread.Sleep(Constant.TimeShort);
+                if (mAuto.FindImageByGroup("thai_co", "nv_phu", false, true, percent: .9) &&
+                    !mAuto.FindImageByGroup("thai_co", "chonhuy", false, true, percent: .9))
+                    mAuto.ClickImageByGroup("thai_co", "nv_phu", percent: .9);
+
+                if (mAuto.FindImageByGroup("thai_co", "chonhuy", false, true))
+                {
+                    Thread.Sleep(Constant.VeryTimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "chonhuy", false, true);
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "huy_nv", false, true);
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+
+                    if (mAuto.FindImageByGroup("global", "xacnhanco2", false, true))
+                        mAuto.ClickImageByGroup("global", "xacnhanco2", false, true);
+                    else if (mAuto.FindImageByGroup("global", "xacnhanco", false, true))
+                        mAuto.ClickImageByGroup("global", "xacnhanco", false, true);
+                }
+                Thread.Sleep(Constant.VeryTimeShort);
+
+                i = 0;
+                while (!mAuto.FindImageByGroup("thai_co", "npc_thaico") && i < 10)
+                {
+                    mAuto.CloseAllDialog();
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_1");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_2");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_3");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_4");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                    i++;
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+
+                Thread.Sleep(Constant.VeryTimeShort);
+                if (!mAuto.FindImageByGroup("thai_co", "nv_thaico", false, true))
+                {
+                    goto huynv;
+                }
+                i = 0;
+
+                while (!mAuto.FindImageByGroup("thai_co", "nhan_nv", false, true) && i < 5)
+                {
+                    Thread.Sleep(Constant.TimeShort);
+                    mAuto.ClickImageByGroup("thai_co", "nv_thaico", false, true);
+                    i++;
+                }
+                Thread.Sleep(Constant.VeryTimeShort);
+                mAuto.ClickImageByGroup("thai_co", "nhan_nv", false, true);
+                Thread.Sleep(Constant.TimeShort);
+
+                i = 0;
+                while (mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true) && i < 10)
+                {
+                    if (mAuto.FindImageByGroup("thai_co", "thaico_1"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_1");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_2"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_2");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_3"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_3");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_4"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_4");
+                    else if (mAuto.FindImageByGroup("thai_co", "thaico_5"))
+                        mAuto.ClickImageByGroup("thai_co", "thaico_5");
+                    i++;
+
+                    Thread.Sleep(Constant.VeryTimeShort);
+                }
+
+                count++;
+            }
+
         }
     }
 }
