@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using VPT_Login.ViewModels;
@@ -30,6 +31,14 @@ namespace VPT_Login
             if (textBox != null)
             {
                 textBox.ScrollToEnd(); // Cuộn xuống cuối mỗi khi Text thay đổi
+            }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (DataContext is MainViewModel vm && vm.ExitingCommand.CanExecute())
+            {
+                vm.ExitingCommand.Execute();
             }
         }
     }

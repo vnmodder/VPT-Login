@@ -1,19 +1,20 @@
-﻿using Reactive.Bindings;
+﻿using KAutoHelper;
+using Reactive.Bindings;
 using System;
-using KAutoHelper;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using VPT_Login.Libs;
 using System.IO;
-using System.Xml.Serialization;
-using System.Web.UI.WebControls;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web.UI.WebControls;
 using System.Windows;
+using System.Xml.Serialization;
+using VPT_Login.Libs;
 using VPT_Login.Models;
-using System.Runtime.InteropServices;
+using static Emgu.CV.OCR.Tesseract;
 
 
 namespace VPT_Login.ViewModels
@@ -50,6 +51,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand PhuBanCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RunCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ResetAutoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ExitingCommand { get; } = new ReactiveCommand();
 
         public ReactiveProperty<string> Ten { get; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> Version { get; } = new ReactiveProperty<string>();
@@ -107,6 +109,15 @@ namespace VPT_Login.ViewModels
             ThaiCoCommand.Subscribe(() => thaiCo());
 
             IsBlocked.Subscribe((x) => dongBangAuto(x));
+            ExitingCommand.Subscribe((x) => dongCuaSo());
+        }
+
+        private void dongCuaSo()
+        {
+            foreach (var thread in Helper.ThreadList)
+            {
+                thread.Abort();
+            }
         }
 
         private void dongBangAuto(bool x)

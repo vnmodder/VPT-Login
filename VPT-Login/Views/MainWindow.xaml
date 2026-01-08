@@ -9,6 +9,7 @@
     Height="600"
     Icon="/Assets/ico.png"
     ResizeMode="CanMinimize"
+    Closing="Window_Closing"
     WindowStartupLocation="CenterScreen">
     <metro:MetroWindow.Resources>
         <Style TargetType="metro:MetroTabItem">

@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VPT_Login.Models;
-using static Emgu.CV.OCR.Tesseract;
 
 namespace VPT_Login.Libs
 {
@@ -48,7 +46,18 @@ namespace VPT_Login.Libs
                 {
                     if (!mAuto.DangTrongTranDau())
                     {
-                        mAuto.ClickImageByGroup("global", "outbattletatauto");
+
+                        if (!mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true))
+                        {
+                            Thread.Sleep(Constant.TimeMedium);
+                            continue;
+                        }
+
+                        Thread.Sleep(Constant.VeryTimeShort);
+                        mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);     
+                  
+
+
                         if (!mAuto.FindImageByGroup("global", "map_top"))
                         {
                             mAuto.SendKey(System.Windows.Forms.Keys.Oemtilde);
@@ -60,6 +69,7 @@ namespace VPT_Login.Libs
                         }
                         mAuto.ClickPoint(p.X, p.Y);
                         Thread.Sleep(Constant.TimeMediumShort);
+                        mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
                     }
 
                     while (mAuto.DangTrongTranDau())
@@ -615,6 +625,8 @@ namespace VPT_Login.Libs
             }
 
             mAuto.WriteStatus("Bắt đầu auto Thái cổ");
+            mAuto.AnNhanVat();
+
             mAuto.ClickImageByGroup("global", "conghoi", false, true);
 
             int count = 0;
