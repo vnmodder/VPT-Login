@@ -14,6 +14,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using VPT_Login.Libs;
 using VPT_Login.Models;
+using VPT_Login.Views;
 using static Emgu.CV.OCR.Tesseract;
 
 
@@ -208,8 +209,14 @@ namespace VPT_Login.ViewModels
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
             }
-            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
-            runTaskInThread(mainAuto.trainMap, "trainMap");
+
+            Constant.hwnd = hWnd; 
+
+            Test test = new Test();
+            test.Show();
+
+            //MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
+            //runTaskInThread(mainAuto.trainMap, "trainMap");
         }
 
         private void statusUpdate()

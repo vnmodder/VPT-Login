@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace VPT_Login.Libs
 {
@@ -6,6 +7,7 @@ namespace VPT_Login.Libs
     {
         //public static string rootPath = AppDomain.CurrentDomain.BaseDirectory;
         public static string rootPath = string.Empty;
+        public static IntPtr hwnd = IntPtr.Zero;
 
         public const string asset = "Assets";
         public const string img_cn = "IMG/CN";
