@@ -1,5 +1,6 @@
 ﻿using Emgu.CV;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -11,7 +12,7 @@ namespace VPT_Login.Libs
         public static string rootPath = string.Empty;
         public static IntPtr hwnd = IntPtr.Zero;
 
-        public static Dictionary<string, Bitmap> TemplateCache = new Dictionary<string, Bitmap>();
+        public static ConcurrentDictionary<string, Bitmap> TemplateCache = new ConcurrentDictionary<string, Bitmap>();
 
         public const string asset = "Assets";
         public const string img_cn = "IMG/CN";

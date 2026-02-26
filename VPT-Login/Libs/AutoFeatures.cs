@@ -215,7 +215,7 @@ namespace VPT_Login.Libs
             string npcViTriTenImagePath2 = Constant.ImagePathViTriNPC + "ten" + npc + "2.png";
             string npcViTriImagePath1 = Constant.ImagePathViTriNPC + npc + "1.png";
             string npcViTriImagePath2 = Constant.ImagePathViTriNPC + npc + "2.png";
-            
+
             CloseAllDialog();
 
             if (FindImage(npcViTriImagePath1)
@@ -245,7 +245,7 @@ namespace VPT_Login.Libs
                     Thread.Sleep(Constant.TimeMediumShort);
                     if (FindImageByGroup("global", "caidat_check"))
                     {
-                        ClickImageByGroup("global", "annhanvat",percent:.95);
+                        ClickImageByGroup("global", "annhanvat", percent: .95);
                         Thread.Sleep(Constant.TimeMediumShort);
                         return;
                     }
@@ -430,15 +430,12 @@ namespace VPT_Login.Libs
             //imagePath = Path.Combine(Constant.rootPath, imagePath);
             imagePath = Constant.img_cn + imagePath;
 
-             var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
+            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
             //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            if (!Constant.TemplateCache.ContainsKey(imagePath))
-            {
-                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
-            }
-            
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
-
+            Bitmap template = Constant.TemplateCache.GetOrAdd(imagePath, p => ImageScanOpenCV.GetImage(p));
+            Bitmap safeTemplate = (Bitmap)template.Clone();
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, safeTemplate, percent);
+            safeTemplate.Dispose();
             if (pBtn != null)
             {
                 float scale = Helper.GetCurrentScale();
@@ -479,11 +476,10 @@ namespace VPT_Login.Libs
 
             //screen.Save(Constant.tracking + "/" + mCharacter.Id.Value + ".png");
             //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            if (!Constant.TemplateCache.ContainsKey(imagePath))
-            {
-                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
-            }
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
+            Bitmap template = Constant.TemplateCache.GetOrAdd(imagePath, p => ImageScanOpenCV.GetImage(p));
+            Bitmap safeTemplate = (Bitmap)template.Clone();
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, safeTemplate, percent);
+            safeTemplate.Dispose();
             if (pBtn != null)
             {
                 return true;
@@ -511,11 +507,9 @@ namespace VPT_Login.Libs
             var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
             //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            if (!Constant.TemplateCache.ContainsKey(imagePath))
-            {
-                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
-            }
-            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
+            Bitmap template = Constant.TemplateCache.GetOrAdd(imagePath, p => ImageScanOpenCV.GetImage(p));
+            Bitmap safeTemplate = (Bitmap)template.Clone();
+            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, safeTemplate, percent);
         }
 
         public void CaptureImage()
@@ -542,7 +536,7 @@ namespace VPT_Login.Libs
                 ClickToImage(Constant.ImagePathGlobalBay);
             }
         }
-       
+
         public void BayXuong()
         {
             if (mCharacter.HWnd.Value == IntPtr.Zero)
@@ -632,7 +626,7 @@ namespace VPT_Login.Libs
                 (hover && FindImage(groupPath + name + "_hover.png", percent));
             if (!found)
             {
-                 //WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
+                //WriteStatus("RindImageByGroup không tìm thấy " + groupPath + name + ".png");
             }
 
             return found;
