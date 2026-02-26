@@ -154,33 +154,33 @@ namespace VPT_Login.Libs
 
         public static List<Point> MapVLS = new List<Point>()
         {
-            //new Point(170,60),
+            new Point(150,70),
             //new Point(140,140),
-            new Point(220,120),
-            //new Point(260,90),
-            new Point(130,110),
+            //new Point(220,120),
+            new Point(210,65),
+            //new Point(130,110),
         };
         public static List<Point> MapCT = new List<Point>()
         {
             //new Point(150,50),
-            new Point(240,60),
+            //new Point(240,60),
             //new Point(180,90),
-            new Point(140,120),
-            //new Point(260,110),
+            new Point(200,150),
+            new Point(260,110),
         };
         public static List<Point> MapDVD = new List<Point>()
         {
           //new Point(240,70),
        // new Point(130,80),
    //new Point(180,115),
-    new Point(140,140),
+    new Point(150,135),
     new Point(260,135),
         };
         public static List<Point> MapMHL = new List<Point>()
         {
             new Point(160,50),
     //new Point(260,150),
-    new Point(250,70),
+    new Point(230,90),
     //new Point(160,110),
     //new Point(260,110),
         };

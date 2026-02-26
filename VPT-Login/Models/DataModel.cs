@@ -100,6 +100,7 @@ namespace VPT_Login.Models
             this.TrongNL.Value = xml.TrongNL;
             this.NhomAuto.Value = xml.NhomAuto;
             this.CheckAuto.Value = xml.CheckAuto;
+            this.MapTrain.Value = xml.map;
 
             this.MHD.Value = xml.MHD;
             this.MC.Value = xml.MC;
@@ -144,6 +145,7 @@ namespace VPT_Login.Models
 
                 NhomAuto = this.NhomAuto.Value,
                 CheckAuto = this.CheckAuto.Value,
+                map = this.MapTrain.Value,
 
                 MHD = this.MHD.Value,
                 MC = this.MC.Value,

@@ -759,7 +759,11 @@ namespace VPT_Login.ViewModels
                         var (iface, gateway) = GetIPv4AndGatewayByAdapterKeyword(result, "VPN Client");
                         ipInterface = iface;
                     }
-
+                    if (string.IsNullOrEmpty(ipInterface))
+                    {
+                        MessageBox.Show("VPN đang sai thiết lập");
+                        return;
+                    }
                     Process.Start(Constant.FilePath.FORCE_BIND_IP, $"{ipInterface} \"{Constant.FilePath.FLASH_PLAYER}\" {link}");
                 }
                 else

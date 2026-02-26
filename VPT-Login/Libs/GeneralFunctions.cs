@@ -34,7 +34,7 @@ namespace VPT_Login.Libs
 
         public void TrainQuai()
         {
-            mAuto.WriteStatus("Đang tiến hành train map...");
+            mAuto.WriteStatus("Đang tiến hành train " + mCharacter.MapTrain.Value);
             Helper.ResizeWindow(mCharacter.HWnd.Value, 400, 285);
             Thread.Sleep(Constant.TimeShort);
 
@@ -63,6 +63,8 @@ namespace VPT_Login.Libs
 
                 foreach (Point p in mapPoints)
                 {
+                    mAuto.ClickImageByGroup("train_map", "giaicuu", false, true);
+
                     if (mAuto.FindImageByGroup("train_map", "khongtrongtrandau"))
                     {
 
@@ -71,34 +73,20 @@ namespace VPT_Login.Libs
                             Thread.Sleep(Constant.TimeMedium);
                             continue;
                         }
-
                         Thread.Sleep(Constant.VeryTimeShort);
-                        mAuto.ClickImageByGroup("train_map", "outbattletatauto_not", true, true);
-
-
-
                         if (!mAuto.FindImageByGroup("train_map", "map_top"))
                         {
                             mAuto.SendKey(System.Windows.Forms.Keys.Oemtilde);
-
-                            if (!mAuto.FindImageByGroup("train_map", "map_top"))
-                            {
-                                mAuto.ClickImageByGroup("train_map", "map");
-                            }
                         }
                         mAuto.ClickPoint(p.X, p.Y);
-                        Thread.Sleep(Constant.TimeMediumShort);
+                        Thread.Sleep(1200);
                         mAuto.ClickImageByGroup("train_map", "outbattletatauto_not", true, true);
                     }
 
                     while (!mAuto.FindImageByGroup("train_map", "khongtrongtrandau"))
                     {
-                        if (!mAuto.FindImageByGroup("train_map", "auto_check") &&
-                            mAuto.FindImageByGroup("train_map", "inbattleauto"))
-                        {
-                            mAuto.ClickImageByGroup("train_map", "inbattleauto");
-                        }
-                        Thread.Sleep(Constant.TimeShort);
+                        mAuto.ClickImageByGroup("train_map", "inbattleauto");
+                        Thread.Sleep(100);
                     }
                 }
             }
