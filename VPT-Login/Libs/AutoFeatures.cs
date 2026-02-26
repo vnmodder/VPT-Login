@@ -430,9 +430,14 @@ namespace VPT_Login.Libs
             //imagePath = Path.Combine(Constant.rootPath, imagePath);
             imagePath = Constant.img_cn + imagePath;
 
-            var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
+             var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
+            //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
+            if (!Constant.TemplateCache.ContainsKey(imagePath))
+            {
+                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
+            }
+            
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
 
             if (pBtn != null)
             {
@@ -472,9 +477,13 @@ namespace VPT_Login.Libs
                 Directory.CreateDirectory(Constant.tracking);
             }
 
-            screen.Save(Constant.tracking + "/" + mCharacter.Id.Value + ".png");
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, iBtn, percent);
+            //screen.Save(Constant.tracking + "/" + mCharacter.Id.Value + ".png");
+            //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
+            if (!Constant.TemplateCache.ContainsKey(imagePath))
+            {
+                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
+            }
+            var pBtn = ImageScanOpenCV.FindOutPoint((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
             if (pBtn != null)
             {
                 return true;
@@ -501,8 +510,12 @@ namespace VPT_Login.Libs
 
             var screen = CaptureHelper.CaptureWindow(mCharacter.HWnd.Value);
 
-            Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
-            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, iBtn, percent);
+            //Bitmap iBtn = ImageScanOpenCV.GetImage(imagePath);
+            if (!Constant.TemplateCache.ContainsKey(imagePath))
+            {
+                Constant.TemplateCache[imagePath] = ImageScanOpenCV.GetImage(imagePath);
+            }
+            return ImageScanOpenCV.FindOutPoints((Bitmap)screen, Constant.TemplateCache[imagePath], percent);
         }
 
         public void CaptureImage()

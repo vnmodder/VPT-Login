@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Emgu.CV;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -9,6 +10,8 @@ namespace VPT_Login.Libs
         //public static string rootPath = AppDomain.CurrentDomain.BaseDirectory;
         public static string rootPath = string.Empty;
         public static IntPtr hwnd = IntPtr.Zero;
+
+        public static Dictionary<string, Bitmap> TemplateCache = new Dictionary<string, Bitmap>();
 
         public const string asset = "Assets";
         public const string img_cn = "IMG/CN";
@@ -173,7 +176,7 @@ namespace VPT_Login.Libs
           //new Point(240,70),
        // new Point(130,80),
    //new Point(180,115),
-    new Point(150,135),
+    new Point(150,130),
     new Point(260,135),
         };
         public static List<Point> MapMHL = new List<Point>()
