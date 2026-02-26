@@ -34,50 +34,69 @@ namespace VPT_Login.Libs
 
         public void TrainQuai()
         {
-            int x = 120;
-            int y = 460;
-            int y2 = y + 15;
             mAuto.WriteStatus("Đang tiến hành train map...");
-            List<Point> mapPoints = collectMiniMapPointsForTrain();
+            Helper.ResizeWindow(mCharacter.HWnd.Value, 400, 285);
+            Thread.Sleep(Constant.TimeShort);
+
+            List<Point> mapPoints;
+            switch (mCharacter.MapTrain.Value)
+            {
+                case "VLS":
+                    mapPoints = Constant.MapVLS;
+                    break;
+                case "CT":
+                    mapPoints = Constant.MapCT;
+                    break;
+                case "DVD":
+                    mapPoints = Constant.MapDVD;
+                    break;
+                case "MHL":
+                    mapPoints = Constant.MapMHL;
+                    break;
+                default:
+                    mapPoints = Constant.MapTD;
+                    break;
+            }
+
             while (true)
             {
 
                 foreach (Point p in mapPoints)
                 {
-                    if (!mAuto.DangTrongTranDau())
+                    if (mAuto.FindImageByGroup("train_map", "khongtrongtrandau"))
                     {
 
-                        if (!mAuto.FindImageByGroup("global", "khongtrongtrandau", false, true))
+                        if (!mAuto.FindImageByGroup("train_map", "khongtrongtrandau", false, true))
                         {
                             Thread.Sleep(Constant.TimeMedium);
                             continue;
                         }
 
                         Thread.Sleep(Constant.VeryTimeShort);
-                        mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);     
-                  
+                        mAuto.ClickImageByGroup("train_map", "outbattletatauto_not", true, true);
 
 
-                        if (!mAuto.FindImageByGroup("global", "map_top"))
+
+                        if (!mAuto.FindImageByGroup("train_map", "map_top"))
                         {
                             mAuto.SendKey(System.Windows.Forms.Keys.Oemtilde);
 
-                            if (!mAuto.FindImageByGroup("global", "map_top"))
+                            if (!mAuto.FindImageByGroup("train_map", "map_top"))
                             {
-                                mAuto.ClickImageByGroup("maps", "map");
+                                mAuto.ClickImageByGroup("train_map", "map");
                             }
                         }
                         mAuto.ClickPoint(p.X, p.Y);
                         Thread.Sleep(Constant.TimeMediumShort);
-                        mAuto.ClickImageByGroup("global", "outbattletatauto_not", true, true);
+                        mAuto.ClickImageByGroup("train_map", "outbattletatauto_not", true, true);
                     }
 
-                    while (mAuto.DangTrongTranDau())
+                    while (!mAuto.FindImageByGroup("train_map", "khongtrongtrandau"))
                     {
-                        if (!mAuto.FindImageByGroup("global", "auto_check") &&
-                            mAuto.FindImageByGroup("global", "inbattleauto"))
+                        if (!mAuto.FindImageByGroup("train_map", "auto_check") &&
+                            mAuto.FindImageByGroup("train_map", "inbattleauto"))
                         {
-                            mAuto.ClickImageByGroup("global", "inbattleauto");
+                            mAuto.ClickImageByGroup("train_map", "inbattleauto");
                         }
                         Thread.Sleep(Constant.TimeShort);
                     }

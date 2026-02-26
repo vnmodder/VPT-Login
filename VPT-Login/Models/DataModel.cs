@@ -38,6 +38,7 @@ namespace VPT_Login.Models
         public ReactiveProperty<string> NLDoiNNKey { get; } = new ReactiveProperty<string>("gam_voc");
         public ReactiveProperty<string> LoaiMB { get; } = new ReactiveProperty<string>("thanbinh");
         public ReactiveProperty<string> CapMB { get; } = new ReactiveProperty<string>("1");
+        public ReactiveProperty<string> MapTrain { get; } = new ReactiveProperty<string>("0");
         public ReactiveProperty<bool> RutOutfit { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> CheMatBao { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> DieuKhac { get; } = new ReactiveProperty<bool>(true);

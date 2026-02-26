@@ -12,6 +12,7 @@ namespace VPT_Login.Libs
     public static class Helper
     {
         private const uint PROCESS_ALL_ACCESS = 0x1F0FFF;
+        private const int SW_RESTORE = 9;
         public static List<Thread> ThreadList = new List<Thread>();
 
 
@@ -62,6 +63,16 @@ namespace VPT_Login.Libs
             return Helper.OpenProcess(PROCESS_ALL_ACCESS, false, pid);
         }
 
+        public static bool ResizeWindow(IntPtr hWnd, int width, int height)
+        {
+            if (hWnd == IntPtr.Zero)
+                return false;
+            ShowWindow(hWnd, SW_RESTORE);
+            if (!GetWindowRect(hWnd, out RECT rect))
+                return false;
+            return MoveWindow(hWnd, rect.Left, rect.Top, width, height, true);
+        }
+
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWindow(IntPtr hWnd);
@@ -86,6 +97,21 @@ namespace VPT_Login.Libs
         [DllImport("kernel32.dll")]
         public static extern int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress,
             out MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        [DllImport("user32.dll")]
+        private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    }
+
+    public struct RECT
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
     }
 
     [StructLayout(LayoutKind.Sequential)]

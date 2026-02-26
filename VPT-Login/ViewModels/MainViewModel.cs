@@ -68,6 +68,7 @@ namespace VPT_Login.ViewModels
         public Dictionary<string, string> DSCapMB => Constant.DicCapMB;
         public Dictionary<string, string> DSLoaiMB => Constant.DicLoaiMB;
         public Dictionary<string, string> ResetAutoOptionsList => Constant.ResetAutoOptions;
+        public Dictionary<string, string> MapTrain => Constant.Maps;
 
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
@@ -208,15 +209,10 @@ namespace VPT_Login.ViewModels
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
-            }
+            }           
 
-            Constant.hwnd = hWnd; 
-
-            Test test = new Test();
-            test.Show();
-
-            //MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
-            //runTaskInThread(mainAuto.trainMap, "trainMap");
+            MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
+            runTaskInThread(mainAuto.trainMap, "trainMap");
         }
 
         private void statusUpdate()
