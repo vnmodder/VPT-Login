@@ -41,6 +41,7 @@ namespace VPT_Login.ViewModels
         public ReactiveCommand KhoiPhucCommand { get; } = new ReactiveCommand();
         public ReactiveCommand NuoiTLCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ThaiCoCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand TriAnCommand { get; } = new ReactiveCommand();
 
         public ReactiveCommand LuuCaiDatCommand { get; } = new ReactiveCommand();
         public ReactiveCommand RutboCommand { get; } = new ReactiveCommand();
@@ -112,6 +113,21 @@ namespace VPT_Login.ViewModels
 
             IsBlocked.Subscribe((x) => dongBangAuto(x));
             ExitingCommand.Subscribe((x) => dongCuaSo());
+            TriAnCommand.Subscribe((x) => triAn());
+        }
+
+        private void triAn()
+        {
+            if (SelectedItem.Value == null) { return; }
+            IntPtr hWnd = SelectedItem.Value.HWnd.Value;
+            if (hWnd == IntPtr.Zero)
+            {
+                MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
+                return;
+            }
+
+            Test test = new Test(SelectedItem.Value);
+            test.Show();
         }
 
         private void dongCuaSo()

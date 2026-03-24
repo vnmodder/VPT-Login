@@ -729,13 +729,19 @@
                                         ItemsSource="{Binding NLOptions}"
                                         SelectedValue="{Binding SelectedItem.Value.NLKey.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
-                                    <TextBlock
-                                        Grid.Row="3"
+                                    <!--<TextBlock
+                                        Grid.Row="4"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
-                                        Text="Tự nạp lại auto" />
+                                        Text="Tự nạp lại auto" />-->
+                                    <Button
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        Margin="5,5,0,0"
+                                        Command="{Binding TriAnCommand}"
+                                        Content="Trị an" />
                                     <ComboBox
-                                        Grid.Row="3"
+                                        Grid.Row="4"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"
@@ -743,13 +749,13 @@
                                         SelectedValue="{Binding SelectedItem.Value.NhomAuto.Value, Mode=TwoWay}"
                                         SelectedValuePath="Key" />
                                     <TextBlock
-                                        Grid.Row="4"
+                                        Grid.Row="3"
                                         Grid.Column="0"
                                         Margin="5,15,0,0"
                                         IsEnabled="False"
                                         Text="Đổi năng nỗ với" />
                                     <ComboBox
-                                        Grid.Row="4"
+                                        Grid.Row="3"
                                         Grid.Column="1"
                                         Margin="5,5,0,0"
                                         DisplayMemberPath="Value"

@@ -155,7 +155,6 @@
     <Compile Include="Libs\ClickHelper.cs" />
     <Compile Include="Libs\AutoPhuBan.cs" />
     <Compile Include="Libs\CheMatBao.cs" />
-    <Compile Include="Libs\MemoryScanner.cs" />
     <Compile Include="Libs\ResetAuto.cs" />
     <Compile Include="Libs\ScanAddress.cs" />
     <Compile Include="Libs\TrongNL.cs" />

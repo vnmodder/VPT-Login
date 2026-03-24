@@ -7,13 +7,29 @@
         mc:Ignorable="d"
         Title="Test" Height="310" Width="428"
          DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBox Text="{Binding Value1.Value, Mode = TwoWay}" Width="200"/>
-            <TextBox Text="{Binding Value2.Value, Mode = TwoWay}" Width="200"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <!-- phần scroll -->
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBox Text="{Binding Value1.Value}" Width="200"/>
+            <TextBox Text="{Binding Value2.Value}" Width="200"/>
         </StackPanel>
-        <Button Content="Re size" Command="{Binding TestCommand}"/>
-        <Button Content="Test" Command="{Binding TestCommand2}"/>
-        <TextBlock Text="{Binding LogText.Value, Mode = TwoWay}"/>
-    </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Button Content="Re size" Command="{Binding TestCommand}"/>
+            <Button Content="Test" Command="{Binding TestCommand2}"/>
+        </StackPanel>
+
+        <TextBox Grid.Row="2"
+             Text="{Binding LogText.Value}"
+             VerticalScrollBarVisibility="Auto"
+             HorizontalScrollBarVisibility="Auto"
+             AcceptsReturn="True"
+             TextWrapping="Wrap"/>
+    </Grid>
 </Window>
