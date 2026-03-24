@@ -566,6 +566,9 @@ namespace VPT_Login.Libs
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
                     break;
+                case "train_map":
+                    groupPath = Constant.ImagePathTMFolder;
+                    break;
                 case "tlinh":
                     groupPath = Constant.ImagePathTinhLinhFolder;
                     break;
@@ -634,7 +637,10 @@ namespace VPT_Login.Libs
             {
                 case "bat_pet":
                     groupPath = Constant.ImagePathBatPetFolder;
-                    break; 
+                    break;
+                case "train_map":
+                    groupPath = Constant.ImagePathTMFolder;
+                    break;
                 case "tlinh":
                     groupPath = Constant.ImagePathTinhLinhFolder;
                     break;

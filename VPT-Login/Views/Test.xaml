@@ -8,7 +8,12 @@
         Title="Test" Height="310" Width="428"
          DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <StackPanel>
-        <Button Content="Click" Command="{Binding TestCommand}"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="{Binding Value1.Value, Mode = TwoWay}" Width="200"/>
+            <TextBox Text="{Binding Value2.Value, Mode = TwoWay}" Width="200"/>
+        </StackPanel>
+        <Button Content="Re size" Command="{Binding TestCommand}"/>
+        <Button Content="Test" Command="{Binding TestCommand2}"/>
         <TextBlock Text="{Binding LogText.Value, Mode = TwoWay}"/>
     </StackPanel>
 </Window>

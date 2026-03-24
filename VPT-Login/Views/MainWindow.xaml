@@ -17,7 +17,7 @@
             <Setter Property="FontWeight" Value="Normal" />
             <Setter Property="Padding" Value="10,4" />
         </Style>
-        <!--<local:MainViewModel x:Key="ViewModel" />-->
+        <local:MainViewModel x:Key="ViewModel" />
     </metro:MetroWindow.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -66,7 +66,7 @@
                             Binding="{Binding Name.Value}"
                             Header="TÊN"
                             IsReadOnly="True" />
-                        <DataGridTextColumn
+                        <!--<DataGridTextColumn
                             Width="1*"
                             Binding="{Binding Server.Value}"
                             Header="SERVER"
@@ -78,8 +78,8 @@
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn
+                        </DataGridTextColumn>-->
+                        <!--<DataGridTextColumn
       Width="1*"
       Binding="{Binding Version.Value}"
       Header="Version"
@@ -91,7 +91,7 @@
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
+                        </DataGridTextColumn>-->
                         <!--<DataGridComboBoxColumn
                             Width="1.2*"
                             DisplayMemberPath="Value"
@@ -99,7 +99,7 @@
                             ItemsSource="{Binding ResetAutoOptionsList, Source={StaticResource ViewModel}}"
                             SelectedValueBinding="{Binding NhomAuto.Value, Mode=TwoWay}"
                             SelectedValuePath="Key" />-->
-                        <DataGridTemplateColumn Width="0.7*">
+                        <!--<DataGridTemplateColumn Width="0.7*">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <CheckBox
@@ -118,7 +118,14 @@
                                         IsChecked="{Binding CheckAuto.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        </DataGridTemplateColumn>-->
+                        <DataGridComboBoxColumn
+                            Width="1.2*"
+                            DisplayMemberPath="Value"
+                            Header="Map Train"
+                            ItemsSource="{Binding MapTrain, Source={StaticResource ViewModel}}"
+                            SelectedValueBinding="{Binding MapTrain.Value, Mode=TwoWay}"
+                            SelectedValuePath="Key" />
                         <DataGridTextColumn
                             Width=".8*"
                             Binding="{Binding HWnd.Value}"

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace VPT_Login.Libs
 {
@@ -6,6 +8,9 @@ namespace VPT_Login.Libs
     {
         //public static string rootPath = AppDomain.CurrentDomain.BaseDirectory;
         public static string rootPath = string.Empty;
+        public static IntPtr hwnd = IntPtr.Zero;
+
+        private static readonly Random rand = new Random();
 
         public const string asset = "Assets";
         public const string img_cn = "IMG/CN";
@@ -48,6 +53,7 @@ namespace VPT_Login.Libs
         public const string ImagePathNVHNFolder = "/nvhn/";
         public const string ImagePathSTMTFolder = "/stmt/";
         public const string ImagePathNLFolder = "/nguyen_lieu/";
+        public const string ImagePathTMFolder = "/train_map/";
 
         public static Dictionary<string, string> PetList = new Dictionary<string, string>()
         {
@@ -138,5 +144,67 @@ namespace VPT_Login.Libs
         public const string ImagePathDoiThoai = "/doi_thoai/";
         public const string ImagePathViTriNPC = "/vi_tri_npc/";
 
+        public static Dictionary<string, string> Maps = new Dictionary<string, string>()
+        {
+            { "0",    "Không" },
+            { "MHL",    "Mị Hoặc Lâm" },
+            { "TD",    "Thánh Đường" },
+            { "VLS",    "Vân Lộc Sơn" },
+            { "DVD",    "Đăng Văn Địa" },
+            { "CT",    "Cổ Thành" },
+        };
+        public static List<Point> MapVLS = new List<Point>()
+        {
+            new Point(210,76),
+            new Point(150,70),
+            //new Point(140,140),
+            new Point(210,65),
+            new Point(150,70),
+            //new Point(130,110),
+        };
+        public static List<Point> MapCT = new List<Point>()
+        {
+            //new Point(150,50),
+            //new Point(240,60),
+            //new Point(180,90),
+            new Point(200,150),
+            new Point(260,110),
+            new Point(210,140),
+            new Point(260,110),
+        };
+        public static List<Point> MapDVD = new List<Point>()
+        {
+          //new Point(240,70),
+       // new Point(130,80),
+   //new Point(180,115),
+    new Point(156,125),
+    new Point(260,135),
+    new Point(165,110),
+    new Point(260,135),
+        };
+        public static List<Point> MapMHL = new List<Point>()
+        {
+            new Point(160,50),
+    //new Point(260,150),
+    new Point(230,90),
+    new Point(160,57),
+    new Point(230,85),
+    //new Point(260,110),
+        };
+        public static List<Point> MapTD = new List<Point>()
+        {
+             new Point(120,50),
+    new Point(260,150),
+    new Point(260,50),
+    //new Point(180,100),
+    new Point(120,150),
+        };
+
+
+        public static int RandomNumber(int s, int e)
+        {
+            return rand.Next(s, e+1);
+        }
     }
 }
+

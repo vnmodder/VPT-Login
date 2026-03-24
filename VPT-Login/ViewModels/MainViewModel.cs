@@ -14,6 +14,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using VPT_Login.Libs;
 using VPT_Login.Models;
+using VPT_Login.Views;
 using static Emgu.CV.OCR.Tesseract;
 
 
@@ -67,6 +68,7 @@ namespace VPT_Login.ViewModels
         public Dictionary<string, string> DSCapMB => Constant.DicCapMB;
         public Dictionary<string, string> DSLoaiMB => Constant.DicLoaiMB;
         public Dictionary<string, string> ResetAutoOptionsList => Constant.ResetAutoOptions;
+        public Dictionary<string, string> MapTrain => Constant.Maps;
 
         public ReactiveCollection<DataModel> Characters { get; set; } = new ReactiveCollection<DataModel>();
         public ReactiveProperty<DataModel> SelectedItem { get; } = new ReactiveProperty<DataModel>();
@@ -207,7 +209,8 @@ namespace VPT_Login.ViewModels
             {
                 MessageBox.Show("Không tìm thấy nhân vật này đang được chạy.");
                 return;
-            }
+            }           
+
             MainAuto mainAuto = new MainAuto(SelectedItem.Value, Characters, IsBlocked);
             runTaskInThread(mainAuto.trainMap, "trainMap");
         }
@@ -756,7 +759,11 @@ namespace VPT_Login.ViewModels
                         var (iface, gateway) = GetIPv4AndGatewayByAdapterKeyword(result, "VPN Client");
                         ipInterface = iface;
                     }
-
+                    if (string.IsNullOrEmpty(ipInterface))
+                    {
+                        MessageBox.Show("VPN đang sai thiết lập");
+                        return;
+                    }
                     Process.Start(Constant.FilePath.FORCE_BIND_IP, $"{ipInterface} \"{Constant.FilePath.FLASH_PLAYER}\" {link}");
                 }
                 else
